@@ -1,6 +1,8 @@
-import React from 'react';
-import {Container, Row, Col, Card, Nav} from 'react-bootstrap';
-const Home = () => {
+import React, {useEffect} from 'react';
+import {Link} from "react-router-dom";
+const Home = ({displayOn}) => {
+    useEffect(()=>{displayOn()},[])
+
     return (
         <>
             <div className="bg-light ">
@@ -24,8 +26,8 @@ const Home = () => {
                                 {' '}
                                 회원가입 후 서비스 이용이 가능합니다.
                             </h3>
-                            <a href="iphone-12.html">Let's start <i
-                                className="banner-links-icons font-weight-normal fas fa-chevron-right"></i></a>
+                            <Link to="/auth">Let's start <i
+                                className="banner-links-icons font-weight-normal fas fa-chevron-right"></i></Link>
                             <div className="banner-image-box">
                                 <img
                                     style={{

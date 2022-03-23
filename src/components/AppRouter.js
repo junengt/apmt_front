@@ -4,17 +4,33 @@ import Home from '../routes/Home';
 import Profile from '../routes/Profile';
 import Navigation from './Navigation';
 import Footer from "./Footer";
+import {useState} from "react";
+import Items from "../routes/Items";
 
 const AppRouter = () => {
+    const [display,setDisplay] = useState(true);
+    const [list,setList] = useState([]);
+
+    const listState = (args) => {
+        setList(args);
+    }
+
+    const displayOff = () => {
+        setDisplay(false);
+    }
+    const displayOn = () => {
+        setDisplay(true);
+    }
   return (
     <Router>
-      <Navigation></Navigation>
+        {display ? <Navigation listState={listState} /> : ''}
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home  displayOn={displayOn}/>} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/auth" element={<Auth />} />
+        <Route path="/auth" element={<Auth displayOff={displayOff} />} />
+          <Route path="/items" element={<Items list={list}/>}></Route>
       </Routes>
-        <Footer></Footer>
+        {display ? <Footer /> : ''}
     </Router>
   );
 };

@@ -13,7 +13,7 @@ const Footer = () => {
               <hr/>
             </div>
             <div className="col-sm-1 col-md-3">
-              <h5 id="column-1" onClick="moreItems()" className="directory-column-section-head">Shop and Learn<i
+              <h5 id="column-1"  className="directory-column-section-head">Shop and Learn<i
                   id="icon-1" className="list-items fas fa-plus"></i></h5>
               <hr className="column-hr"/>
                 <ul id="list-1" className="ml-3 column-list">
@@ -25,7 +25,7 @@ const Footer = () => {
                 </ul>
             </div>
             <div className=" col-md-3">
-              <h5 id="column-2" onClick="moreItems(2)" className="directory-column-section-head"> Services<i id="icon-2"
+              <h5 id="column-2"  className="directory-column-section-head"> Services<i id="icon-2"
                                                                                                              className="list-items fas fa-plus"></i>
               </h5>
               <hr className="column-hr"/>
@@ -67,7 +67,7 @@ const Footer = () => {
             </div>
             <div className="mb-2 col-md-12">
               <span className="copyright">Copyright © 2021 Apple Inc. All rights reserved.</span>
-              <a className="copyright" href="">| Privacy Policy</a>
+              <span className="copyright" >| Privacy Policy</span>
             </div>
           </div>
         </div>
