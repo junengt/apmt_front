@@ -13,6 +13,16 @@ body {
     overflow-x: hidden;
 }
 
+.wrap-text {
+
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width:100%
+
+}
+
 .nav-bg {
     opacity: 0.8;
     background-color: black;
@@ -756,12 +766,18 @@ hr.hamburger-hr {
 }
 
 .product-image {
+    margin: 0 auto;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 46px;
     object-fit: cover;
-    width: 100%;
+    width: auto;
+    height: auto;
+    min-height: 172px;
+    max-height: 172px;
+    max-width: 250px;
+    transform: translate(0px, -13%);
+    overflow: hidden;
+    border-radius: 10px;
+
 }
 
 .device-name {
@@ -838,7 +854,7 @@ hr.hamburger-hr {
 }
 
 .product-image-outer {
-    margin-bottom: 88px;
+    margin-bottom: 5px;
 }
 
 .device-accessories-section {
@@ -846,10 +862,7 @@ hr.hamburger-hr {
 }
 
 @media screen and (max-width: 768px) {
-    .product-image {
-        width: 137px;
-        margin-bottom: 33px;
-    }
+
     .device-name {
         font-size: 19px;
         font-weight: 500;
@@ -1280,7 +1293,7 @@ hr.hamburger-hr {
     height: auto;
 }
 
-.product-image-cotainer {
+.product-image-container {
     position: sticky;
     top: 0;
 }
@@ -1320,7 +1333,7 @@ hr.hamburger-hr {
     .product-title-price {
         font-size: 14px;
     }
-    .product-image-cotainer {
+    .product-image-container {
         padding: 0px !important;
     }
     .produc-hr {

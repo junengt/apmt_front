@@ -4,10 +4,10 @@ const Footer = () => {
   return <div>
 
     <footer>
-      <section className="mt-3 footer-bg">
+      <section className="footer-bg">
         <div className="container">
           <div className="row">
-            <div className="col-md-12"  style={{marginTop:'20px'}}>
+            <div className="col-md-12"  style={{marginTop:'16px'}}>
               <div className="m-3 footer-head-text" >
               </div>
               <hr/>
