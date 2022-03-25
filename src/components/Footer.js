@@ -1,4 +1,5 @@
 import React from 'react';
+import {Container} from "react-bootstrap";
 
 const Footer = () => {
   return <div>
@@ -25,8 +26,7 @@ const Footer = () => {
                 </ul>
             </div>
             <div className=" col-md-3">
-              <h5 id="column-2"  className="directory-column-section-head"> Services<i id="icon-2"
-                                                                                                             className="list-items fas fa-plus"></i>
+              <h5 id="column-2"  className="directory-column-section-head"> Services<i id="icon-2" className="list-items fas fa-plus"></i>
               </h5>
               <hr className="column-hr"/>
                 <ul id="list-2" className="ml-3  column-list">

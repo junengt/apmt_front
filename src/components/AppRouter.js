@@ -14,8 +14,11 @@ const AppRouter = () => {
     const [list, setList] = useState([]);
 
     const listState = (args) => {
-        setList(args);
+        setList([args])
     }
+    console.log(...list);
+
+
 
     const displayOff = () => {
         setDisplay(false);
@@ -25,13 +28,13 @@ const AppRouter = () => {
     }
     return (
         <Router>
-            {display ? <Navigation listState={listState}/> : ''}
+            {display ? <Navigation listState={listState} list = {list}/> : ''}
 
             <Routes>
                 <Route path="/" element={<Home displayOn={displayOn}/>}/>
                 <Route path="/profile" element={<Profile/>}/>
                 <Route path="/auth" element={<Auth displayOff={displayOff}/>}/>
-                <Route path="items" element={<Items list={list}/>}/>
+                <Route path="items" element={<Items listState={listState} list={list}/>}/>
                 <Route path='items/:id' element={<ItemDetail/>}/>
                 <Route path="*" element={<NoMatch />} />
             </Routes>

@@ -1,14 +1,17 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {Navbar, NavItem, Nav, ToggleButtonGroup, ToggleButton} from 'react-bootstrap';
 import {Link,useNavigate} from 'react-router-dom';
 
-const Navigation = ({listState}) => {
+const Navigation = ({listState,list}) => {
     const [value, setValue] = useState();
     const handleChange = (val) => {
-        console.log(val)
-        listState(val)
+        setValue(val);
+        listState(val);
     };
+    useEffect(()=>{
+        setValue(...list);
+    },[list]);
     const buttonSize = {fontSize: '12px', margin: '8px 8px 8px 8px', padding: '4px'};
     const navigate = useNavigate();
 
@@ -22,7 +25,7 @@ const Navigation = ({listState}) => {
                     width: '100%',
                     maxHeight: '60px',
                     paddingLeft: '0px',
-                    zIndex: 1,
+                    zIndex: 100,
                 }}
                 className="navdbar navbar-expand-md nav-bg  navbar-dark"
             >
@@ -74,16 +77,16 @@ const Navigation = ({listState}) => {
 
                         </ToggleButton>
                         <ToggleButton className='bg-black border-0  align-self-center navbar-text' id="tbg-btn-6"
-                                      value={'Accessories'} style={buttonSize}>
+                                      value={'Etc.'} style={buttonSize}>
                             <NavItem className="nav-item-box">
-                                Accessories
+                                Etc.
                             </NavItem>
 
                         </ToggleButton>
 
                     </ToggleButtonGroup>
                     <NavItem className="nav-item-box">
-                        <Link to="/" className="text-white nav-icon nav-link ">
+                        <Link to="/items" className="text-white nav-icon nav-link ">
                             <i
                                 style={{fontWeight: 100, color: 'white'}}
                                 className=" fa fa-search"

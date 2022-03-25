@@ -962,7 +962,7 @@ hr.hamburger-hr {
     height: 54px;
     background-size: 52px 54px;
     background-repeat: no-repeat;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .chapter-label {
@@ -1566,7 +1566,6 @@ hr.hamburger-hr {
     background-repeat: no-repeat;
     object-fit: cover;
     margin-top: 60px;
-    background-image: url(images/hero-banner-baker-homepage.image.large_2x.jpg);
     height: 500px;
     width: 100%;
 }

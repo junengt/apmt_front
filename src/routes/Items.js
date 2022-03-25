@@ -1,67 +1,98 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Item from "../components/Item";
 import {Link,} from "react-router-dom";
+import {Button, FormControl, InputGroup, Nav, Navbar, NavItem, ToggleButton, ToggleButtonGroup} from "react-bootstrap";
+import Mac from "../components/toggleGroup/Mac";
+import IPad from "../components/toggleGroup/IPad";
+import Watch from "../components/toggleGroup/Watch";
+import IPhone from "../components/toggleGroup/IPhone";
+import AirPods from "../components/toggleGroup/AirPods";
+import Etc from "../components/toggleGroup/Etc";
 
-const Items = ({list}) => {
+const Items = ({listState, list}) => {
+    const macItems = ['MacBook Air','MacBook Pro','iMac 24"'];
+    const etcItems = ['Display','AirTag','Mac mini','MacStudio'];
 
+    const render = (arr) => {
+        return arr.map((e) => {
+            switch (e) {
+                case 'Mac' :
+                    return <Mac key='1' list={list} listState={listState}/>
+                case 'iPad' :
+                    return <IPad key='2' list={list} listState={listState}/>
+                case 'Watch' :
+                    return <Watch key='3' list={list} listState={listState}/>
+                case 'iPhone' :
+                    return <IPhone key='4' list={list} listState={listState}/>
+                case 'AirPods' :
+                    return <AirPods key='5' list={list} listState={listState}/>
+                case 'Etc.' :
+                    return <Etc key='6' list={list} listState={listState}/>
+                default:
+                    return ''
+            }
+        })
+    }
     return (
-        <div>
+        <div style={{backgroundColor: 'rgb(250, 250, 250)'}}>
             <div className="bg-light ">
                 <div className="row ">
                     <div className="pt-0 col-md-12"></div>
                 </div>
             </div>
             <section style={{backgroundColor: '#fafafa'}}>
-                <div className="container">
+                <div className="container"
+                     style={{maxWidth: '1100px', paddingRight: '10%', paddingLeft: '10%', width: '100%'}}>
                     <div className="row">
+
                         <div className="col-md-12 product-listing">
-                            <div className="heading text-center ">
-                                <h2 className="typography-headline">검색 바 {list}</h2>
-
-                            </div>
-                            <div className=" mt-3 m-1 tablist-wrapper">
-                                <ul style={{padding: '0px 0px 0px 0px', display: 'flex', justifyContent: 'center'}}
-                                    className="tadbnav-items">
-                                    <li className="tabnav-item notebook-list active">
-                                        <span className="product-trigger text-secondary notebook"
-                                              id="notebook">옵션 1</span>
-                                    </li>
-
-                                    <li className="tabnav-item  ">
-                                        <span className="product-trigger text-secondary desktop"
-                                              id="desktop">옵션 2</span>
-                                    </li>
-                                </ul>
-                            </div>
+                            <form action="#" method="post" className="d-flex m-3">
+                                <InputGroup>
+                                    <FormControl
+                                        placeholder="search..."
+                                        aria-describedby="basic-addon2"
+                                    />
+                                    <Button variant="outline-secondary" id="button-addon2">
+                                        검색
+                                    </Button>
+                                </InputGroup>
+                            </form>
                         </div>
                     </div>
-                    <div className=" row">
+                </div>
+            </section>
+            <section id="chapter" className="chpater">
+                <div className="container"
+                     style={{
+                         maxWidth: '1100px',
+                         paddingRight: '10%',
+                         paddingLeft: '10%',
+                         marginBottom: '60px',
+                         width: '100%'
+                     }}>
+                    {list.length > 0 ? render(...list) : <hr/>}
+                    <div>태그</div>
+                </div>
+            </section>
 
-                        <Link className="col-xs-12 col-sm-6 col-lg-4 col-xl-3 text-black" to='/items/1'
+            <section>
+                <div className="container"
+                     style={{maxWidth: '1152px', paddingRight: '10%', paddingLeft: '10%', width: '100%'}}>
+                    <div className="row">
+
+                        <Link className="col-xs-12 col-sm-6 col-lg-4 text-black" to='/items/1'
                               style={{textDecoration: 'none'}}>
                             <Item/>
                         </Link>
-                        <Link className="col-xs-12 col-sm-6 col-lg-4 col-xl-3 text-black" to='/items/2'
+                        <Link className="col-xs-12 col-sm-6 col-lg-4 text-black" to='/items/1'
                               style={{textDecoration: 'none'}}>
                             <Item/>
                         </Link>
-                        <Link className="col-xs-12 col-sm-6 col-lg-4 col-xl-3 text-black" to='/items/3'
+                        <Link className="col-xs-12 col-sm-6 col-lg-4 text-black" to='/items/1'
                               style={{textDecoration: 'none'}}>
                             <Item/>
                         </Link>
-                        <Link className="col-xs-12 col-sm-6 col-lg-4 col-xl-3 text-black" to='/items/4'
-                              style={{textDecoration: 'none'}}>
-                            <Item/>
-                        </Link>
-                        <Link className="col-xs-12 col-sm-6 col-lg-4 col-xl-3 text-black" to='/items/5'
-                              style={{textDecoration: 'none'}}>
-                            <Item/>
-                        </Link>
-                        <Link className="col-xs-12 col-sm-6 col-lg-4 col-xl-3 text-black" to='/items/6'
-                              style={{textDecoration: 'none'}}>
-                            <Item/>
-                        </Link>
-                        <Link className="col-xs-12 col-sm-6 col-lg-4 col-xl-3 text-black" to='/items/7'
+                        <Link className="col-xs-12 col-sm-6 col-lg-4 text-black" to='/items/1'
                               style={{textDecoration: 'none'}}>
                             <Item/>
                         </Link>
