@@ -256,9 +256,7 @@ body {
 }
 
 @media (min-width:768px) {
-    #mySidenav {
-        display: none;
-    }
+
 }
 
 /* hamburger menu for small devices */
@@ -368,9 +366,7 @@ hr.hamburger-hr {
 /* navbar for md and xl devices */
 
 @media (max-width:768px) {
-    #navbar {
-        display: none;
-    }
+
 }
 
 .wrapper {

@@ -59,7 +59,7 @@ const Watch = ({listState,list}) => {
                         </NavItem>
                     </ToggleButton>
                     <ToggleButton className={buttonClassName} id="tbg-watchBtn-3"
-                                  value={'MacBook Pro 16”'} style={buttonSize}>
+                                  value={''} style={buttonSize}>
                         <NavItem className="">
 
                         </NavItem>

@@ -8,6 +8,7 @@ const IPad = ({listState,list}) => {
         listState(val);
     };
 
+
     useEffect(() => {
         setValue(...list);
     },[list]);
@@ -26,7 +27,7 @@ const IPad = ({listState,list}) => {
 
                 <ToggleButtonGroup className='chpater-items' type="checkbox"
                                    value={value}
-                                   onChange={handleChange}>
+                                   onChange={handleChange} >
                     <ToggleButton className={buttonClassName} id="tbg-btn-2"
                                   value={'iPad'} style={{
                         fontSize: '20px',
@@ -49,7 +50,7 @@ const IPad = ({listState,list}) => {
                         </NavItem>
                     </ToggleButton>
                     <ToggleButton className={buttonClassName} id="tbg-ipadBtn-2"
-                                  value={'iPad Air”'} style={buttonSize}>
+                                  value={'iPad Air'} style={buttonSize}>
                         <NavItem className="">
                             <img
                                 className="chapter-icon chapternav-item-macbook-pro-13"
@@ -59,7 +60,7 @@ const IPad = ({listState,list}) => {
                         </NavItem>
                     </ToggleButton>
                     <ToggleButton className={buttonClassName} id="tbg-ipadBtn-3"
-                                  value={'iPad'} style={buttonSize}>
+                                  value={'iPad '} style={buttonSize}>
                         <NavItem className="">
                             <img className="chapter-icon"
                                  src="images/ipad.svg"

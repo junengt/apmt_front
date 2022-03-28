@@ -6,41 +6,37 @@ import Navigation from './Navigation';
 import Footer from "./Footer";
 import {useState} from "react";
 import Items from "../routes/Items";
-import ItemDetail from "../routes/ItemDetail";
+import StuffDetail from "../routes/StuffDetail";
 import NoMatch from "../routes/NoMatch";
 
 const AppRouter = () => {
-    const [display, setDisplay] = useState(true);
     const [list, setList] = useState([]);
 
+
     const listState = (args) => {
-        setList([args])
+        setList([Object.values(args)])
     }
-    console.log(...list);
+    console.log(list);
 
 
 
-    const displayOff = () => {
-        setDisplay(false);
-    }
-    const displayOn = () => {
-        setDisplay(true);
-    }
+
     return (
+        <>
         <Router>
-            {display ? <Navigation listState={listState} list = {list}/> : ''}
-
+           <Navigation listState={listState} setList={setList} list = {list}/>
             <Routes>
-                <Route path="/" element={<Home displayOn={displayOn}/>}/>
+                <Route path="/" element={<Home />}/>
                 <Route path="/profile" element={<Profile/>}/>
-                <Route path="/auth" element={<Auth displayOff={displayOff}/>}/>
+                <Route path="/auth" element={<Auth/>}/>
                 <Route path="items" element={<Items listState={listState} list={list}/>}/>
-                <Route path='items/:id' element={<ItemDetail/>}/>
+                <Route path='items/:id' element={<StuffDetail/>}/>
                 <Route path="*" element={<NoMatch />} />
             </Routes>
-            {display ? <Footer/> : ''}
+            <Footer/>
 
         </Router>
+        </>
     );
 };
 

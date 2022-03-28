@@ -1,8 +1,7 @@
 import React, {useEffect} from 'react';
 
-const Auth = ({displayOff}) => {
+const Auth = () => {
   useEffect(()=>{
-    displayOff();
   },[])
 
   return <>

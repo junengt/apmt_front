@@ -1,17 +1,31 @@
 import React, {useEffect, useState} from 'react';
 
 import {Navbar, NavItem, Nav, ToggleButtonGroup, ToggleButton} from 'react-bootstrap';
-import {Link,useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import Mac from "./toggleGroup/Mac";
+import IPad from "./toggleGroup/IPad";
+import Watch from "./toggleGroup/Watch";
+import IPhone from "./toggleGroup/IPhone";
+import AirPods from "./toggleGroup/AirPods";
+import Etc from "./toggleGroup/Etc";
 
-const Navigation = ({listState,list}) => {
+const Navigation = ({listState, list, setList}) => {
     const [value, setValue] = useState();
     const handleChange = (val) => {
         setValue(val);
         listState(val);
     };
-    useEffect(()=>{
+
+    useEffect(() => {
         setValue(...list);
-    },[list]);
+    }, [list]);
+
+    const onClick = (e) => {
+        navigate('/items');
+
+    };
+
+
     const buttonSize = {fontSize: '12px', margin: '8px 8px 8px 8px', padding: '4px'};
     const navigate = useNavigate();
 
@@ -39,7 +53,7 @@ const Navigation = ({listState,list}) => {
                             />
                         </Link>
                     </NavItem>
-                    <ToggleButtonGroup type="checkbox" value={value} onChange={handleChange} onClick={()=>{navigate('/items')}}>
+                    <ToggleButtonGroup type="checkbox" value={value} onChange={handleChange} onClick={onClick}>
 
 
                         <ToggleButton className=' bg-black border-0  align-self-center navbar-text' id="tbg-btn-1"

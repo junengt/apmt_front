@@ -1,7 +1,27 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Col, Container, Row} from "react-bootstrap";
+import styled from "styled-components";
+import likeIconOn from "../images/ico/ico_like.png";
+import likeIconOff from "../images/ico/ico_like_count.png";
+const LikeBx = styled.div`
+  width: 20px;
+  padding: 10px;
+  padding-right: 17px;
+  border-right: 1px solid #f0f0f0;
+
+  & button {
+    width: 100%;
+    height: 100%;
+    background: url(${({ color }) => (color === 'on' ? likeIconOn : likeIconOff)}) center center/contain no-repeat;
+    outline: none;
+    transition: background ease-in-out 0.3s;
+  }
+`;
 
 const Item = () => {
+
+    const [toggleIcon, setToggleIcon] = useState(false);
+
     return (
         <>
                 <div className="" style={{margin:'1rem',}}>
@@ -15,7 +35,12 @@ const Item = () => {
                         <p className="text-lg-start small-text" style={{marginBottom:'0.1rem' ,justifyContent:'start'}}>경기도 광명시 소하동</p>
                             <Row>
                                 <Col> <p className="text-lg-start">15,000원</p></Col>
-                                <Col className='text-end'><p>heart 1</p></Col>
+                                <Col className='text-end'>
+                                    <LikeBx color={toggleIcon ? 'on' : 'off'}>
+                                    <button type="button" onClick={() => setToggleIcon(!toggleIcon)}>
+                                        {}
+                                    </button>
+                                </LikeBx></Col>
                             </Row>
                     </div>
                 </div>
