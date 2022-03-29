@@ -17,9 +17,10 @@ import Watch from "../components/toggleGroup/Watch";
 import IPhone from "../components/toggleGroup/IPhone";
 import AirPods from "../components/toggleGroup/AirPods";
 import Etc from "../components/toggleGroup/Etc";
-import appRouter from "../components/AppRouter";
 import * as Header from "../components/common/search/Header";
 import * as Icon from "../components/common/neighbor/Icon";
+import WritePlus from "../components/layout/write/WritePlus";
+import Tag from "../components/common/tags/Tag";
 
 const Items = ({ listState, list }) => {
   const [input, setInput] = useState("empty");
@@ -45,7 +46,9 @@ const Items = ({ listState, list }) => {
   const tagRender = (arr) => {
     if (arr) {
       return arr.map((element) => {
-        return "#" + element + " ";
+        return (
+          <button className="badge badge-pill badge-dark">#{element}</button>
+        );
       });
     }
   };
@@ -125,10 +128,9 @@ const Items = ({ listState, list }) => {
           }}
         >
           {list.length > 0 ? render(...list) : <hr />}
-          <div>태그 {tagRender(...list)} </div>
+          {list.length > 0 && <Tag tags={list} listState={listState}></Tag>}
         </div>
       </section>
-
       <section>
         <div
           className="container"
@@ -169,6 +171,7 @@ const Items = ({ listState, list }) => {
               <Item />
             </Link>
           </div>
+          <WritePlus />
         </div>
       </section>
     </div>

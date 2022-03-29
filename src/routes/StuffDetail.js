@@ -23,8 +23,8 @@ function StuffDetail() {
   const stuffs = [
     {
       attachmentUrl: [
-        "https://firebasestorage.googleapis.com/v0/b/dangguen-market.appspot.com/o/userid%2Feedcc397-857b-4ad6-9544-d25baff8e958?alt=media&token=1cc44d51-f47a-4fb8-a7f7-4eee35b6efb8",
-        "https://firebasestorage.googleapis.com/v0/b/dangguen-market.appspot.com/o/userid%2Feedcc397-857b-4ad6-9544-d25baff8e958?alt=media&token=1cc44d51-f47a-4fb8-a7f7-4eee35b6efb8",
+        "https://firebasestorage.googleapis.com/v0/b/dangguen-market.appspot.com/o/userid%2Fe8972507-a3ff-48a2-85a6-2cdb9e4d9b58?alt=media&token=1a7e872d-e085-4fcb-a1f6-f147abe6f1e9",
+        "https://firebasestorage.googleapis.com/v0/b/dangguen-market.appspot.com/o/userid%2Fe8972507-a3ff-48a2-85a6-2cdb9e4d9b58?alt=media&token=1a7e872d-e085-4fcb-a1f6-f147abe6f1e9",
       ],
       category: 1,
       createAt: 1613727320754,
