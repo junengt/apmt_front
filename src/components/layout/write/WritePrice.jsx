@@ -1,18 +1,19 @@
-import React from 'react';
-import styled from 'styled-components';
-import { WriteInputWrap } from './WriteInputWrap';
-import { WriteInput } from '../../common/WriteInput';
+import React from "react";
+import styled from "styled-components";
+import { WriteInputWrap } from "./WriteInputWrap";
+import { WriteInput } from "../../common/WriteInput";
 
 const PriceWrap = styled(WriteInputWrap)`
   display: flex;
 `;
 
 const PriceShape = styled.span`
-  color: ${({ price }) => (price === '' ? '#aaa' : '#202020')};
+  color: ${({ price }) => (price === "" ? "#aaa" : "#202020")};
 `;
 
 const PriceInput = styled(WriteInput)`
   width: 200px;
+  background: rgb(250, 250, 250) !important;
 `;
 
 function WritePrice({ onChange, price }) {

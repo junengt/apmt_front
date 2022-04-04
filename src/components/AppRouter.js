@@ -1,4 +1,9 @@
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  HashRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import Auth from "../routes/Auth";
 import Home from "../routes/Home";
 import Profile from "../routes/Profile";
@@ -9,32 +14,64 @@ import Items from "../routes/Items";
 import StuffDetail from "../routes/StuffDetail";
 import NoMatch from "../routes/NoMatch";
 import WritingStuff from "../routes/WritingStuff";
+import EditProfile from "../routes/EditProfile";
 
-const AppRouter = () => {
-  const [list, setList] = useState([]);
+const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
+  const [list, setList] = useState();
+  const [tags, setTags] = useState();
 
+  const tagsState = (args) => {
+    setTags(args);
+    console.log("tagState", args);
+  };
   const listState = (args) => {
-    setList([Object.values(args)]);
+    setList(args);
   };
   console.log(list);
 
   return (
     <>
       <Router>
-        <Navigation listState={listState} setList={setList} list={list} />
+        <Navigation
+          userObj={userObj}
+          listState={listState}
+          setList={setList}
+          list={list}
+        />
+
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route
-            path="items"
-            element={<Items listState={listState} list={list} />}
-          />
-          <Route path="items/:id" element={<StuffDetail />} />
-          <Route path="*" element={<NoMatch />} />
-          <Route path="/write-new-stuff" element={<WritingStuff />} />
+          {isLoggedIn && (
+            <>
+              <Route
+                path="/profile"
+                element={
+                  <Profile userObj={userObj} refreshUser={refreshUser} />
+                }
+              />
+              <Route
+                path="/edit_profile"
+                element={
+                  <EditProfile userObj={userObj} refreshUser={refreshUser} />
+                }
+              />
+              <Route path="/*" element={<Navigate replace to="/" />} />
+              <Route
+                path="/new_item"
+                element={<WritingStuff tagsState={tagsState} tags={tags} />}
+              />
+            </>
+          )}
+          <>
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/" element={<Home userObj={userObj} />} />
+            <Route
+              path="items"
+              element={<Items listState={listState} list={list} />}
+            />
+            <Route path="items/:id" element={<StuffDetail />} />
+            <Route path="/*" element={<Navigate replace to="/" />} />
+          </>
         </Routes>
-        <Footer />
       </Router>
     </>
   );

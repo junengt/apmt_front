@@ -24,7 +24,7 @@ const ConfirmBtn = styled.button`
   font-size: 16px;
 `;
 
-function WritingHeader({ onClick }) {
+function WritingHeader({ onClick}) {
   return (
     <HeaderWrap>
       <Container>

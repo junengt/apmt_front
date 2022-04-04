@@ -1,26 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Item from "../components/Item";
 import { Link, useHistory, useLocation, useNavigate } from "react-router-dom";
-import {
-  Button,
-  FormControl,
-  InputGroup,
-  Nav,
-  Navbar,
-  NavItem,
-  ToggleButton,
-  ToggleButtonGroup,
-} from "react-bootstrap";
-import Mac from "../components/toggleGroup/Mac";
-import IPad from "../components/toggleGroup/IPad";
-import Watch from "../components/toggleGroup/Watch";
-import IPhone from "../components/toggleGroup/IPhone";
-import AirPods from "../components/toggleGroup/AirPods";
-import Etc from "../components/toggleGroup/Etc";
 import * as Header from "../components/common/search/Header";
 import * as Icon from "../components/common/neighbor/Icon";
 import WritePlus from "../components/layout/write/WritePlus";
 import Tag from "../components/common/tags/Tag";
+import ToggleButtons from "../components/common/tags/ToggleButtons";
 
 const Items = ({ listState, list }) => {
   const [input, setInput] = useState("empty");
@@ -53,26 +38,6 @@ const Items = ({ listState, list }) => {
     }
   };
 
-  const render = (arr) => {
-    return arr.map((e) => {
-      switch (e) {
-        case "Mac":
-          return <Mac key="1" list={list} listState={listState} />;
-        case "iPad":
-          return <IPad key="2" list={list} listState={listState} />;
-        case "Watch":
-          return <Watch key="3" list={list} listState={listState} />;
-        case "iPhone":
-          return <IPhone key="4" list={list} listState={listState} />;
-        case "AirPods":
-          return <AirPods key="5" list={list} listState={listState} />;
-        case "Etc.":
-          return <Etc key="6" list={list} listState={listState} />;
-        default:
-          return "";
-      }
-    });
-  };
   return (
     <div style={{ backgroundColor: "rgb(250, 250, 250)" }}>
       <div className="bg-light ">
@@ -127,8 +92,8 @@ const Items = ({ listState, list }) => {
             width: "100%",
           }}
         >
-          {list.length > 0 ? render(...list) : <hr />}
-          {list.length > 0 && <Tag tags={list} listState={listState}></Tag>}
+          {list && <ToggleButtons list={list} listState={listState} />}
+          {list && <Tag tags={list} listState={listState}></Tag>}
         </div>
       </section>
       <section>

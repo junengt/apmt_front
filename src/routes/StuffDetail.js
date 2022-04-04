@@ -37,6 +37,7 @@ function StuffDetail() {
           "약간의 스크래치가 많습니다.\n배사홀 없습니다.\n이걸로 물물교환 릴레이하면 뭘로 바꿔주실건가요?",
       },
       region: "구로동",
+      tags: ["iPad", "iPad Air"],
     },
 
     {
@@ -55,6 +56,7 @@ function StuffDetail() {
         title: "죽지않는 화초",
       },
       region: "미근동",
+      tags: ["iPad", "iPad Air"],
     },
   ];
   const history = useNavigate();
@@ -94,6 +96,7 @@ function StuffDetail() {
         .map((stuffItem) => {
           const {
             id,
+            tags,
             attachmentUrl,
             creatorId,
             region,
@@ -125,6 +128,7 @@ function StuffDetail() {
                     contents={contents}
                     category="디지털/가전"
                     time={createAt}
+                    tags={tags}
                   />
                   <DetailSale username={creatorId} stuff={stuffs} />
                 </Inner>

@@ -3,13 +3,13 @@ import { Nav, NavItem, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 
 const Etc = ({ listState, list }) => {
   const [value, setValue] = useState();
+
   const handleChange = (val) => {
     setValue(val);
     listState(val);
   };
-
   useEffect(() => {
-    setValue(...list);
+    setValue(list);
   }, [list]);
 
   const buttonClassName = "col-xs-4 col-sm-3 col-lg-2 text-black";
@@ -106,7 +106,6 @@ const Etc = ({ listState, list }) => {
           </ToggleButton>
         </ToggleButtonGroup>
       </Nav>
-      <hr />
     </>
   );
 };

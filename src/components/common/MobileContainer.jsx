@@ -5,5 +5,5 @@ export const MobileContainer = styled.div`
   display: flex;
   -webkit-box-pack: center;
   justify-content: center;
-  padding: 100px 0px;
+  padding: 50px 0px;
 `;

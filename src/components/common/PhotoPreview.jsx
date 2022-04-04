@@ -1,14 +1,15 @@
-import React from 'react';
-import styled from 'styled-components';
-import { ReactComponent as CloseIcon } from '../../icon/close_white.svg';
+import React from "react";
+import styled from "styled-components";
+import { ReactComponent as CloseIcon } from "../../icon/close_white.svg";
 
 const Preview = styled.div`
   position: relative;
   width: 70px;
   height: 70px;
-  margin-left: 20px;
+  margin: 3px 3px 7px 7px;
   border-radius: 5px;
-  background: url(${({ attachment }) => attachment}) center center/cover no-repeat;
+  background: url(${({ attachment }) => attachment}) center center/cover
+    no-repeat;
 `;
 
 const DeletePreview = styled.button`
@@ -19,7 +20,7 @@ const DeletePreview = styled.button`
   height: 20px;
   border-radius: 50%;
   &::before {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     top: 0;

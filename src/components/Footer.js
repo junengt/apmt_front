@@ -2,6 +2,10 @@ import React from "react";
 import { Container } from "react-bootstrap";
 
 const Footer = () => {
+  const pathArr = ["#/profile", "#/auth", "#/new_item"];
+  if (pathArr.findIndex((path) => path === document.location.hash) > -1) {
+    return null;
+  }
   return (
     <div>
       <footer>

@@ -1,11 +1,13 @@
-import { createGlobalStyle } from 'styled-components';
-import reset from 'styled-reset';
+import { createGlobalStyle } from "styled-components";
+import reset from "styled-reset";
 
 const ResetStyles = createGlobalStyle`
     ${reset}
     * {margin:0px; padding:0px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box}
     article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section,main{display:block;}
-    html{height:100%;}
+    html{height:100%;
+      overflow-y:scroll;
+    }
     html,body {
         font-size:16px;
         font-family: 'Noto Sans KR', sans-serif;
@@ -13,7 +15,9 @@ const ResetStyles = createGlobalStyle`
         overflow-x:hidden;
         color:#202020;
         &::-webkit-scrollbar {
-            width: 8px;  /* 세로축 스크롤바 길이 */
+            width: 8px;  /* 세로축 스크
+            
+            롤바 길이 */
             height: 8px;  /* 가로축 스크롤바 길이 */
         }
         &::-webkit-scrollbar-thumb {
@@ -38,9 +42,10 @@ const ResetStyles = createGlobalStyle`
         font-size:inherit;
         font-family:inherit;
         border:1px solid #ddd;
-        color:#555;
+        color:#555; 
         border-radius:0; background-color:#fff;
     }
+    
     input,button,select {
         -webkit-border-radius: 0;
         border-radius: 0;

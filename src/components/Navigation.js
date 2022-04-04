@@ -8,24 +8,18 @@ import {
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Mac from "./toggleGroup/Mac";
-import IPad from "./toggleGroup/IPad";
 import Watch from "./toggleGroup/Watch";
-import IPhone from "./toggleGroup/IPhone";
 import AirPods from "./toggleGroup/AirPods";
-import Etc from "./toggleGroup/Etc";
-import { check } from "prettier";
 
-const Navigation = ({ listState, list, setList }) => {
-  const [value, setValue] = useState();
-  const [render, setRender] = useState(true);
-  const ref = useRef();
+const Navigation = ({ listState, list, userObj }) => {
+  const [value, setValue] = useState([]);
 
   const handleChange = (val) => {
-    setValue(val);
-    listState(val);
+    setValue([...val]);
+    listState([val]);
   };
   useEffect(() => {
-    setValue(...list);
+    setValue(list);
   }, [list]);
 
   const onClick = (e) => {
@@ -38,7 +32,10 @@ const Navigation = ({ listState, list, setList }) => {
     padding: "4px",
   };
   const navigate = useNavigate();
-
+  const pathArr = ["#/profile", "#/auth", "#/new_item", "#/edit_profile"];
+  if (pathArr.findIndex((path) => path === document.location.hash) > -1) {
+    return null;
+  }
   return (
     <>
       <Navbar
@@ -56,13 +53,14 @@ const Navigation = ({ listState, list, setList }) => {
           <NavItem className="nav-item-box">
             <Link to="/" className="nav-link">
               <img
-                src="https://www.apple.com/ac/globalnav/6/en_IN/images/be15095f-5a20-57d0-ad14-cf4c638e223a/globalnav_apple_image__cxwwnrj0urau_large.svg"
+                src="https://www.apple.com/ac/globalnav/7/en_US/images/be15095f-5a20-57d0-ad14-cf4c638e223a/globalnav_apple_image__b5er5ngrzxqq_large.svg"
                 alt="logo"
               />
             </Link>
           </NavItem>
           <ToggleButtonGroup
-            type="checkbox"
+            type="radio"
+            name="buttongroup"
             value={value}
             onChange={handleChange}
             onClick={onClick}
@@ -70,6 +68,7 @@ const Navigation = ({ listState, list, setList }) => {
             <ToggleButton
               className=" bg-black border-0  align-self-center navbar-text"
               id="tbg-btn-1"
+              name="buttongroup"
               value={"Mac"}
               style={buttonSize}
             >
@@ -78,6 +77,7 @@ const Navigation = ({ listState, list, setList }) => {
             <ToggleButton
               className="bg-black border-0  align-self-center navbar-text"
               id="tbg-btn-2"
+              name="buttongroup"
               value={"iPad"}
               style={buttonSize}
             >
@@ -86,6 +86,7 @@ const Navigation = ({ listState, list, setList }) => {
             <ToggleButton
               className="bg-black border-0  align-self-center navbar-text"
               id="tbg-btn-3"
+              name="buttongroup"
               value={"Watch"}
               style={buttonSize}
             >
@@ -94,6 +95,7 @@ const Navigation = ({ listState, list, setList }) => {
             <ToggleButton
               className="bg-black border-0  align-self-center navbar-text"
               id="tbg-btn-4"
+              name="buttongroup"
               value={"iPhone"}
               style={buttonSize}
             >
@@ -102,6 +104,7 @@ const Navigation = ({ listState, list, setList }) => {
             <ToggleButton
               className="bg-black border-0  align-self-center navbar-text"
               id="tbg-btn-5"
+              name="buttongroup"
               value={"AirPods"}
               style={buttonSize}
             >
@@ -110,6 +113,7 @@ const Navigation = ({ listState, list, setList }) => {
             <ToggleButton
               className="bg-black border-0  align-self-center navbar-text"
               id="tbg-btn-6"
+              name="buttongroup"
               value={"Etc."}
               style={buttonSize}
             >
@@ -125,13 +129,23 @@ const Navigation = ({ listState, list, setList }) => {
             </Link>
           </NavItem>
           <NavItem className="nav-item-box">
-            <Link
-              to="/auth"
-              style={{ textDecoration: "none" }}
-              className="text-white nav-icon nav-link"
-            >
-              <span style={{ fontSize: "12px", color: "white" }}>Login</span>
-            </Link>
+            {userObj ? (
+              <Link
+                to="/profile"
+                style={{ textDecoration: "none" }}
+                className="text-white nav-icon nav-link"
+              >
+                <span style={{ fontSize: "12px", color: "white" }}>MyPage</span>
+              </Link>
+            ) : (
+              <Link
+                to="/auth"
+                style={{ textDecoration: "none" }}
+                className="text-white nav-icon nav-link"
+              >
+                <span style={{ fontSize: "12px", color: "white" }}>Login</span>
+              </Link>
+            )}
           </NavItem>
         </Nav>
       </Navbar>

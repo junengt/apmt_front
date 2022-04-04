@@ -3,20 +3,14 @@ import { Nav, NavItem, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 
 const AirPods = ({ listState, list }) => {
   const [value, setValue] = useState();
+
   const handleChange = (val) => {
     setValue(val);
     listState(val);
   };
   useEffect(() => {
-    setValue(...list);
+    setValue(list);
   }, [list]);
-  const AirPodsList = [
-    {
-      id: "tbg-airpodsBtn-1",
-      name: "AirPods Series",
-      src: "https://www.apple.com/v/airpods/q/images/chapternav/airpods_2gen_light__ckwbqlgv1r9e_large.svg",
-    },
-  ];
 
   const buttonClassName = "col-xs-4 col-sm-3 col-lg-2 text-black";
   const buttonSize = {
@@ -106,7 +100,6 @@ const AirPods = ({ listState, list }) => {
           </ToggleButton>
         </ToggleButtonGroup>
       </Nav>
-      <hr />
     </>
   );
 };

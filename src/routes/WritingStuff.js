@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 //import { useSelector } from 'react-redux';
 import { dbService, storageService } from "../utils/api/fbInstance";
 import WritingHeader from "../components/layout/write/WritingHeader";
@@ -13,12 +13,18 @@ import WritePrice from "../components/layout/write/WritePrice";
 import Loading from "../components/layout/write/Loading";
 import { MobileContainer } from "../components/common/MobileContainer";
 import { MobileInner } from "../components/common/MobileInner";
-
-const WritingStuff = () => {
+import ToggleButtons from "../components/common/tags/ToggleButtons";
+import { Nav, NavItem, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
+import WritingStuffTag from "../components/common/WritingStuffTag";
+import { WriteInputWrap } from "../components/layout/write/WriteInputWrap";
+import { WriteInput } from "../components/common/WriteInput";
+import Tag from "../components/common/tags/Tag";
+const WritingStuff = ({ tags, tagsState }) => {
   const [inputs, setInputs] = useState({ title: "", price: "", contents: "" });
   const [category, setCategory] = useState(1);
   const [attachment, setAttachment] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [location, setLocation] = useState({ latitude: "", longitude: "" });
   const region = "광명시 소하동";
   //useSelector((state) => state.neighbor.address);
   const uid = "lgodl1598@naver.com";
@@ -154,6 +160,7 @@ const WritingStuff = () => {
   };
 
   const { title, price, contents } = inputs;
+
   return (
     <MobileContainer>
       <MobileInner>
@@ -166,8 +173,13 @@ const WritingStuff = () => {
               onClearPhoto={onClearPhoto}
             />
             <StuffTitle onChange={onChange} title={title} />
-            <SelectCategory onCategory={onCategory} />
+            <WritingStuffTag tags={tags} tagsState={tagsState} />
+            {tags && <ToggleButtons list={tags} listState={tagsState} />}
+            <WriteInputWrap>
+              {tags && <Tag tags={tags} listState={tagsState}></Tag>}
+            </WriteInputWrap>
             <WritePrice onChange={onPrice} price={price} />
+
             <WriteContents onChange={onChange} contents={contents} />
           </form>
         </PaddingInner>

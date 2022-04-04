@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { WriteInputWrap } from './WriteInputWrap';
+import React from "react";
+import styled from "styled-components";
+import { WriteInputWrap } from "./WriteInputWrap";
 
 const WriteArea = styled.textarea`
   width: 100%;
@@ -8,6 +8,7 @@ const WriteArea = styled.textarea`
   border: 0;
   font-size: 18px;
   outline: none;
+  background: rgb(250, 250, 250);
 `;
 
 function WriteContents({ onChange, contents }) {

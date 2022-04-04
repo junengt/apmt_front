@@ -1,10 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
-import PhotoPreview from '../../common/PhotoPreview';
-import camera from '../../../images/ico/ico_camera.png';
+import React from "react";
+import styled from "styled-components";
+import PhotoPreview from "../../common/PhotoPreview";
+import camera from "../../../images/ico/ico_camera.png";
 
 const PhotoWrap = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-start;
   padding: 36px 0 18px;
   border-bottom: 2px solid #f0f0f0;
@@ -81,7 +82,13 @@ const AddPhotoLabel = styled.label`
 function SelectPhoto({ onChange, attachment, onClearPhoto }) {
   return (
     <PhotoWrap>
-      <AddPhotoInupt id="addPhoto" type="file" accept="image/*" onChange={onChange} multiple />
+      <AddPhotoInupt
+        id="addPhoto"
+        type="file"
+        accept="image/*"
+        onChange={onChange}
+        multiple
+      />
       <AddPhotoLabel htmlFor="addPhoto">
         <img src={camera} alt="camera" />
         <span>{attachment.length}/10</span>
