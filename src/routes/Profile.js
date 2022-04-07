@@ -14,11 +14,25 @@ import { authService } from "../utils/api/fbInstance";
 import { MobileContainer } from "../components/common/MobileContainer";
 import { MobileInner } from "../components/common/MobileInner";
 import ProfileHeader from "../components/layout/profile/ProfileHeader";
-import styles from "./Profile.module.css";
+import styles from "../css/Profile.module.css";
+import ProfileItem from "../components/layout/profile/ProfileItem";
 
 const Profile = ({ userObj, refreshUser }) => {
   const navigate = useNavigate();
-
+  const profileItems = [
+    {
+      title: "상품명",
+      date: "22.03.21 12:53",
+      division: "구매",
+      price: "11000",
+    },
+    {
+      title: "(은행) 계좌번호",
+      date: "22.03.21 12:53",
+      division: "출금",
+      price: "11000",
+    },
+  ];
   const onLogOutClick = async () => {
     await authService.signOut();
     refreshUser("logout");
@@ -55,58 +69,9 @@ const Profile = ({ userObj, refreshUser }) => {
               <EmptyBlock />
             </ListBlock>
           </DanggeunInner>
-          <DanggeunInner>
-            <ListBlock>
-              <div className={styles.field2}>
-                <img
-                  className={styles.profilephoto1}
-                  src={require("../icon/buy.jpg")}
-                />
-                <p
-                  style={{ textAlign: "left", width: "55%", fontSize: "15px" }}
-                >
-                  <span>상품명</span>
-                  <br></br>22.03.21 12:53 | 구매{" "}
-                </p>
-                <p
-                  style={{
-                    marginLeft: "20px",
-                    marginTop: "10px",
-                    fontSize: "15px",
-                    width: "20%",
-                  }}
-                >
-                  10,100원{" "}
-                </p>
-              </div>
-            </ListBlock>
-          </DanggeunInner>
-          <DanggeunInner>
-            <ListBlock>
-              <div className={styles.field2}>
-                <img
-                  className={styles.profilephoto1}
-                  src={require("../icon/withraw.png")}
-                />
-                <p
-                  style={{ textAlign: "left", width: "50%", fontSize: "15px" }}
-                >
-                  <span>(은행)계좌번호</span>
-                  <br></br>22.03.21 12:53 | 출금{" "}
-                </p>
-                <p
-                  style={{
-                    marginLeft: "20px",
-                    marginTop: "10px",
-                    fontSize: "15px",
-                    width: "20%",
-                  }}
-                >
-                  10,100원{" "}
-                </p>
-              </div>
-            </ListBlock>
-          </DanggeunInner>
+          {profileItems.map((e) => {
+            return <ProfileItem item={e} />;
+          })}
         </DanggeunWrap>
       </MobileInner>
     </MobileContainer>

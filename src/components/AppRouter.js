@@ -15,6 +15,7 @@ import StuffDetail from "../routes/StuffDetail";
 import NoMatch from "../routes/NoMatch";
 import WritingStuff from "../routes/WritingStuff";
 import EditProfile from "../routes/EditProfile";
+import Gps from "../routes/Gps";
 
 const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
   const [list, setList] = useState();
@@ -48,6 +49,7 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
                   <Profile userObj={userObj} refreshUser={refreshUser} />
                 }
               />
+              <Route path="/gps" element={<Gps></Gps>} />
               <Route
                 path="/edit_profile"
                 element={
@@ -57,7 +59,13 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
               <Route path="/*" element={<Navigate replace to="/" />} />
               <Route
                 path="/new_item"
-                element={<WritingStuff tagsState={tagsState} tags={tags} />}
+                element={
+                  <WritingStuff
+                    tagsState={tagsState}
+                    userObj={userObj}
+                    tags={tags}
+                  />
+                }
               />
             </>
           )}
@@ -65,7 +73,7 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
             <Route path="/auth" element={<Auth />} />
             <Route path="/" element={<Home userObj={userObj} />} />
             <Route
-              path="items"
+              path="items/*"
               element={<Items listState={listState} list={list} />}
             />
             <Route path="items/:id" element={<StuffDetail />} />

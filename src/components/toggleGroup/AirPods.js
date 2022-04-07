@@ -3,7 +3,6 @@ import { Nav, NavItem, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 
 const AirPods = ({ listState, list }) => {
   const [value, setValue] = useState();
-
   const handleChange = (val) => {
     setValue(val);
     listState(val);

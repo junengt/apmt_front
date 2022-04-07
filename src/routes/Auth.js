@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { authService } from "../utils/api/fbInstance";
 import { signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
-import styles from "../routes/Auth.module.css";
+import styles from "../css/Auth.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone, faKey } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";

@@ -1,24 +1,35 @@
 import React, { useEffect, useState } from "react";
 import Item from "../components/Item";
-import { Link, useHistory, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import * as Header from "../components/common/search/Header";
 import * as Icon from "../components/common/neighbor/Icon";
 import WritePlus from "../components/layout/write/WritePlus";
 import Tag from "../components/common/tags/Tag";
 import ToggleButtons from "../components/common/tags/ToggleButtons";
+import itemOfJson from "../data/carrot.json";
+import queryString from "query-string";
 
 const Items = ({ listState, list }) => {
   const [input, setInput] = useState("empty");
-  const location = useLocation();
-  const SearchResult = () => location("/searchresult", input);
-
+  const [searchParams, setSearchParams] = useSearchParams();
+  const params = useLocation();
+  let itemIndex = 0;
+  let maxItem = 100;
+  const searchText = queryString.parse(params.search).search
+    ? queryString.parse(params.search).search
+    : "";
   const OnSearch = (e) => {
     if (e.key === "Enter" && input === "empty") {
       alert("검색어를 입력해주세요");
     } else if (e.key === "Enter" && input.length < 2) {
       alert("두 글자 이상 입력해 주세요");
     } else if (e.key === "Enter" && input.length >= 2) {
-      SearchResult();
+      setSearchParams({ search: input });
     }
   };
   const OnType = (e) => {
@@ -38,6 +49,9 @@ const Items = ({ listState, list }) => {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
   return (
     <div style={{ backgroundColor: "rgb(250, 250, 250)" }}>
       <div className="bg-light ">
@@ -65,6 +79,7 @@ const Items = ({ listState, list }) => {
                   justifyContent: "center",
                   width: " 100%",
                 }}
+                onSubmit={handleSubmit}
               >
                 <Header.SearchBarBox>
                   <Header.SearchBarInner>
@@ -107,34 +122,38 @@ const Items = ({ listState, list }) => {
           }}
         >
           <div className="row">
-            <Link
-              className="col-xs-12 col-sm-6 col-lg-4 text-black"
-              to="/items/1"
-              style={{ textDecoration: "none" }}
-            >
-              <Item />
-            </Link>
-            <Link
-              className="col-xs-12 col-sm-6 col-lg-4 text-black"
-              to="/items/1"
-              style={{ textDecoration: "none" }}
-            >
-              <Item />
-            </Link>
-            <Link
-              className="col-xs-12 col-sm-6 col-lg-4 text-black"
-              to="/items/1"
-              style={{ textDecoration: "none" }}
-            >
-              <Item />
-            </Link>
-            <Link
-              className="col-xs-12 col-sm-6 col-lg-4 text-black"
-              to="/items/1"
-              style={{ textDecoration: "none" }}
-            >
-              <Item />
-            </Link>
+            {itemOfJson
+              .filter((el) => el.title.includes(searchText))
+              .map((e, i) => {
+                let isFounded = () => {
+                  if (!list || list.length === 0) {
+                    return true;
+                  }
+                  if (list && list.length < 2) {
+                    return (
+                      list && e.tags.split(",").some((ai) => list.includes(ai))
+                    );
+                  } else {
+                    return (
+                      list && e.tags.split(",").every((ai) => list.includes(ai))
+                    );
+                  }
+                };
+
+                if (isFounded() && itemIndex < maxItem) {
+                  itemIndex++;
+                  return (
+                    <Link
+                      className="col-xs-12 col-sm-6 col-lg-4 text-black"
+                      to={"/items/" + i}
+                      style={{ textDecoration: "none" }}
+                      key={i}
+                    >
+                      <Item key={i} item={e} />
+                    </Link>
+                  );
+                }
+              })}
           </div>
           <WritePlus />
         </div>

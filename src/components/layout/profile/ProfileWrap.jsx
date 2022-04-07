@@ -10,7 +10,7 @@ import {
   WatchBlock,
 } from "./MyDanggeunStyle";
 import { Inner } from "../Inner";
-import styles from "../../../routes/Profile.module.css";
+import styles from "../../../css/Profile.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
 import ProfilePrice from "./ProfilePrice";

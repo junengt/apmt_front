@@ -32,7 +32,13 @@ const Navigation = ({ listState, list, userObj }) => {
     padding: "4px",
   };
   const navigate = useNavigate();
-  const pathArr = ["#/profile", "#/auth", "#/new_item", "#/edit_profile"];
+  const pathArr = [
+    "#/profile",
+    "#/auth",
+    "#/new_item",
+    "#/edit_profile",
+    "#/gps",
+  ];
   if (pathArr.findIndex((path) => path === document.location.hash) > -1) {
     return null;
   }

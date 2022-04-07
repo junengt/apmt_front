@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { storageService } from "../utils/api/fbInstance";
 import { v4 as uuidv4 } from "uuid";
-import styles from "../routes/Profile.module.css";
+import styles from "../css/Profile.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import {

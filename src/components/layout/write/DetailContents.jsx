@@ -37,7 +37,16 @@ function DetailContents({ title, contents, time, tags }) {
       <ContentsInfo>
         <span>{returnTime(time)}전</span>
       </ContentsInfo>
-      <ContentsTxt>{contents}</ContentsTxt>
+      <ContentsTxt>
+        {contents.split(/\n/gi).map((e) => {
+          return (
+            <>
+              {e}
+              <br />
+            </>
+          );
+        })}
+      </ContentsTxt>
       <ContentsInfo>
         <span>관심 3 · 조회 111</span>
       </ContentsInfo>
