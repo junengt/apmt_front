@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
-import axios from 'axios';
+import axios from "axios";
 
-const REST_API_KEY = '426da5935a3ec606b4b03c997e271a85';
+const REST_API_KEY = "46c545126f7c2dbb3eff59cfbc32a960";
 
 // 거리 상수
 const DISTANCE = 0.007;
@@ -41,7 +41,7 @@ const getApiResponse = async (coords) => {
   let response;
   try {
     response = await axios({
-      method: 'get',
+      method: "get",
       url: `https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=${coords[0]}&y=${coords[1]}`,
       headers: {
         Authorization: `KakaoAK ${REST_API_KEY}`,
