@@ -38,8 +38,18 @@ const Navigation = ({ listState, list, userObj }) => {
     "#/new_item",
     "#/edit_profile",
     "#/gps",
+    "#/sale",
+    "#/buy",
+    "#/like",
   ];
   if (pathArr.findIndex((path) => path === document.location.hash) > -1) {
+    return null;
+  }
+
+  if (document.location.hash.includes("#/review")) {
+    return null;
+  }
+  if (document.location.hash.includes("#/seller_profile")) {
     return null;
   }
   return (

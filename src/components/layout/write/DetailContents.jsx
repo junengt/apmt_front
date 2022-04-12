@@ -22,13 +22,7 @@ const ContentsInfo = styled.div`
 `;
 const ContentsTxt = styled.p``;
 
-function DetailContents({ title, contents, time, tags }) {
-  const categoryFilter = categoryList();
-  // const categoryName = categoryFilter.filter(
-  //   (list) => list.id === Number(category)
-  // );
-  // const [categoryItem] = categoryName;
-  const { listName } = { id: 1, listName: "디지털/가전" };
+function DetailContents({ title, contents, time, tags, view, like }) {
   return (
     <ContentsWrap>
       <ContentsTitle>{title || "임시"}</ContentsTitle>
@@ -48,7 +42,9 @@ function DetailContents({ title, contents, time, tags }) {
         })}
       </ContentsTxt>
       <ContentsInfo>
-        <span>관심 3 · 조회 111</span>
+        <span>
+          관심 {like} · 조회 {view}
+        </span>
       </ContentsInfo>
     </ContentsWrap>
   );

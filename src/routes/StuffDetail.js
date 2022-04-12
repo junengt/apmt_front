@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useHistory, useLocation, useNavigate } from "react-router-dom";
+import { Link, useHistory, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Inner } from "../components/layout/Inner";
 import WriteSwiper from "../components/layout/write/WriteSwiper";
@@ -26,7 +26,7 @@ function StuffDetail() {
   const stuffs = [
     {
       attachmentUrl: [item.img_src],
-      createAt: 1613727320754,
+      createAt: new Date().getTime() - 100000,
       creatorId: "apple_mart",
       id: "8Bp36P7OzIg6Lz5UTeVh",
       input: {
@@ -34,6 +34,8 @@ function StuffDetail() {
         price: item.price,
         contents: item.content,
       },
+      view: 111,
+      like: 10,
       region: item.region_name,
       tags: item.tags.split(","),
     },
@@ -82,6 +84,8 @@ function StuffDetail() {
             category,
             input,
             createAt,
+            view,
+            like,
           } = stuffItem;
           const { title, contents, price } = input;
           return (
@@ -97,15 +101,19 @@ function StuffDetail() {
                 <OneDepthHeader trigger={trigger} />
                 <WriteSwiper carouselImg={attachmentUrl} />
                 <Inner>
-                  <DetailUserData
-                    username={creatorId}
-                    region={region}
-                    ref={detailHead}
-                  />
+                  <Link to={"/seller_profile/" + creatorId}>
+                    {" "}
+                    <DetailUserData
+                      username={creatorId}
+                      region={region}
+                      ref={detailHead}
+                    />
+                  </Link>
                   <DetailContents
+                    view={view}
+                    like={like}
                     title={title}
                     contents={contents}
-                    category="디지털/가전"
                     time={createAt}
                     tags={tags}
                   />

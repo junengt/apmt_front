@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 const Home = ({ userObj }) => {
-  console.log(userObj.phoneNumber);
   return (
     <>
       <div className="bg-light ">

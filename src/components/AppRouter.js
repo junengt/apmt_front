@@ -16,6 +16,11 @@ import NoMatch from "../routes/NoMatch";
 import WritingStuff from "../routes/WritingStuff";
 import EditProfile from "../routes/EditProfile";
 import Gps from "../routes/Gps";
+import SalePage from "../routes/SalePage";
+import BuyPage from "../routes/BuyPage";
+import LikePage from "../routes/LikePage";
+import Review from "../routes/Review";
+import SellerProfile from "../routes/SellerProfile";
 
 const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
   const [list, setList] = useState();
@@ -43,6 +48,11 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
         <Routes>
           {isLoggedIn && (
             <>
+              <Route path="/seller_profile/:uid" element={<SellerProfile />} />
+              <Route path="/sale" element={<SalePage userObj={userObj} />} />
+              <Route path="review/:id" element={<Review userObj={userObj} />} />
+              <Route path="/buy" element={<BuyPage userObj={userObj} />} />
+              <Route path="/like" element={<LikePage userObj={userObj} />} />
               <Route
                 path="/profile"
                 element={

@@ -61,10 +61,15 @@ const ProfileBot = styled.div`
 
 const OwnList = styled.div`
   width: 62px;
-
+  text-align: center;
   & a {
     width: 100%;
   }
+`;
+
+const FontSize = styled.span`
+  font-size: 14px;
+  text-align: center;
 `;
 
 function ProfileWrap({ name, photoURL }) {
@@ -94,16 +99,20 @@ function ProfileWrap({ name, photoURL }) {
             <OwnList>
               <Link to="/sale">
                 <SaleBlock />
-                <span>판매내역</span>
+                <FontSize>판매내역</FontSize>
               </Link>
             </OwnList>
             <OwnList>
-              <PurchaseBlock />
-              <span>구매내역</span>
+              <Link to="/buy">
+                <PurchaseBlock />
+                <FontSize>구매내역</FontSize>
+              </Link>
             </OwnList>
             <OwnList>
-              <WatchBlock />
-              <span>관심내역</span>
+              <Link to="/like">
+                <WatchBlock />
+                <FontSize>관심내역</FontSize>
+              </Link>
             </OwnList>
           </ProfileBot>
         </ProfileBotWrap>

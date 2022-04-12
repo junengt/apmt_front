@@ -1,12 +1,12 @@
-import React, { forwardRef } from 'react';
-import styled from 'styled-components';
-import profile from '../../../images/ico/ico_profile_placeholder.png';
-import temperLevel1 from '../../../images/ico/ico_manner_01.png';
-import temperLevel2 from '../../../images/ico/ico_manner_02.png';
-import temperLevel3 from '../../../images/ico/ico_manner_03.png';
-import temperLevel4 from '../../../images/ico/ico_manner_04.png';
-import temperLevel5 from '../../../images/ico/ico_manner_05.png';
-import temperLevel6 from '../../../images/ico/ico_manner_06.png';
+import React, { forwardRef } from "react";
+import styled from "styled-components";
+import profile from "../../../images/ico/ico_profile_placeholder.png";
+import temperLevel1 from "../../../images/ico/ico_manner_01.png";
+import temperLevel2 from "../../../images/ico/ico_manner_02.png";
+import temperLevel3 from "../../../images/ico/ico_manner_03.png";
+import temperLevel4 from "../../../images/ico/ico_manner_04.png";
+import temperLevel5 from "../../../images/ico/ico_manner_05.png";
+import temperLevel6 from "../../../images/ico/ico_manner_06.png";
 
 const UserDataWrap = styled.div`
   display: flex;
@@ -71,7 +71,7 @@ const TemperProgress = styled.div`
   background-color: #e8ece8;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -99,57 +99,70 @@ const TemperIcon = styled.div`
 `;
 
 const DetailUserData = forwardRef(({ username, region }, ref) => {
-    const temper = Number((Math.random() * 100).toFixed(1));
+  const temper = Number((Math.random() * 100).toFixed(1));
 
-    const temperFunc = ([props1, props2, props3, props4, props5, props6]) => {
-        switch (true) {
-            case temper <= 16.6:
-                return props1;
-            case temper <= 33.3:
-                return props2;
-            case temper <= 49.6:
-                return props3;
-            case temper <= 66.6:
-                return props4;
-            case temper <= 83.3:
-                return props5;
-            case temper <= 100:
-                return props6;
-            default:
-                throw new Error('Unhandeld Error Temperature');
-        }
-    };
-    const temperIco = temperFunc([temperLevel1, temperLevel2, temperLevel3, temperLevel4, temperLevel5, temperLevel6]);
+  const temperFunc = ([props1, props2, props3, props4, props5, props6]) => {
+    switch (true) {
+      case temper <= 16.6:
+        return props1;
+      case temper <= 33.3:
+        return props2;
+      case temper <= 49.6:
+        return props3;
+      case temper <= 66.6:
+        return props4;
+      case temper <= 83.3:
+        return props5;
+      case temper <= 100:
+        return props6;
+      default:
+        throw new Error("Unhandeld Error Temperature");
+    }
+  };
+  const temperIco = temperFunc([
+    temperLevel1,
+    temperLevel2,
+    temperLevel3,
+    temperLevel4,
+    temperLevel5,
+    temperLevel6,
+  ]);
 
-    const temperColor = temperFunc(['#222', '#0d3a65', '#0b5aa5', '#319e45', '#df9100', '#de5d06']);
+  const temperColor = temperFunc([
+    "#222",
+    "#0d3a65",
+    "#0b5aa5",
+    "#319e45",
+    "#df9100",
+    "#de5d06",
+  ]);
 
-    return (
-        <UserDataWrap>
-            <UserData ref={ref}>
-                <UserThumbnail>
-                    <img src={profile} alt="profile" />
-                </UserThumbnail>
-                <UserProfile>
-                    <UserId>{username}</UserId>
-                    <UserLocation>{region || '행복동'}</UserLocation>
-                </UserProfile>
-            </UserData>
-            <Temperature>
-                <TemperTop>
-                    <TemperTopLeft>
-                        <TemperText color={temperColor}>{`${temper}°C`}</TemperText>
-                        <TemperProgress temper={temper} progress={temperColor} />
-                    </TemperTopLeft>
-                    <TemperIcon>
-                        <img src={temperIco} alt="temperIcon" />
-                    </TemperIcon>
-                </TemperTop>
-                <TemperBot>
-                    <span>매너온도</span>
-                </TemperBot>
-            </Temperature>
-        </UserDataWrap>
-    );
+  return (
+    <UserDataWrap>
+      <UserData ref={ref}>
+        <UserThumbnail>
+          <img src={profile} alt="profile" />
+        </UserThumbnail>
+        <UserProfile>
+          <UserId>{username}</UserId>
+        </UserProfile>
+      </UserData>
+      {/*<Temperature>*/}
+      {/*    <TemperTop>*/}
+      {/*        <TemperTopLeft>*/}
+      {/*            <TemperText color={temperColor}>{`${temper}°C`}</TemperText>*/}
+      {/*            <TemperProgress temper={temper} progress={temperColor} />*/}
+      {/*        </TemperTopLeft>*/}
+      {/*        <TemperIcon>*/}
+      {/*            <img src={temperIco} alt="temperIcon" />*/}
+      {/*        </TemperIcon>*/}
+      {/*    </TemperTop>*/}
+      {/*    <TemperBot>*/}
+      {/*        <span>매너온도</span>*/}
+      {/*    </TemperBot>*/}
+      {/*</Temperature>*/}
+    </UserDataWrap>
+  );
 });
 
 export default React.memo(DetailUserData);
