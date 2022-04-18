@@ -15,9 +15,13 @@ import { updateProfile } from "firebase/auth";
 import { MobileContainer } from "../components/common/MobileContainer";
 import { MobileInner } from "../components/common/MobileInner";
 import EditProfileHeader from "../components/layout/editProfile/editProfileHeader";
+import { useSelector } from "react-redux";
 
-const EditProfile = ({ refreshUser, userObj }) => {
+const EditProfile = ({ refreshUser }) => {
   const navigate = useNavigate();
+  const { userObj } = useSelector(({ user }) => ({
+    userObj: user.currentUser,
+  }));
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
   let newPhotoURL = useState(userObj.photoURL);
   const [attachment, setAttachment] = useState(userObj.photoURL);

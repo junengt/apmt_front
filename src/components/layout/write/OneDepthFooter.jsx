@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Inner } from "../Inner";
 import likeIconOff from "../../../images/ico/ico_like_count.png";
 import likeIconOn from "../../../images/ico/ico_like.png";
+import { Link } from "react-router-dom";
 
 const DepthFooter = styled.footer`
   position: fixed;
@@ -55,13 +56,14 @@ const ChatBx = styled.div``;
 const ChatBtn = styled.div`
   padding: 18px 14px;
   border-radius: 6px;
-  background-color: #d6d6d6;
+  background-color: #2d2d2d;
   font-size: 0.93rem;
   font-weight: 500;
   color: #fff;
+  cursor: pointer;
 `;
 
-function OneDepthFooter({ price }) {
+function OneDepthFooter({ chattingObj, isOwner, isLogin }) {
   const [toggleIcon, setToggleIcon] = useState(false);
   return (
     <DepthFooter>
@@ -73,12 +75,23 @@ function OneDepthFooter({ price }) {
             </button>
           </LikeBx>
           <PriceBx>
-            <PriceTag>{price}원</PriceTag>
+            <PriceTag>{chattingObj.price}원</PriceTag>
             <PriceNotice>가격제안불가</PriceNotice>
           </PriceBx>
         </LikePriceBx>
+
         <ChatBx>
-          <ChatBtn>채팅으로 거래하기</ChatBtn>
+          {isLogin ? (
+            isOwner ? (
+              "수정 삭제 버튼"
+            ) : (
+              <Link to="/chatroom" state={chattingObj}>
+                <ChatBtn>채팅으로 거래하기</ChatBtn>{" "}
+              </Link>
+            )
+          ) : (
+            "로그인해주세요."
+          )}
         </ChatBx>
       </DepthInner>
     </DepthFooter>

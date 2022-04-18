@@ -13,6 +13,15 @@ const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_MESSAGIN_ID,
   appId: process.env.REACT_APP_APP_ID,
   measurementId: process.env.REACT_APP_MEASUR_ID,
+
+  // apiKey: "AIzaSyAQRzx93mMQFPO4WhsH-ywlr971rP04Sbg",
+  // authDomain: "applemart-eeb42.firebaseapp.com",
+  // databaseURL:
+  //   "https://applemart-eeb42-default-rtdb.asia-southeast1.firebasedatabase.app",
+  // projectId: "applemart-eeb42",
+  // storageBucket: "applemart-eeb42.appspot.com",
+  // messagingSenderId: "183153102294",
+  // appId: "1:183153102294:web:72c4a2190f5bf9ec82e877",
 };
 
 export const firebaseInstance = initializeApp(firebaseConfig);

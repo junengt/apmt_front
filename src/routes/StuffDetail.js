@@ -11,6 +11,9 @@ import DetailSale from "../components/layout/write/DetailSale";
 import { useParams } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import itemOfJson from "../data/carrot.json";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import user from "../modules/user";
 
 const StuffDetailWrap = styled.div`
   position: relative;
@@ -18,6 +21,9 @@ const StuffDetailWrap = styled.div`
 
 function StuffDetail() {
   const param = useParams();
+  const { userObj } = useSelector(({ user }) => ({
+    userObj: user.currentUser,
+  }));
 
   const item = itemOfJson[param.id];
   const [trigger, setTrigger] = useState(false);
@@ -25,21 +31,28 @@ function StuffDetail() {
   const detailHead = useRef(null);
   const stuffs = [
     {
-      attachmentUrl: [item.img_src],
-      createAt: new Date().getTime() - 100000,
-      creatorId: "apple_mart",
-      id: "8Bp36P7OzIg6Lz5UTeVh",
-      input: {
-        title: item.title,
-        price: item.price,
-        contents: item.content,
-      },
+      photoList: [item.img_src],
+      afterDate: "1시간전",
+      id: 1,
+      creatorName: "test",
+      profileImg: [
+        "https://firebasestorage.googleapis.com/v0/b/nwitter-63c79.appspot.com/o/IhuBtJ1JcwZ1AKkV5D5r8cOOfVU2%2F5115280b-5606-46ca-97c9-28d5dd9a2b3e?alt=media&token=87553d4b-d01d-44e2-9b93-aab8511f43b2",
+      ],
+      creatorId: "usmkw124kasv",
+
+      title: item.title,
+      price: item.price,
+      content: item.content,
+
       view: 111,
       like: 10,
       region: item.region_name,
       tags: item.tags.split(","),
+      owner: false,
+      status: "ING",
     },
   ];
+  const [stuff, setStuff] = useState({ data: stuffs[0] });
   const history = useNavigate();
   const { search } = useLocation();
   // const query = queryString.parse(search);
@@ -60,9 +73,71 @@ function StuffDetail() {
   };
 
   useEffect(() => {
+    axios
+      .get("/items/" + param.id)
+      .then((result) => {
+        const resultObj = result.data.data;
+        console.log(resultObj.tags);
+        setStuff((prevState) => ({
+          ...prevState,
+          data: {
+            ...prevState.data,
+            photoList: resultObj.photoList,
+            afterDate: resultObj.afterDate,
+            id: resultObj.id,
+            creatorName: resultObj.creatorName,
+            profileImg: resultObj.profileImg,
+            creatorId: resultObj.creatorId,
+            //
+            view: 111,
+            like: 10,
+            title: resultObj.title,
+            price: resultObj.price,
+            content: resultObj.content,
+            //
+            region: resultObj.region,
+            tags: resultObj.tags,
+            owner: resultObj.owner,
+            status: resultObj.status,
+          },
+        }));
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
+  }, []);
+
+  useEffect(() => {
     scrollTrigger();
   }, [scrollTrigger]);
-
+  const {
+    id,
+    tags,
+    creatorName,
+    profileImg,
+    photoList,
+    creatorId,
+    region,
+    title,
+    content,
+    price,
+    afterDate,
+    view,
+    like,
+    status,
+    owner,
+  } = stuff.data;
+  const chattingObj = {
+    opponentName: creatorName,
+    opponentId: creatorId,
+    opponentPhoto: profileImg,
+    productId: id,
+    productName: title,
+    price: price,
+    status: status,
+    productPhoto: photoList[0],
+    chatRoomId: id + (userObj ? userObj.uid : ""),
+  };
   return (
     <>
       <section
@@ -72,58 +147,45 @@ function StuffDetail() {
           width: "100%",
         }}
       ></section>
-      {stuffs
-        ?.filter((currentItem) => currentItem.id === "8Bp36P7OzIg6Lz5UTeVh")
-        .map((stuffItem) => {
-          const {
-            id,
-            tags,
-            attachmentUrl,
-            creatorId,
-            region,
-            category,
-            input,
-            createAt,
-            view,
-            like,
-          } = stuffItem;
-          const { title, contents, price } = input;
-          return (
-            <Container
-              style={{
-                maxWidth: "1100px",
-                paddingRight: "10%",
-                paddingLeft: "10%",
-                width: "100%",
-              }}
-            >
-              <StuffDetailWrap key="1">
-                <OneDepthHeader trigger={trigger} />
-                <WriteSwiper carouselImg={attachmentUrl} />
-                <Inner>
-                  <Link to={"/seller_profile/" + creatorId}>
-                    {" "}
-                    <DetailUserData
-                      username={creatorId}
-                      region={region}
-                      ref={detailHead}
-                    />
-                  </Link>
-                  <DetailContents
-                    view={view}
-                    like={like}
-                    title={title}
-                    contents={contents}
-                    time={createAt}
-                    tags={tags}
-                  />
-                  <DetailSale username={creatorId} stuff={stuffs} />
-                </Inner>
-                <OneDepthFooter price={2000} />
-              </StuffDetailWrap>
-            </Container>
-          );
-        })}
+
+      <Container
+        style={{
+          maxWidth: "1100px",
+          paddingRight: "10%",
+          paddingLeft: "10%",
+          width: "100%",
+        }}
+      >
+        <StuffDetailWrap key="1">
+          <OneDepthHeader trigger={trigger} />
+          <WriteSwiper carouselImg={photoList} />
+          <Inner>
+            <Link to={"/seller_profile/" + creatorId}>
+              {" "}
+              <DetailUserData
+                profileImg={profileImg}
+                username={creatorName}
+                ref={detailHead}
+              />
+            </Link>
+            <DetailContents
+              view={view}
+              like={like}
+              title={title}
+              region={region}
+              contents={content}
+              time={afterDate}
+              tags={tags}
+            />
+            <DetailSale username={creatorName} stuff={stuffs} />
+          </Inner>
+          <OneDepthFooter
+            isOwner={owner}
+            chattingObj={chattingObj}
+            isLogin={userObj}
+          />
+        </StuffDetailWrap>
+      </Container>
     </>
   );
 }

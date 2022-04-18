@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Inner } from "../components/layout/Inner";
 import ReviewHeader from "../components/layout/review/ReviewHeader";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const SaleWrap = styled.div`
   display: block;
@@ -19,7 +20,10 @@ const SaleInner = styled(Inner)`
   background: rgb(250, 250, 250);
 `;
 
-const Review = ({ userObj }) => {
+const Review = () => {
+  const { userObj } = useSelector(({ user }) => ({
+    userObj: user.currentUser,
+  }));
   const history = useNavigate();
   const params = useParams();
 

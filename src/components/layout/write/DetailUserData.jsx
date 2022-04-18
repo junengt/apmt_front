@@ -98,7 +98,7 @@ const TemperIcon = styled.div`
   margin-left: 10px;
 `;
 
-const DetailUserData = forwardRef(({ username, region }, ref) => {
+const DetailUserData = forwardRef(({ username, profileImg }, ref) => {
   const temper = Number((Math.random() * 100).toFixed(1));
 
   const temperFunc = ([props1, props2, props3, props4, props5, props6]) => {
@@ -141,7 +141,7 @@ const DetailUserData = forwardRef(({ username, region }, ref) => {
     <UserDataWrap>
       <UserData ref={ref}>
         <UserThumbnail>
-          <img src={profile} alt="profile" />
+          <img src={profileImg} alt="profile" />
         </UserThumbnail>
         <UserProfile>
           <UserId>{username}</UserId>

@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
-const Home = ({ userObj }) => {
+import { useSelector } from "react-redux";
+const Home = () => {
+  const { userObj } = useSelector(({ user }) => ({
+    userObj: user.currentUser,
+  }));
   return (
     <>
       <div className="bg-light ">

@@ -1,0 +1,268 @@
+@font-face
+ { font-family: "Spoqa Han Sans";
+  }
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Spoqa Han Sans";
+  }
+
+  .center{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: rgb(250, 250, 250);
+  }
+  
+.form{
+  width: 550px;
+  box-shadow: -3px -5px 10px #edeff1,
+    7px 7px 10px #cacfd8;
+  border-radius: 15px;
+  
+}
+.chatContent {
+  height: 450px;
+  overflow-y:auto;
+  padding: 10px;
+  display:flex;
+  flex-direction: column-reverse;
+}
+.chatContent li {
+  margin-top: 5px;
+}
+
+.chatBox {
+  background: #eee;
+  padding: 5px;
+  border-radius: 5px;
+  float: left;
+}
+
+.opponentField{
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  font-size: 23px;
+  font-weight: bold;
+  color: azure;
+  padding-top: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 100%;
+  height: 60px;
+  box-shadow: -3px -5px 10px #edeff1,
+    7px 7px 10px #cacfd8;
+  position: justify;
+  border-bottom: 2px solid #cacfd8;
+  display: flex;
+  background-color: gray;
+  justify-content: space-between;
+  text-align : justify;
+  align-items: center;
+}
+
+.opponentBack { 
+  border: 0;
+  border-radius: 10px;
+  outline: 0;
+  background-color: gray;
+  color: #e0e4eb;
+  margin-left: 10px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+
+.opponentBack:hover {
+  color: black;
+}
+
+.opponentPhoto {
+  border-radius: 50%;
+  width: 40px;
+  height:40px;
+  margin: 0px 15px;
+  background-color: rgb(202, 202, 202);
+}
+
+.productField{
+  font-size: 17px;
+  font-weight: bold;
+  width: 100%;
+  height: 70px;
+  position: relative;
+  border-bottom: 2px solid #cacfd8;
+  text-align : justify;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e0e4eb;
+  padding-left: 15px;
+  padding-right: 5px;
+}
+
+.productPhoto {
+  border-radius: 20%;
+  width: 45px;
+  height: 45px;
+  margin: 0px 15px;
+  background-color: rgb(202, 202, 202);
+}
+
+.tradeButton {
+  font-size: 20px;
+  border: 0;
+  border-radius: 20px;
+  outline: 0;
+  background-color: rgb(78, 78, 78);
+  color: #e0e4eb;
+  margin-right: 15px;
+
+  width: 100px;
+  height: 40px;
+}
+
+.tradeButton:hover {
+  color: rgb(253, 253, 253);
+}
+
+.inputGroup {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    font-size: 23px;
+    color: white;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 100%;
+    height: 50px;
+    box-shadow: -3px -5px 10px #edeff1,
+      7px 7px 10px #cacfd8;
+    position: justify;
+    border-bottom: 2px solid #cacfd8;
+    display: flex;
+    background-color: rgb(180, 180, 180);
+    justify-content: space-between;
+    text-align : justify;
+    align-items: center;
+}
+
+.inputContent {
+  padding: 5px 15px;
+  font-size: 17px;
+  width: 450px;
+  border-radius: 15px;
+  border: none;
+}
+
+input.planeButton {
+  background-image: url(../icon/paperPlane.svg);
+  background-color: transparent; 
+  background-repeat: no-repeat;  
+  background-position: 0px 0px;  
+  border: none;           
+  cursor: pointer;        
+  height: 25px;           
+  width: 25px;
+  padding-left: 16px;     
+}
+
+.file label {
+  display: inline-block;
+  background-image: url(../icon/paperClip.svg);
+  background-color: transparent; 
+  background-repeat: no-repeat;  
+  background-position: 0px 0px;  
+  border: none;           
+  cursor: pointer;        
+  height: 25px;          
+  width: 25px;
+  padding-left: 16px;     
+}
+
+.file input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  clip: rect(0,0,0,0);
+  overflow: hidden;
+  padding: 0;
+}
+
+input:focus {outline: none;} 
+
+.ownBubble {
+	min-width: 60px;
+	max-width: 300px;
+	padding: 14px 18px;
+  margin: 6px 18px;
+	background-color: #19191a;
+	border-radius: 16px 16px 0 16px;
+	border: 1px solid #585858;
+	float: right;
+  align-items: end;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    height: 280px;
+    width: 550px;
+    border: 1px solid #ccc;
+    background: gray;
+    outline: none;
+    padding: 20px;
+    box-shadow: -3px -5px 10px #edeff1,
+    7px 7px 10px #cacfd8;
+    border-radius: 15px;
+  }
+
+  .close {
+    width: 30px;
+    height: 30px;
+    background-color: transparent; 
+    background-repeat: no-repeat;  
+    background-position: 0px 0px;  
+    outline: none;
+    border-radius: 5px;
+  }
+
+  .modalText {
+    text-align: center;
+    font-size: 25px;
+    color: azure;
+    margin-bottom: 30px;
+
+  }
+
+  .modalGroup {
+    display:flex;
+    justify-content: center;
+    color: azure;
+    height: 100%;
+  }
+
+  .modalButton {
+    font-size: 20px;
+    border: 0;
+    border-radius: 20px;
+    outline: 0;
+    background-color: black;
+    color: azure;
+    margin-right: 15px;
+    width: 180px;
+    height: 40px;
+  }
+
+  .modalButton:hover {
+    background-color: azure;
+    color: black
+  }

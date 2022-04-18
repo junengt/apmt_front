@@ -69,7 +69,7 @@ const ResetStyles = createGlobalStyle`
         text-indent:10px;
     }
     input[type=text][readonly], input[type=password][readonly], input[type=email][readonly], input[type=tel][readonly] , input[type=number][readonly] {
-        background:#eee; color:#888
+        background:#eee; 
     }
     input[type=password]{
         font-family:pass;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   DanggeunInner,
@@ -16,10 +16,14 @@ import { MobileInner } from "../components/common/MobileInner";
 import ProfileHeader from "../components/layout/profile/ProfileHeader";
 import styles from "../css/Profile.module.css";
 import ProfileItem from "../components/layout/profile/ProfileItem";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
-const Profile = ({ userObj, refreshUser }) => {
-  const navigate = useNavigate();
-  const profileItems = [
+const Profile = ({ refreshUser }) => {
+  const { userObj } = useSelector(({ user }) => ({
+    userObj: user.currentUser,
+  }));
+  const [profileItems, setProfileItems] = useState([
     {
       title: "상품명",
       date: "22.03.21 12:53",
@@ -27,12 +31,49 @@ const Profile = ({ userObj, refreshUser }) => {
       price: "11000",
     },
     {
-      title: "(은행) 계좌번호",
       date: "22.03.21 12:53",
       division: "출금",
       price: "11000",
+      title: "계좌거래",
     },
-  ];
+  ]);
+
+  const navigate = useNavigate();
+  const [price, setPrice] = useState(0);
+  const pointOnclick = (point, chargeOrRefund) => {
+    axios
+      .post("/point", {
+        point: point,
+        chargeOrRefund: chargeOrRefund,
+      })
+      .then((result) => {
+        setPrice(result.data.point);
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
+  };
+
+  useEffect(() => {
+    axios
+      .get("/user")
+      .then((result) => {
+        setPrice(result.data.account);
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
+    axios
+      .get("/profileItem")
+      .then((result) => {
+        console.log(result);
+        setProfileItems(...[result.data.data]);
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
+  }, [price]);
+
   const onLogOutClick = async () => {
     await authService.signOut();
     refreshUser("logout");
@@ -47,12 +88,13 @@ const Profile = ({ userObj, refreshUser }) => {
           <ProfileWrap
             photoURL={userObj.photoURL}
             name={userObj.displayName}
-            addr={""}
+            price={price}
+            priceOnclick={pointOnclick}
           />
           <DanggeunInner>
             <ListBlock>
-              <Link to="/chat">
-                <LogOut onClick={onLogOutClick}>
+              <Link to="/chatlist">
+                <LogOut onClick={""}>
                   <Ptag>대화내역</Ptag>
                 </LogOut>
               </Link>

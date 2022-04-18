@@ -72,7 +72,7 @@ const FontSize = styled.span`
   text-align: center;
 `;
 
-function ProfileWrap({ name, photoURL }) {
+function ProfileWrap({ name, photoURL, price, priceOnclick }) {
   return (
     <ProfileInner>
       <ProfileContainer>
@@ -93,7 +93,7 @@ function ProfileWrap({ name, photoURL }) {
             </Link>
           </ProfileView>
         </ProfileTop>
-        <ProfilePrice price={"10,000"}></ProfilePrice>
+        <ProfilePrice price={price} priceOnclick={priceOnclick}></ProfilePrice>
         <ProfileBotWrap>
           <ProfileBot>
             <OwnList>

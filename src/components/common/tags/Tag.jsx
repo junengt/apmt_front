@@ -87,22 +87,22 @@ const Tag = ({ tags, listState, isDetail }) => {
 
   return isDetail ? (
     <MiniTagWrap>
-      {tags.map((e) => {
-        if (e === "") {
+      {tags?.map((e) => {
+        if (e.id === "") {
           return "";
         }
-        return <MiniTagContent name={e}>#{e} </MiniTagContent>;
+        return <MiniTagContent name={e.id}>#{e.id} </MiniTagContent>;
       })}
     </MiniTagWrap>
   ) : (
     <Tagwrap isDetail={isDetail}>
-      {tags.map((e) => {
-        if (e === "") {
+      {tags?.map((e) => {
+        if (e.id === "") {
           return "";
         }
         return (
-          <TagContent isDetail={isDetail} onClick={onClick} name={e}>
-            #{e}{" "}
+          <TagContent isDetail={isDetail} onClick={onClick} name={e.id}>
+            #{e.id}{" "}
           </TagContent>
         );
       })}

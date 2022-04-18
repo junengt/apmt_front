@@ -9,6 +9,7 @@ import { MobileContainer } from "../components/common/MobileContainer";
 import { MobileInner } from "../components/common/MobileInner";
 import EditProfileHeader from "../components/layout/editProfile/editProfileHeader";
 import ProfileHeader from "../components/layout/profile/ProfileHeader";
+import axios from "axios";
 
 const Auth = () => {
   const [mynumber, setnumber] = useState("");
@@ -39,11 +40,26 @@ const Auth = () => {
     final
       .confirm(otp)
       .then((result) => {
+        const user = result.user;
+        console.log(result);
         // success
-        alert("인증 성공");
-        navigate("/");
+        axios({
+          url: "/user",
+          method: "post",
+          headers: {
+            Authorization: "Bearer " + user.accessToken,
+          },
+        })
+          .then((result) => {
+            alert("인증 성공");
+            navigate("/");
+          })
+          .catch((reason) => {
+            console.log(reason);
+          });
       })
       .catch((err) => {
+        console.log(err);
         alert("잘못된 인증번호 입니다.");
       });
   };

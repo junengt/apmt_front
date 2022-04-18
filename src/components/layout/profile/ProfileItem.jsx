@@ -1,9 +1,11 @@
 import React from "react";
 import { DanggeunInner, ListBlock } from "./MyDanggeunStyle";
 import styles from "../../../css/Profile.module.css";
+import { returnTime } from "../write/commonFunc";
 
 const ProfileItem = ({ item }) => {
   const { title, date, division, price } = item;
+  console.log(date);
   return (
     <>
       <DanggeunInner>
@@ -18,7 +20,7 @@ const ProfileItem = ({ item }) => {
               }
             />
             <p style={{ textAlign: "left", width: "50%", fontSize: "15px" }}>
-              <span>{title}</span>
+              {title && <span>{title}</span>}
               <br></br>
               {date} | {division}{" "}
             </p>

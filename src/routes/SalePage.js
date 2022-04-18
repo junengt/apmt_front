@@ -8,6 +8,7 @@ import SaleStuff from "../components/layout/sale/SaleStuff";
 import itemOfJson from "../data/carrot.json";
 import { MobileContainer } from "../components/common/MobileContainer";
 import { MobileInner } from "../components/common/MobileInner";
+import { useSelector } from "react-redux";
 
 const SaleWrap = styled.div`
   display: block;
@@ -22,7 +23,10 @@ const SaleInner = styled(Inner)`
   background: rgb(250, 250, 250);
 `;
 
-const SalePage = ({ userObj }) => {
+const SalePage = () => {
+  const { userObj } = useSelector(({ user }) => ({
+    userObj: user.currentUser,
+  }));
   const [tab, setTab] = useState(1);
   const user = userObj;
 

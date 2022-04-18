@@ -11,6 +11,7 @@ import { MobileInner } from "../components/common/MobileInner";
 import LikeHeader from "../components/layout/like/LikeHeader";
 import likeIconOn from "../images/ico/ico_like.png";
 import likeIconOff from "../images/ico/ico_like_count.png";
+import { useSelector } from "react-redux";
 
 const SaleWrap = styled.div`
   display: block;
@@ -25,7 +26,10 @@ const SaleInner = styled(Inner)`
   background: rgb(250, 250, 250);
 `;
 
-const LikePage = ({ userObj }) => {
+const LikePage = () => {
+  const { userObj } = useSelector(({ user }) => ({
+    userObj: user.currentUser,
+  }));
   const [tab, setTab] = useState(1);
   const user = userObj;
 

@@ -16,7 +16,10 @@ import Tag from "../components/common/tags/Tag";
 import { useSelector } from "react-redux";
 import getLocation from "../components/layout/neighborhood/getLocation";
 import Location from "../components/layout/write/Location";
-const WritingStuff = ({ tags, tagsState, userObj }) => {
+const WritingStuff = ({ tags, tagsState }) => {
+  const { userObj } = useSelector(({ user }) => ({
+    userObj: user.currentUser,
+  }));
   const [inputs, setInputs] = useState({ title: "", price: "", contents: "" });
   const [attachment, setAttachment] = useState([]);
   const [loading, setLoading] = useState(false);

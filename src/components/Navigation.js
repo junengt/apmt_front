@@ -10,8 +10,12 @@ import { Link, useNavigate } from "react-router-dom";
 import Mac from "./toggleGroup/Mac";
 import Watch from "./toggleGroup/Watch";
 import AirPods from "./toggleGroup/AirPods";
+import { useSelector } from "react-redux";
 
-const Navigation = ({ listState, list, userObj }) => {
+const Navigation = ({ listState, list }) => {
+  const { userObj } = useSelector(({ user }) => ({
+    userObj: user.currentUser,
+  }));
   const [value, setValue] = useState([]);
 
   const handleChange = (val) => {
@@ -41,6 +45,8 @@ const Navigation = ({ listState, list, userObj }) => {
     "#/sale",
     "#/buy",
     "#/like",
+    "#/chatroom",
+    "#/chatlist",
   ];
   if (pathArr.findIndex((path) => path === document.location.hash) > -1) {
     return null;

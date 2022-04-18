@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import { Form, Modal } from "react-bootstrap";
 import styled from "styled-components";
+import { number } from "tailwindcss/lib/util/dataTypes";
 const PointBtn = styled.span`
   height: 35px;
   border: 2px solid #f0f0f0;
@@ -14,18 +15,38 @@ const PointBtn = styled.span`
   background-color: #ffffff;
   cursor: pointer;
 `;
-const PointChargeModal = ({}) => {
+const PointChargeModal = ({ price, priceOnclick }) => {
   const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setCharge(0);
+  };
   const handleShow = () => setShow(true);
+  const [charge, setCharge] = useState(0);
+  const [afterPrice, setAfterPrice] = useState(price);
+  const onChangeHandler = (e) => {
+    setCharge(e.target.value);
+  };
 
+  const onClickHandler = () => {
+    priceOnclick(charge, false);
+    setShow(false);
+    setCharge(0);
+  };
+
+  const onBlurHandler = () => {
+    if (parseInt(price) < parseInt(charge)) {
+      alert("보유금액보다 환전금액이 많습니다.");
+      setCharge("");
+    } else {
+      setAfterPrice(parseInt(price) - parseInt(charge));
+    }
+  };
   return (
     <>
       <PointBtn style={{ fontSize: "14px" }} onClick={handleShow}>
         환전
       </PointBtn>
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>환전</Modal.Title>
@@ -36,14 +57,18 @@ const PointChargeModal = ({}) => {
               <Form.Label>얼마를 환전하시겠습니까?</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="환전 받을 금액 입력"
+                placeholder="환전할 금액 입력"
+                value={charge}
+                onChange={onChangeHandler}
                 autoFocus
+                onBlur={onBlurHandler}
               />
             </Form.Group>
           </Form>
+          <span>환전 후 금액 : {afterPrice}</span>
         </Modal.Body>
         <Modal.Footer>
-          <PointBtn variant="primary" onClick={""}>
+          <PointBtn variant="primary" onClick={onClickHandler}>
             환전하기
           </PointBtn>
         </Modal.Footer>

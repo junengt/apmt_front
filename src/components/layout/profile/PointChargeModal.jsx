@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import { Form, Modal } from "react-bootstrap";
 import styled from "styled-components";
+import { number } from "tailwindcss/lib/util/dataTypes";
 const PointBtn = styled.span`
   height: 35px;
   border: 2px solid #f0f0f0;
@@ -14,12 +15,28 @@ const PointBtn = styled.span`
   background-color: #ffffff;
   cursor: pointer;
 `;
-const PointChargeModal = ({}) => {
+const PointChargeModal = ({ price, priceOnclick }) => {
   const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setCharge(0);
+  };
   const handleShow = () => setShow(true);
+  const [charge, setCharge] = useState(0);
+  const [afterPrice, setAfterPrice] = useState(price);
+  const onChangeHandler = (e) => {
+    setCharge(e.target.value);
+  };
 
+  const onClickHandler = () => {
+    priceOnclick(charge, true);
+    setShow(false);
+    setCharge(0);
+  };
+
+  const onBlurHandler = () => {
+    setAfterPrice(parseInt(charge) + parseInt(price));
+  };
   return (
     <>
       <PointBtn style={{ fontSize: "14px" }} onClick={handleShow}>
@@ -37,13 +54,17 @@ const PointChargeModal = ({}) => {
               <Form.Control
                 type="number"
                 placeholder="충전할 금액 입력"
+                value={charge}
+                onChange={onChangeHandler}
                 autoFocus
+                onBlur={onBlurHandler}
               />
             </Form.Group>
           </Form>
+          <span>충전 후 금액 : {afterPrice}</span>
         </Modal.Body>
         <Modal.Footer>
-          <PointBtn variant="primary" onClick={""}>
+          <PointBtn variant="primary" onClick={onClickHandler}>
             충전하기
           </PointBtn>
         </Modal.Footer>

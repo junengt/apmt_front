@@ -10,6 +10,7 @@ import { MobileContainer } from "../components/common/MobileContainer";
 import { MobileInner } from "../components/common/MobileInner";
 import BuyHeader from "../components/layout/buy/BuyHeader";
 import BuyBtnList from "../components/layout/buy/BuyBtnList";
+import { useSelector } from "react-redux";
 
 const SaleWrap = styled.div`
   display: block;
@@ -24,9 +25,11 @@ const SaleInner = styled(Inner)`
   background: rgb(250, 250, 250);
 `;
 
-const BuyPage = ({ userObj }) => {
+const BuyPage = () => {
   const [tab, setTab] = useState(1);
-
+  const { userObj } = useSelector(({ user }) => ({
+    userObj: user.currentUser,
+  }));
   const history = useNavigate();
 
   return (

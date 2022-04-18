@@ -1,0 +1,60 @@
+* {
+  font-family: 'Avenir';
+}
+.bubbleWrapper {
+	padding: 10px 10px;
+	display: flex;
+	justify-content: flex-end;
+	flex-direction: column;
+	align-self: flex-end;
+  color: #fff;
+}
+.inlineContainer {
+  display: inline-flex;
+}
+.inlineContainerOwn {
+  display: inline-flex;
+  flex-direction: row-reverse;
+}
+.inlineIcon {
+  width:20px;
+  object-fit: contain;
+}
+.ownBubble {
+	min-width: 60px;
+	max-width: 700px;
+	padding: 14px 18px;
+  	margin: 6px 8px;
+	background-color: #19191a;
+	border-radius: 16px 16px 0 16px;
+	border: 1px solid #585858;
+	text-align: left;
+}
+.otherBubble {
+	min-width: 60px;
+	max-width: 700px;
+	padding: 10px 14px;
+  	margin: 5px 8px;
+	background-color: #a0a2a3;
+	border-radius: 16px 16px 16px 0;
+	border: 1px solid #919292;
+	text-align: left;
+}
+.own {
+	align-self: flex-end;
+}
+.other {
+	align-self: flex-start;
+}
+span.own,
+span.other{
+  font-size: 14px;
+  color: grey;
+}
+
+.clipPhoto {
+    border-radius: 15px;
+    width: 250px;
+    height:250px;
+    margin: 0px 10px 10px;
+  }

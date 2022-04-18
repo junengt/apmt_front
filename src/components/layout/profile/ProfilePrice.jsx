@@ -18,6 +18,7 @@ const PriceShape = styled.span`
 
 const PriceInput = styled(WriteInput)`
   width: 150px;
+
   background: rgb(250, 250, 250) !important;
 `;
 const PointBtn = styled.span`
@@ -33,7 +34,7 @@ const PointBtn = styled.span`
   cursor: pointer;
 `;
 
-function ProfilePrice({ onChange, price }) {
+function ProfilePrice({ onChange, price, priceOnclick }) {
   return (
     <PriceWrap>
       <PriceShape price={price}>￦</PriceShape>
@@ -43,10 +44,9 @@ function ProfilePrice({ onChange, price }) {
         name="price"
         onChange={onChange}
         value={price}
-        placeholder="가격 입력 (선택사항)"
       />
-      <PointChargeModal />
-      <PointRefundModal />
+      <PointChargeModal price={price} priceOnclick={priceOnclick} />
+      <PointRefundModal price={price} priceOnclick={priceOnclick} />
     </PriceWrap>
   );
 }

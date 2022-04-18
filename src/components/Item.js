@@ -22,13 +22,22 @@ const EndProduct = styled.div`
   transform: translate(-50%, -50%);
 `;
 const Item = ({ item }) => {
-  const { id, title, region_name, price, img_src } = item;
-  const status = "end";
+  const { id, title, region, price, img, status, afterDate } = item;
   const isEnd = status === "end";
+  const priceCommaFunc = (price) => {
+    let NumberPrice = Number(price);
+    if (NumberPrice >= 99999999) NumberPrice = 99999999;
+    let priceComma = NumberPrice.toString().replace(
+      /\B(?=(\d{3})+(?!\d))/g,
+      ","
+    );
+    if (priceComma === "0") priceComma = "";
+    return priceComma;
+  };
   return (
     <>
       <ItemImgBox>
-        <img className="product-image" src={img_src} alt="Product image" />
+        <img className="product-image" src={img} alt="Product image" />
         {isEnd && <EndProduct>판매완료</EndProduct>}
         <TextBox>
           <p
@@ -41,12 +50,12 @@ const Item = ({ item }) => {
             className="text-lg-start small-text"
             style={{ marginBottom: "0.1rem", justifyContent: "start" }}
           >
-            {region_name}
+            {region} | {afterDate}
           </p>
           <Row>
             <Col>
               {" "}
-              <p className="text-lg-start">{price}</p>
+              <p className="text-lg-start">{priceCommaFunc(price)}원</p>
             </Col>
           </Row>
         </TextBox>

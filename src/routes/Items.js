@@ -11,18 +11,33 @@ import * as Icon from "../components/common/neighbor/Icon";
 import WritePlus from "../components/layout/write/WritePlus";
 import Tag from "../components/common/tags/Tag";
 import ToggleButtons from "../components/common/tags/ToggleButtons";
-import itemOfJson from "../data/carrot.json";
+//import itemOfJson from "../data/carrot.json";
 import queryString from "query-string";
+import axios from "axios";
 
 const Items = ({ listState, list }) => {
   const [input, setInput] = useState("empty");
   const [searchParams, setSearchParams] = useSearchParams();
+  const [posts, setPosts] = useState([]);
+
   const params = useLocation();
   let itemIndex = 0;
   let maxItem = 100;
   const searchText = queryString.parse(params.search).search
     ? queryString.parse(params.search).search
     : "";
+  const axiosInstance = axios.create({ headers: {} });
+  useEffect(() => {
+    axios
+      .get("/items?search=" + searchText, axiosInstance)
+      .then((result) => {
+        setPosts(result.data.data);
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
+  }, [searchText]);
+
   const OnSearch = (e) => {
     if (e.key === "Enter" && input === "empty") {
       alert("검색어를 입력해주세요");
@@ -37,7 +52,6 @@ const Items = ({ listState, list }) => {
       setInput(e.target.value);
     }
   };
-  console.log(list);
 
   const tagRender = (arr) => {
     if (arr) {
@@ -122,38 +136,48 @@ const Items = ({ listState, list }) => {
           }}
         >
           <div className="row">
-            {itemOfJson
-              .filter((el) => el.title.includes(searchText))
-              .map((e, i) => {
-                let isFounded = () => {
-                  if (!list || list.length === 0) {
-                    return true;
-                  }
-                  if (list && list.length < 2) {
-                    return (
-                      list && e.tags.split(",").some((ai) => list.includes(ai))
-                    );
-                  } else {
-                    return (
-                      list && e.tags.split(",").every((ai) => list.includes(ai))
-                    );
-                  }
-                };
+            {posts.map((e) => (
+              <Link
+                className="col-xs-12 col-sm-6 col-lg-4 text-black"
+                to={"/items/" + e.id}
+                style={{ textDecoration: "none" }}
+                key={e.id}
+              >
+                <Item key={e.id} item={e} />
+              </Link>
+            ))}
+            {/*{itemOfJson*/}
+            {/*  .filter((el) => el.title.includes(searchText))*/}
+            {/*  .map((e, i) => {*/}
+            {/*    let isFounded = () => {*/}
+            {/*      if (!list || list.length === 0) {*/}
+            {/*        return true;*/}
+            {/*      }*/}
+            {/*      if (list && list.length < 2) {*/}
+            {/*        ret urn (*/}
+            {/*          list && e.tags.split(",").some((ai) => list.includes(ai))*/}
+            {/*        );*/}
+            {/*      } else {*/}
+            {/*        return (*/}
+            {/*          list && e.tags.split(",").every((ai) => list.includes(ai))*/}
+            {/*        );*/}
+            {/*      }*/}
+            {/*    };*/}
 
-                if (isFounded() && itemIndex < maxItem) {
-                  itemIndex++;
-                  return (
-                    <Link
-                      className="col-xs-12 col-sm-6 col-lg-4 text-black"
-                      to={"/items/" + i}
-                      style={{ textDecoration: "none" }}
-                      key={i}
-                    >
-                      <Item key={i} item={e} />
-                    </Link>
-                  );
-                }
-              })}
+            {/*    if (isFounded() && itemIndex < maxItem) {*/}
+            {/*      itemIndex++;*/}
+            {/*      return (*/}
+            {/*        <Link*/}
+            {/*          className="col-xs-12 col-sm-6 col-lg-4 text-black"*/}
+            {/*          to={"/items/" + i}*/}
+            {/*          style={{ textDecoration: "none" }}*/}
+            {/*          key={i}*/}
+            {/*        >*/}
+            {/*          <Item key={i} item={e} />*/}
+            {/*        </Link>*/}
+            {/*      );*/}
+            {/*    }*/}
+            {/*  })}*/}
           </div>
           <WritePlus />
         </div>

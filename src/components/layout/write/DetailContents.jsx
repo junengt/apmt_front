@@ -22,17 +22,19 @@ const ContentsInfo = styled.div`
 `;
 const ContentsTxt = styled.p``;
 
-function DetailContents({ title, contents, time, tags, view, like }) {
+function DetailContents({ title, contents, time, tags, view, like, region }) {
   return (
     <ContentsWrap>
       <ContentsTitle>{title || "임시"}</ContentsTitle>
       <Tag tags={tags} isDetail={true}></Tag>
 
       <ContentsInfo>
-        <span>{returnTime(time)}전</span>
+        <span>
+          {region} · {time}
+        </span>
       </ContentsInfo>
       <ContentsTxt>
-        {contents.split(/\n/gi).map((e) => {
+        {contents?.split(/\n/gi).map((e) => {
           return (
             <>
               {e}
