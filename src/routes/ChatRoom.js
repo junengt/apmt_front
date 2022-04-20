@@ -160,9 +160,10 @@ const ChatRoom = () => {
             <img
               className={styles.productPhoto}
               src={
-                chattingObj.productPhoto == ""
-                  ? require("../icon/applelogo.png")
-                  : chattingObj.productPhoto
+                chattingObj.productPhoto
+                  ? chattingObj.productPhoto.photoPath ||
+                    chattingObj.productPhoto
+                  : require("../icon/applelogo.png")
               }
               width="50px"
               height="50px"

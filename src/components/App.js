@@ -8,7 +8,7 @@ import { setUser } from "../modules/user";
 import axios from "axios";
 
 function App() {
-  axios.defaults.baseURL = "http://localhost:8080";
+  axios.defaults.baseURL = "https://applemt.click/api";
 
   const [init, setInit] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);

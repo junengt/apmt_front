@@ -110,7 +110,7 @@ const ChatItem = ({ userObj, chatObj }) => {
         <ItemImg
           src={
             chattingObj.productPhoto
-              ? chattingObj.productPhoto
+              ? chattingObj.productPhoto.photoPath || chattingObj.productPhoto
               : require("../../../icon/applelogo.png")
           }
           alt="profile"
