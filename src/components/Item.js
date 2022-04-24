@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styled from "styled-components";
+import priceCommaFunc from "../utils/priceCommaFunc";
 
 const ItemImgBox = styled.div`
   margin: 1rem;
@@ -24,16 +25,7 @@ const EndProduct = styled.div`
 const Item = ({ item }) => {
   const { id, title, region, price, img, status, afterDate } = item;
   const isEnd = status === "end";
-  const priceCommaFunc = (price) => {
-    let NumberPrice = Number(price);
-    if (NumberPrice >= 99999999) NumberPrice = 99999999;
-    let priceComma = NumberPrice.toString().replace(
-      /\B(?=(\d{3})+(?!\d))/g,
-      ","
-    );
-    if (priceComma === "0") priceComma = "";
-    return priceComma;
-  };
+
   return (
     <>
       <ItemImgBox>

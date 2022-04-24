@@ -47,6 +47,7 @@ const Navigation = ({ listState, list }) => {
     "#/like",
     "#/chatroom",
     "#/chatlist",
+    "#/writeReview",
   ];
   if (pathArr.findIndex((path) => path === document.location.hash) > -1) {
     return null;
@@ -73,7 +74,11 @@ const Navigation = ({ listState, list }) => {
       >
         <Nav style={{ alignItems: "center" }} className="center navbar-nav">
           <NavItem className="nav-item-box">
-            <Link to="/" className="nav-link">
+            <Link
+              to="/"
+              className="nav-link"
+              style={{ width: "1px", display: "" }}
+            >
               <img
                 src="https://www.apple.com/ac/globalnav/7/en_US/images/be15095f-5a20-57d0-ad14-cf4c638e223a/globalnav_apple_image__b5er5ngrzxqq_large.svg"
                 alt="logo"

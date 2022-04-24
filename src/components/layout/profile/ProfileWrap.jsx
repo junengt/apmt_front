@@ -14,6 +14,7 @@ import styles from "../../../css/Profile.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
 import ProfilePrice from "./ProfilePrice";
+import priceCommaFunc from "../../../utils/priceCommaFunc";
 
 const ProfileInner = styled(Inner)`
   padding-bottom: 20px;

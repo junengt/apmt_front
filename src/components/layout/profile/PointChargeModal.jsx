@@ -23,7 +23,7 @@ const PointChargeModal = ({ price, priceOnclick }) => {
   };
   const handleShow = () => setShow(true);
   const [charge, setCharge] = useState(0);
-  const [afterPrice, setAfterPrice] = useState(price);
+  const [afterPrice, setAfterPrice] = useState(parseInt(price));
   const onChangeHandler = (e) => {
     setCharge(e.target.value);
   };

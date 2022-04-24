@@ -24,6 +24,7 @@ import SellerProfile from "../routes/SellerProfile";
 import { useSelector } from "react-redux";
 import ChatRoom from "../routes/ChatRoom";
 import ChatList from "../routes/ChatList";
+import ReviewWrite from "../routes/ReviewWrite";
 
 const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
   const [list, setList] = useState();
@@ -48,15 +49,14 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
         <Routes>
           {isLoggedIn && (
             <>
+              <Route path="/writeReview" element={<ReviewWrite />} />
               <Route
                 path="/chatlist"
                 element={<ChatList refreshUser={refreshUser} />}
               />
               <Route
                 path="/chatroom"
-                element={
-                  <ChatRoom refreshUser={refreshUser} userObj={userObj} />
-                }
+                element={<ChatRoom refreshUser={refreshUser} />}
               />
               <Route path="/seller_profile/:uid" element={<SellerProfile />} />
               <Route path="/sale" element={<SalePage />} />

@@ -32,6 +32,20 @@ const BuyPage = () => {
   }));
   const history = useNavigate();
 
+  const reviewPostObj = {
+    matter: {
+      title: "제목",
+      constant: "내용",
+      price: "가격",
+    },
+    thumb: "썸네일src",
+    time: "~~후",
+    creatorName: "글쓴이",
+    region: "위치",
+    status: "상태",
+    review: "content",
+  };
+
   return (
     <MobileContainer>
       <MobileInner>

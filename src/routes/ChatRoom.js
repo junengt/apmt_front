@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { dbService, storageService } from "../utils/api/fbInstance";
+import {
+  authService,
+  dbService,
+  storageService,
+} from "../utils/api/fbInstance";
 import Message from "../components/Message";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "../css/ChatRoom.module.css";
@@ -8,7 +12,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
 import { ReactComponent as Close } from "../icon/close.svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Circles } from "react-loader-spinner";
 import {
   doc,
   onSnapshot,
@@ -17,10 +22,25 @@ import {
   setDoc,
   addDoc,
   query,
+  updateDoc,
+  getDocs,
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import axios from "axios";
+
+import priceCommaFunc from "../utils/priceCommaFunc";
+import statusSwitchFunc from "../utils/statusSwitchFunc";
+import styled from "styled-components";
+
+const ExitBtn = styled.div`
+  font-size: 15px;
+  margin-bottom: 10px;
+`;
 
 const ChatRoom = () => {
+  const [loading, setLoading] = useState(false);
+  const [point, setPoint] = useState(0);
+  const dispatch = useDispatch();
   const { userObj } = useSelector(({ user }) => ({
     userObj: user.currentUser,
   }));
@@ -38,19 +58,34 @@ const ChatRoom = () => {
       orderBy("createdAt", "asc")
     );
     onSnapshot(q, (snapshot) => {
-      const chatArray = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      const chatArray = snapshot.docs.map((docu) => {
+        return {
+          id: docu.id,
+          ...docu.data(),
+        };
+      });
       setChats(chatArray);
     });
+
+    axios
+      .get("/user")
+      .then((result) => {
+        setPoint(result.data.account);
+      })
+      .catch((reason) => {
+        if (reason.toString().includes("401")) {
+          console.log("토큰만료");
+        }
+      });
     return () => {
       isComponentMounted = false;
     };
   }, []);
 
   const onSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
+
     let attachmentUrl = "";
     if (attachment !== "") {
       const attachmentRef = await ref(
@@ -74,14 +109,18 @@ const ChatRoom = () => {
       price: chattingObj.price,
       status: chattingObj.status,
       productPhoto: chattingObj.productPhoto,
+      owner: chattingObj.owner,
       date: new Date(),
     };
+
     const chatObj = {
       text: chat,
       creatorName: userObj.displayName,
       createdAt: Date.now(),
       creatorId: userObj.uid,
       creatorPhoto: userObj.photoURL,
+      chatRoomId: chattingObj.chatRoomId,
+      seen: false,
       attachmentUrl,
     };
     await setDoc(
@@ -95,8 +134,13 @@ const ChatRoom = () => {
     setChat("");
     setAttachment("");
     setFile("");
+    setLoading(false);
   };
 
+  const postObj = {
+    creatorName: chattingObj.opponentName,
+    productName: chattingObj.productName,
+  };
   const onChange = (event) => {
     const {
       target: { value },
@@ -138,11 +182,45 @@ const ChatRoom = () => {
     setshow(0);
   };
 
+  //결제하기 버튼 클릭
+  const pointPayClick = () => {
+    if (point - chattingObj.price < 0) {
+      if (window.confirm("잔액이 부족합니다. 마이페이지로 이동하시겠습니까?")) {
+        navigate("/profile");
+      } else {
+        onClose();
+      }
+    } else {
+      setshow(1);
+    }
+  };
+
+  const payOnClick = () => {
+    axios
+      .put("/trade", { postId: chattingObj.productId })
+      .then((result) => {
+        console.log("거래완료.");
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
+  };
+  const ExitBtnOnclick = async () => {
+    const chatRoomObj = {
+      who: [chattingObj.opponentId],
+    };
+    await setDoc(
+      doc(dbService, "chatroom", chattingObj.chatRoomId),
+      chatRoomObj
+    ).then(() => {
+      navigate(-1);
+    });
+  };
   return (
     <div className={styles.center}>
       <div className={styles.form}>
         <div className={styles.opponentField}>
-          <div>
+          <div style={{ display: "inline-flex", width: " " }}>
             <button
               className={styles.opponentBack}
               onClick={() => navigate(-1)}
@@ -150,10 +228,19 @@ const ChatRoom = () => {
               {" "}
               <FontAwesomeIcon icon={faArrowLeft} />
             </button>
+            <div>
+              <p style={{ width: "200px" }}> {chattingObj.opponentName} </p>
+            </div>
           </div>
-          <div style={{ width: "100%" }}>
-            <p> {chattingObj.opponentName} </p>
-          </div>
+
+          <ExitBtn>
+            {" "}
+            <div style={{ textAlign: "right" }}>
+              <button onClick={ExitBtnOnclick} className={styles.close}>
+                <Close />
+              </button>
+            </div>
+          </ExitBtn>
         </div>
         <div className={styles.productField}>
           <div>
@@ -172,18 +259,21 @@ const ChatRoom = () => {
           </div>
           <div className={styles.productContent}>
             <span>
-              ({chattingObj.status}){chattingObj.productName.substring(0, 20)}
+              ({statusSwitchFunc(chattingObj.status)})
+              {chattingObj.productName.substring(0, 20)}
             </span>
             <br />
-            {chattingObj.price}
+            {priceCommaFunc(chattingObj.price)}원
           </div>
           <div>
-            <button
-              onClick={() => setModalIsOpen(true)}
-              className={styles.tradeButton}
-            >
-              거래하기
-            </button>
+            {chattingObj.owner === userObj.uid && (
+              <button
+                onClick={() => setModalIsOpen(true)}
+                className={styles.tradeButton}
+              >
+                거래하기
+              </button>
+            )}
             <Modal
               isOpen={modalIsOpen}
               className={styles.modal}
@@ -224,7 +314,7 @@ const ChatRoom = () => {
                   <div>
                     <button
                       className={styles.modalButton}
-                      onClick={() => setshow(1)}
+                      onClick={pointPayClick}
                     >
                       포인트로 결제
                     </button>
@@ -233,17 +323,18 @@ const ChatRoom = () => {
               </div>
               <div style={{ display: show == 1 ? "block" : "none" }}>
                 <p className={styles.modalText}>
-                  잔여 포인트: 999,999원
+                  잔여 포인트: {priceCommaFunc(point)}원
                   <br />
-                  결제 포인트: 59,999원
+                  결제 포인트: {priceCommaFunc(chattingObj.price)}원
                   <br />
-                  결제 후 포인트: 59,999원
+                  결제 후 포인트: {priceCommaFunc(point - chattingObj.price)}원
                 </p>
                 <div className={styles.modalGroup}>
                   <div>
                     <button
                       className={styles.modalButton}
-                      onClick={() => setshow(2)}
+                      onClick={payOnClick}
+                      disabled={loading}
                     >
                       결제하기
                     </button>
@@ -263,15 +354,12 @@ const ChatRoom = () => {
                 <div className={styles.modalGroup}>
                   <button
                     className={styles.modalButton}
-                    onClick={() => setModalIsOpen(false)}
+                    onClick={() => {
+                      setModalIsOpen(false);
+                      navigate("/writeReview", { state: postObj });
+                    }}
                   >
                     후기 남기기
-                  </button>
-                  <button
-                    className={styles.modalButton}
-                    onClick={() => setModalIsOpen(false)}
-                  >
-                    거래 완료
                   </button>
                 </div>
               </div>
@@ -305,7 +393,19 @@ const ChatRoom = () => {
                 )}
               </div>
             </ul>
-            <form onSubmit={onSubmit}>
+            <form
+              onSubmit={
+                !chat && !file
+                  ? (e) => {
+                      e.preventDefault();
+                    }
+                  : loading
+                  ? (e) => {
+                      e.preventDefault();
+                    }
+                  : onSubmit
+              }
+            >
               <div className={styles.inputGroup}>
                 <div className={styles.file}>
                   <label htmlFor="ex_file" />
@@ -328,11 +428,22 @@ const ChatRoom = () => {
                   />
                 </div>
                 <div>
-                  <input
-                    type="submit"
-                    value=""
-                    className={styles.planeButton}
-                  />
+                  {!chat && !file ? (
+                    <div className={styles.planeButton} />
+                  ) : loading ? (
+                    <Circles
+                      color="gray"
+                      heigt={25}
+                      width={25}
+                      timeout={3000}
+                    />
+                  ) : (
+                    <input
+                      type="submit"
+                      value=""
+                      className={styles.planeButton}
+                    />
+                  )}
                 </div>
               </div>
             </form>

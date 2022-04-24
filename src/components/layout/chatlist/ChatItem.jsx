@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import profile from "../../../images/ico/ico_profile_placeholder.png";
 import { Link } from "react-router-dom";
+import { dbService } from "../../../utils/api/fbInstance";
+import {
+  query,
+  collection,
+  doc,
+  where,
+  getDocs,
+  onSnapshot,
+  snapshotEqual,
+} from "firebase/firestore";
+import * as PropTypes from "prop-types";
 
 const Chat = styled.li`
   padding: 16px 0;
@@ -49,9 +60,21 @@ const ChatImg = styled.img`
 `;
 
 const ItemImg = styled(ChatImg)`
-  border-radius: 10%; ;
+  border-radius: 10%;
 `;
 
+const Unseen = styled.span`
+  width: 18px;
+  display: inline-block;
+  height: 18px;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  margin: 4px;
+  padding: 1px;
+  font-size: 12px;
+  background-color: #e95158;
+`;
 const ChatItem = ({ userObj, chatObj }) => {
   const timeValue = new Date() / 1000 - chatObj.date.seconds;
   console.log("user", userObj);
@@ -73,7 +96,27 @@ const ChatItem = ({ userObj, chatObj }) => {
     productName: chatObj.productName,
     price: chatObj.price,
     status: chatObj.status,
+    owner: chatObj.owner,
   };
+
+  //읽지않은 메세지 불러오기
+  const [unSeen, setUnSeen] = useState("");
+
+  const r = collection(
+    dbService,
+    "chatroom",
+    chattingObj.chatRoomId,
+    "messages"
+  );
+  const q = query(
+    r,
+    where("creatorId", "==", chattingObj.opponentId),
+    where("seen", "==", false)
+  );
+  getDocs(q).then((snapshot) => setUnSeen(snapshot.docs.length));
+
+  console.log(unSeen);
+
   return (
     <Link
       to="/chatroom"
@@ -104,7 +147,10 @@ const ChatItem = ({ userObj, chatObj }) => {
                 ? Math.floor(timeValue / 86400) + "일전"
                 : "한달전"}
             </ChatTime>
-            <ChatContent>{chatObj.text.substring(0, 10)}</ChatContent>
+            <ChatContent>
+              {chatObj.text.substring(0, 10)}
+              {unSeen > 0 && <Unseen>{unSeen}</Unseen>}
+            </ChatContent>
           </ChatWriter>
         </div>
         <ItemImg

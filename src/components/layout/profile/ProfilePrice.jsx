@@ -5,6 +5,7 @@ import { WriteInput } from "../../common/WriteInput";
 import { Link } from "react-router-dom";
 import PointChargeModal from "./PointChargeModal";
 import PointRefundModal from "./PointRefundModal";
+import priceCommaFunc from "../../../utils/priceCommaFunc";
 
 const PriceWrap = styled(ProfileInputWrap)`
   display: flex;
@@ -37,13 +38,13 @@ const PointBtn = styled.span`
 function ProfilePrice({ onChange, price, priceOnclick }) {
   return (
     <PriceWrap>
-      <PriceShape price={price}>￦</PriceShape>
+      <PriceShape price={priceCommaFunc(price)}>￦</PriceShape>
       <PriceInput
         type="text"
         readOnly={true}
         name="price"
         onChange={onChange}
-        value={price}
+        value={priceCommaFunc(price)}
       />
       <PointChargeModal price={price} priceOnclick={priceOnclick} />
       <PointRefundModal price={price} priceOnclick={priceOnclick} />

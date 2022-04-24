@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useSelector } from "react-redux";
 const Home = () => {
   const { userObj } = useSelector(({ user }) => ({
     userObj: user.currentUser,
   }));
+  const navigate = useNavigate();
   return (
     <>
       <div className="bg-light ">
@@ -16,7 +17,7 @@ const Home = () => {
       <section
         className="pt-4 banner"
         style={{
-          marginTop: "60px",
+          marginTop: "58px",
           height: "100%",
           width: "100%",
         }}
@@ -39,8 +40,8 @@ const Home = () => {
               ) : (
                 <>
                   <h3 className="banner-text">
-                    {userObj.displayName === ""
-                      ? "닉네임을 설정해 주세요."
+                    {userObj.displayName === "" || !userObj.displayName
+                      ? "닉네임을 설정해 주세요"
                       : `${userObj.displayName}님 환영합니다.`}
                   </h3>
                   {userObj.displayName === "" ? (

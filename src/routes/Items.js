@@ -119,6 +119,7 @@ const Items = ({ listState, list }) => {
             paddingLeft: "10%",
             marginBottom: "60px",
             width: "100%",
+            height: "158px",
           }}
         >
           {list && <ToggleButtons list={list} listState={listState} />}

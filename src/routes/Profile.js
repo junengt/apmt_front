@@ -17,12 +17,15 @@ import ProfileHeader from "../components/layout/profile/ProfileHeader";
 import styles from "../css/Profile.module.css";
 import ProfileItem from "../components/layout/profile/ProfileItem";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { onAuthStateChanged } from "firebase/auth";
+import { setUser } from "../modules/user";
 
 const Profile = ({ refreshUser }) => {
   const { userObj } = useSelector(({ user }) => ({
     userObj: user.currentUser,
   }));
+  const dispatch = useDispatch();
   const [profileItems, setProfileItems] = useState([
     {
       title: "상품명",
@@ -40,6 +43,7 @@ const Profile = ({ refreshUser }) => {
 
   const navigate = useNavigate();
   const [price, setPrice] = useState(0);
+
   const pointOnclick = (point, chargeOrRefund) => {
     axios
       .post("/point", {
@@ -50,7 +54,7 @@ const Profile = ({ refreshUser }) => {
         setPrice(result.data.point);
       })
       .catch((reason) => {
-        console.log(reason);
+        console.log("", reason);
       });
   };
 
@@ -61,7 +65,10 @@ const Profile = ({ refreshUser }) => {
         setPrice(result.data.account);
       })
       .catch((reason) => {
-        console.log(reason);
+        if (reason.toString().includes("401")) {
+          alert("토큰이 만료되었습니다.");
+          window.location.replace("/");
+        }
       });
     axios
       .get("/profileItem")

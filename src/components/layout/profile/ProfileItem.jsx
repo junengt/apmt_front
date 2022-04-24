@@ -2,6 +2,7 @@ import React from "react";
 import { DanggeunInner, ListBlock } from "./MyDanggeunStyle";
 import styles from "../../../css/Profile.module.css";
 import { returnTime } from "../write/commonFunc";
+import priceCommaFunc from "../../../utils/priceCommaFunc";
 
 const ProfileItem = ({ item }) => {
   const { title, date, division, price } = item;
@@ -20,7 +21,7 @@ const ProfileItem = ({ item }) => {
               }
             />
             <p style={{ textAlign: "left", width: "50%", fontSize: "15px" }}>
-              {title && <span>{title}</span>}
+              {title && <span>{title.substring(0, 25)}</span>}
               <br></br>
               {date} | {division}{" "}
             </p>
@@ -32,7 +33,7 @@ const ProfileItem = ({ item }) => {
                 width: "20%",
               }}
             >
-              {price}원{" "}
+              {priceCommaFunc(price)}원{" "}
             </p>
           </div>
         </ListBlock>

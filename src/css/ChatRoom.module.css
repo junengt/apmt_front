@@ -1,30 +1,30 @@
 @font-face
- { font-family: "Spoqa Han Sans";
-  }
+{ font-family: "Spoqa Han Sans";
+}
 
 *{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Spoqa Han Sans";
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Spoqa Han Sans";
+}
 
-  .center{
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background-color: rgb(250, 250, 250);
-  }
-  
+.center{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: rgb(250, 250, 250);
+}
+
 .form{
   width: 550px;
   box-shadow: -3px -5px 10px #edeff1,
-    7px 7px 10px #cacfd8;
+  7px 7px 10px #cacfd8;
   border-radius: 15px;
-  
+
 }
 .chatContent {
   height: 450px;
@@ -45,6 +45,7 @@
 }
 
 .opponentField{
+
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   font-size: 23px;
@@ -56,7 +57,7 @@
   width: 100%;
   height: 60px;
   box-shadow: -3px -5px 10px #edeff1,
-    7px 7px 10px #cacfd8;
+  7px 7px 10px #cacfd8;
   position: justify;
   border-bottom: 2px solid #cacfd8;
   display: flex;
@@ -66,7 +67,7 @@
   align-items: center;
 }
 
-.opponentBack { 
+.opponentBack {
   border: 0;
   border-radius: 10px;
   outline: 0;
@@ -75,6 +76,8 @@
   margin-left: 10px;
   margin-right: 15px;
   margin-bottom: 15px;
+  width: 100%;
+  height: 30px;
 }
 
 .opponentBack:hover {
@@ -131,23 +134,23 @@
 }
 
 .inputGroup {
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    font-size: 23px;
-    color: white;
-    padding-left: 15px;
-    padding-right: 15px;
-    width: 100%;
-    height: 50px;
-    box-shadow: -3px -5px 10px #edeff1,
-      7px 7px 10px #cacfd8;
-    position: justify;
-    border-bottom: 2px solid #cacfd8;
-    display: flex;
-    background-color: rgb(180, 180, 180);
-    justify-content: space-between;
-    text-align : justify;
-    align-items: center;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  font-size: 23px;
+  color: white;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 100%;
+  height: 50px;
+  box-shadow: -3px -5px 10px #edeff1,
+  7px 7px 10px #cacfd8;
+  position: justify;
+  border-bottom: 2px solid #cacfd8;
+  display: flex;
+  background-color: rgb(180, 180, 180);
+  justify-content: space-between;
+  text-align : justify;
+  align-items: center;
 }
 
 .inputContent {
@@ -158,29 +161,40 @@
   border: none;
 }
 
+.planeButton {
+  background-image: url(../icon/paperPlane.svg);
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  border: none;
+  height: 25px;
+  width: 25px;
+  padding-left: 16px;
+}
+
 input.planeButton {
   background-image: url(../icon/paperPlane.svg);
-  background-color: transparent; 
-  background-repeat: no-repeat;  
-  background-position: 0px 0px;  
-  border: none;           
-  cursor: pointer;        
-  height: 25px;           
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: 0px -2px;
+  border: none;
+  cursor: pointer;
+  height: 25px;
   width: 25px;
-  padding-left: 16px;     
+  padding-left: 16px;
 }
 
 .file label {
   display: inline-block;
   background-image: url(../icon/paperClip.svg);
-  background-color: transparent; 
-  background-repeat: no-repeat;  
-  background-position: 0px 0px;  
-  border: none;           
-  cursor: pointer;        
-  height: 25px;          
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  border: none;
+  cursor: pointer;
+  height: 25px;
   width: 25px;
-  padding-left: 16px;     
+  padding-left: 16px;
 }
 
 .file input[type="file"] {
@@ -193,76 +207,76 @@ input.planeButton {
   padding: 0;
 }
 
-input:focus {outline: none;} 
+input:focus {outline: none;}
 
 .ownBubble {
-	min-width: 60px;
-	max-width: 300px;
-	padding: 14px 18px;
+  min-width: 60px;
+  max-width: 300px;
+  padding: 14px 18px;
   margin: 6px 18px;
-	background-color: #19191a;
-	border-radius: 16px 16px 0 16px;
-	border: 1px solid #585858;
-	float: right;
+  background-color: #19191a;
+  border-radius: 16px 16px 0 16px;
+  border: 1px solid #585858;
+  float: right;
   align-items: end;
 }
 
 .modal {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    height: 280px;
-    width: 550px;
-    border: 1px solid #ccc;
-    background: gray;
-    outline: none;
-    padding: 20px;
-    box-shadow: -3px -5px 10px #edeff1,
-    7px 7px 10px #cacfd8;
-    border-radius: 15px;
-  }
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 280px;
+  width: 550px;
+  border: 1px solid #ccc;
+  background: gray;
+  outline: none;
+  padding: 20px;
+  box-shadow: -3px -5px 10px #edeff1,
+  7px 7px 10px #cacfd8;
+  border-radius: 15px;
+}
 
-  .close {
-    width: 30px;
-    height: 30px;
-    background-color: transparent; 
-    background-repeat: no-repeat;  
-    background-position: 0px 0px;  
-    outline: none;
-    border-radius: 5px;
-  }
+.close {
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  outline: none;
+  border-radius: 5px;
+}
 
-  .modalText {
-    text-align: center;
-    font-size: 25px;
-    color: azure;
-    margin-bottom: 30px;
+.modalText {
+  text-align: center;
+  font-size: 25px;
+  color: azure;
+  margin-bottom: 30px;
 
-  }
+}
 
-  .modalGroup {
-    display:flex;
-    justify-content: center;
-    color: azure;
-    height: 100%;
-  }
+.modalGroup {
+  display:flex;
+  justify-content: center;
+  color: azure;
+  height: 100%;
+}
 
-  .modalButton {
-    font-size: 20px;
-    border: 0;
-    border-radius: 20px;
-    outline: 0;
-    background-color: black;
-    color: azure;
-    margin-right: 15px;
-    width: 180px;
-    height: 40px;
-  }
+.modalButton {
+  font-size: 20px;
+  border: 0;
+  border-radius: 20px;
+  outline: 0;
+  background-color: black;
+  color: azure;
+  margin-right: 15px;
+  width: 180px;
+  height: 40px;
+}
 
-  .modalButton:hover {
-    background-color: azure;
-    color: black
-  }
+.modalButton:hover {
+  background-color: azure;
+  color: black
+}

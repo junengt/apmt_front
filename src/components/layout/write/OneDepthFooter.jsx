@@ -4,6 +4,7 @@ import { Inner } from "../Inner";
 import likeIconOff from "../../../images/ico/ico_like_count.png";
 import likeIconOn from "../../../images/ico/ico_like.png";
 import { Link } from "react-router-dom";
+import priceCommaFunc from "../../../utils/priceCommaFunc";
 
 const DepthFooter = styled.footer`
   position: fixed;
@@ -75,7 +76,7 @@ function OneDepthFooter({ chattingObj, isOwner, isLogin }) {
             </button>
           </LikeBx>
           <PriceBx>
-            <PriceTag>{chattingObj.price}원</PriceTag>
+            <PriceTag>{priceCommaFunc(chattingObj.price)}원</PriceTag>
             <PriceNotice>가격제안불가</PriceNotice>
           </PriceBx>
         </LikePriceBx>

@@ -135,9 +135,11 @@ function StuffDetail() {
     productName: title,
     price: price,
     status: status,
+    owner: userObj.uid,
     productPhoto: photoList[0],
     chatRoomId: id + (userObj ? userObj.uid : ""),
   };
+  console.log(chattingObj);
   return (
     <>
       <section

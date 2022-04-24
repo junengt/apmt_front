@@ -22,6 +22,8 @@ const UserData = styled.div`
 
 const UserThumbnail = styled.div`
   & img {
+    object-fit: cover;
+    height: 45px;
     width: 45px;
     border-radius: 50%;
   }
@@ -53,49 +55,6 @@ const TemperBot = styled.div`
     font-size: 0.75rem;
     color: #aaa;
   }
-`;
-
-const TemperTopLeft = styled.div``;
-const TemperText = styled.span`
-  font-size: 1.125rem;
-  line-height: 1.125rem;
-  font-weight: 900;
-  color: ${({ color }) => color};
-`;
-const TemperProgress = styled.div`
-  position: relative;
-  width: 55px;
-  height: 4px;
-  margin: 7px 0 0 4px;
-  border-radius: 7px;
-  background-color: #e8ece8;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: ${({ temper }) => temper}%;
-    height: 100%;
-    border-radius: 7px;
-    background-color: ${({ progress }) => progress};
-    animation-name: charge;
-    animation-duration: 1.5s;
-    animation-timing-function: ease-in-out;
-  }
-
-  @keyframes charge {
-    0% {
-      width: 0%;
-    }
-    100% {
-      width: ${({ temper }) => temper}%;
-    }
-  }
-`;
-const TemperIcon = styled.div`
-  width: 26px;
-  margin-left: 10px;
 `;
 
 const DetailUserData = forwardRef(({ username, profileImg }, ref) => {
@@ -141,7 +100,14 @@ const DetailUserData = forwardRef(({ username, profileImg }, ref) => {
     <UserDataWrap>
       <UserData ref={ref}>
         <UserThumbnail>
-          <img src={profileImg} alt="profile" />
+          <img
+            src={
+              profileImg
+                ? profileImg
+                : require("../../../images/ico/ico_profile_placeholder.png")
+            }
+            alt="profile"
+          />
         </UserThumbnail>
         <UserProfile>
           <UserId>{username}</UserId>

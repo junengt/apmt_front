@@ -1,5 +1,13 @@
 import React from "react";
 import styles from "../css/Message.module.css";
+import {
+  collection,
+  doc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
+import { dbService } from "../utils/api/fbInstance";
 
 const Message = ({ chatObj, isOwner }) => {
   const createdTime = new Date(chatObj.createdAt);
@@ -14,73 +22,62 @@ const Message = ({ chatObj, isOwner }) => {
   let todayTime = new Date();
   let todayMonth = todayTime.getMonth() + 1;
   let todayDate = todayTime.getDate();
+  if (!isOwner && chatObj.seen === false) {
+    console.log("실행");
+    const ref = doc(
+      dbService,
+      "chatroom",
+      chatObj.chatRoomId,
+      "messages/" + chatObj.id
+    );
+    updateDoc(ref, { seen: true }).then((r) => console.log("읽음"));
+  }
 
   return (
     <div className={styles.bubbleContainer}>
       <>
-        {isOwner ? (
-          <>
-            <div className={styles.bubbleWrapper}>
-              <div className={styles.inlineContainerOwn}>
-                <div className={styles.ownBubble}>
-                  <div>
-                    {chatObj.attachmentUrl && (
-                      <a href={chatObj.attachmentUrl}>
-                        <img
-                          className={styles.clipPhoto}
-                          src={chatObj.attachmentUrl}
-                          alt=""
-                        />
-                      </a>
-                    )}
-                  </div>
-                  {chatObj.text}
-                </div>
+        <div className={styles.bubbleWrapper}>
+          <div
+            className={
+              isOwner ? styles.inlineContainerOwn : styles.inlineContainer
+            }
+          >
+            <div className={isOwner ? styles.ownBubble : styles.otherBubble}>
+              <div>
+                {chatObj.attachmentUrl && (
+                  <a href={chatObj.attachmentUrl}>
+                    <img
+                      className={styles.clipPhoto}
+                      src={chatObj.attachmentUrl}
+                      alt=""
+                    />
+                  </a>
+                )}
               </div>
-              {createdDate == todayDate && createdMonth == todayMonth ? (
+              {chatObj.text}
+            </div>
+            <div>
+              <br />
+              {isOwner && (
                 <span className={styles.own}>
-                  {apm} {createdHour} : {createdMin}
-                </span>
-              ) : (
-                <span className={styles.own}>
-                  {createdMonth}월 {createdDate}일
+                  {chatObj.seen ? "읽음" : "읽지 않음"}
                 </span>
               )}
             </div>
-          </>
-        ) : (
-          <>
-            <div className={styles.bubbleWrapper}>
-              <div className={styles.inlineContainer}>
-                <div className={styles.otherBubble}>
-                  <div>
-                    {chatObj.attachmentUrl ? (
-                      <img
-                        className={styles.clipPhoto}
-                        src={chatObj.attachmentUrl}
-                        alt=""
-                      />
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                  {chatObj.text}
-                </div>
-              </div>
-              {createdDate == todayDate && createdMonth == todayMonth ? (
-                <span className={styles.other}>
-                  {apm} {createdHour} : {createdMin}
-                </span>
-              ) : (
-                <span className={styles.other}>
-                  {createdMonth}월 {createdDate}일
-                </span>
-              )}
-            </div>
-          </>
-        )}
+          </div>
+          {createdDate === todayDate && createdMonth === todayMonth ? (
+            <span className={isOwner ? styles.own : styles.other}>
+              {apm} {createdHour} : {createdMin}
+            </span>
+          ) : (
+            <span className={isOwner ? styles.own : styles.other}>
+              {createdMonth}월 {createdDate}일
+            </span>
+          )}
+        </div>
       </>
     </div>
   );
 };
+
 export default Message;
