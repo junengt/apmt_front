@@ -13,7 +13,7 @@ const SearchListLoop = ({ address }) => {
     dispatch(setSearchAddress(address, isTyped));
 
   const history = useNavigate();
-  const mainPage = () => history("/new_item");
+  const mainPage = () => history("/writeItem");
 
   return (
     <>

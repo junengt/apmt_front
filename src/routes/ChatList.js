@@ -1,6 +1,6 @@
 import { dbService } from "../utils/api/fbInstance";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Chats from "../components/Chats";
 import styles from "../css/ChatList.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -36,10 +36,10 @@ function ChatList() {
 
   useEffect(() => {
     let isComponentMounted = true;
-
     const q = query(
       collection(dbService, "chatroom"),
-      where("who", "array-contains", userObj.uid),
+      where("show", "array-contains", userObj.uid),
+
       orderBy("date", "desc")
     );
     onSnapshot(q, (snapshot) => {
@@ -93,9 +93,11 @@ function ChatList() {
             </div>
           ) : (
             <ul>
-              {chats.map((chat) => (
-                <ChatItem key={chat.id} chatObj={chat} userObj={userObj} />
-              ))}
+              {chats
+                .filter((chatObj) => !chatObj.first)
+                .map((chat) => (
+                  <ChatItem key={chat.id} chatObj={chat} userObj={userObj} />
+                ))}
             </ul>
           )}
         </form>

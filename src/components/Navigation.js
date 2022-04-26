@@ -39,7 +39,7 @@ const Navigation = ({ listState, list }) => {
   const pathArr = [
     "#/profile",
     "#/auth",
-    "#/new_item",
+    "#/writeItem",
     "#/edit_profile",
     "#/gps",
     "#/sale",
@@ -54,6 +54,9 @@ const Navigation = ({ listState, list }) => {
   }
 
   if (document.location.hash.includes("#/review")) {
+    return null;
+  }
+  if (document.location.hash.includes("#/writeReview")) {
     return null;
   }
   if (document.location.hash.includes("#/seller_profile")) {

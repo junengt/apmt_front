@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import WritingHeader from "../components/layout/write/WritingHeader";
 import { PaddingInner } from "../components/layout/Inner";
 import SelectPhoto from "../components/layout/write/SelectPhoto";
@@ -17,31 +17,36 @@ import { useSelector } from "react-redux";
 import getLocation from "../components/layout/neighborhood/getLocation";
 import Location from "../components/layout/write/Location";
 const WritingStuff = ({ tags, tagsState }) => {
+  const location = useLocation();
+  const stuffItem = location.state;
+  console.log(stuffItem);
   const { userObj } = useSelector(({ user }) => ({
     userObj: user.currentUser,
   }));
   const [inputs, setInputs] = useState({ title: "", price: "", contents: "" });
-  const [attachment, setAttachment] = useState([]);
+  const [attachment, setAttachment] = useState([
+    stuffItem?.photoList?.map((e) => e.photoPath),
+  ]);
   const [loading, setLoading] = useState(false);
-  const region = useSelector((state) => state.neighbor.address);
+  const [region, setRegion] = useState(
+    useSelector((state) => state.neighbor.address)
+  );
   const history = useNavigate();
   const [addr, setAddr] = useState([]);
   const selecAddr = useSelector(({ neighbor: { address } }) => address);
   const geolocation = getLocation();
   useEffect(() => {
-    geolocation.then((res) => setAddr(Array.from(res)));
+    if (stuffItem.data) {
+      setRegion(stuffItem.data.region);
+    } else {
+      geolocation.then((res) => setAddr(Array.from(res)));
+    }
   }, []);
 
   if (userObj.uid === undefined) {
     alert("로그인을 하지않은 상태입니다. 로그인을 해주세요.");
     history("/auth");
     return <p>로그인을 하지않은 상태입니다. 로그인을 해주세요.</p>;
-  }
-
-  if (region === "notMyNeighbor") {
-    alert("위치 정보가 등록되어있지 않습니다. 위치를 입력해주세요.");
-    history("/");
-    return <p>위치 정보가 등록되어있지 않습니다. 위치를 입력해주세요.</p>;
   }
 
   const onSubmit = async (event) => {

@@ -13,18 +13,19 @@ const TextBox = styled.div`
 
 const EndProduct = styled.div`
   padding: 5px 10px;
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   font-size: 14px;
   text-align: center;
   position: absolute;
+  color: white;
   top: 54%;
   left: 70%;
   transform: translate(-50%, -50%);
 `;
 const Item = ({ item }) => {
   const { id, title, region, price, img, status, afterDate } = item;
-  const isEnd = status === "end";
+  const isEnd = status === "END";
 
   return (
     <>

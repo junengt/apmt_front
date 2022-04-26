@@ -3,9 +3,9 @@ import React from "react";
 const statusSwitchFunc = (status) => {
   switch (status) {
     case "ING":
-      return "거래중";
+      return "판매중";
     case "END":
-      return "거래완료";
+      return "판매완료";
     case "RESERVATION":
       return "예약중";
     case "HIDE":

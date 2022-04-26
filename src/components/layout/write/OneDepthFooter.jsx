@@ -64,7 +64,7 @@ const ChatBtn = styled.div`
   cursor: pointer;
 `;
 
-function OneDepthFooter({ chattingObj, isOwner, isLogin }) {
+function OneDepthFooter({ chattingObj, isOwner, isLogin, stuffData }) {
   const [toggleIcon, setToggleIcon] = useState(false);
   return (
     <DepthFooter>
@@ -82,16 +82,22 @@ function OneDepthFooter({ chattingObj, isOwner, isLogin }) {
         </LikePriceBx>
 
         <ChatBx>
-          {isLogin ? (
+          {stuffData.data.status === "END" ? (
+            "판매완료"
+          ) : isLogin ? (
             isOwner ? (
-              "수정 삭제 버튼"
+              <Link to="/writeItem" state={stuffData}>
+                <ChatBtn>게시글 수정하기</ChatBtn>
+              </Link>
             ) : (
               <Link to="/chatroom" state={chattingObj}>
                 <ChatBtn>채팅으로 거래하기</ChatBtn>{" "}
               </Link>
             )
           ) : (
-            "로그인해주세요."
+            <Link to="/auth" state={chattingObj}>
+              <ChatBtn>로그인</ChatBtn>{" "}
+            </Link>
           )}
         </ChatBx>
       </DepthInner>

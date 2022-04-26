@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MobileContainer } from "../components/common/MobileContainer";
 import { MobileInner } from "../components/common/MobileInner";
 import styled from "styled-components";
@@ -8,6 +8,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ReviewWriteHeader from "../components/layout/reviewWrite/ReviewWriteHeader";
 import ReviewWriteContents from "../components/layout/reviewWrite/ReviewWriteContents";
+import axios from "axios";
 
 const SaleWrap = styled.div`
   display: block;
@@ -24,32 +25,62 @@ const SaleInner = styled(Inner)`
 `;
 
 const ReviewWrite = () => {
+  const param = useParams();
+  const navigate = useNavigate();
   const { userObj } = useSelector(({ user }) => ({
     userObj: user.currentUser,
   }));
+  const [reviewData, setReviewData] = useState({});
+  useEffect(() => {
+    axios
+      .get("trade/" + param.id)
+      .then((result) => {
+        console.log(result.data);
+        setReviewData(result.data.data);
+      })
+      .catch((reason) => {
+        if (reason.toString().includes("500")) {
+          alert("잘못된 접근");
+          navigate("/");
+        }
+      });
+  }, []);
+
   const history = useNavigate();
-  const params = useParams();
   const [contents, setContents] = useState("");
-  const location = useLocation();
 
   const onChange = (e) => {
     setContents(e.target.value);
   };
-  const postObj = location.state;
 
-  const onClick = {};
+  const onClick = (e) => {
+    e.preventDefault();
+    axios
+      .put("saveReview", {
+        tradeId: param.id,
+        content: contents,
+      })
+      .then((result) => {
+        console.log(result.data.data);
+        alert("리뷰를 남겨주셔서 감사합니다.");
+        navigate("/review/" + result.data.data.reviewId);
+      })
+      .catch((reason) => {
+        console.log("", reason);
+      });
+  };
   return (
     <MobileContainer>
       <MobileInner>
         <SaleWrap>
           <ReviewWriteHeader
-            seller={postObj.creatorName}
+            seller={reviewData.sellerName}
             history={history}
             onClick={onClick}
           />
           <DepthInner>
-            <SaleInner>{postObj.productName}에 대해 리뷰를 남깁니다!</SaleInner>
-            <ReviewWriteContents onChange={onChange} contents={contents} />s
+            <SaleInner>{reviewData.itemName}에 대해 리뷰를 남깁니다!</SaleInner>
+            <ReviewWriteContents onChange={onChange} contents={contents} />
           </DepthInner>
         </SaleWrap>
       </MobileInner>

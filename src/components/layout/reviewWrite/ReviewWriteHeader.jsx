@@ -35,7 +35,7 @@ const Container = styled(Inner)`
   padding-bottom: 14px;
 `;
 
-function ReviewWriteHeader({ history, seller, onclick }) {
+function ReviewWriteHeader({ history, seller, onClick }) {
   return (
     <ReviewHeaderWrap>
       <Container>
@@ -51,7 +51,7 @@ function ReviewWriteHeader({ history, seller, onclick }) {
           </Link>
         </BackLink>
         <HeaderTitle>{seller}님에게 리뷰쓰기</HeaderTitle>
-        <ConfirmBtn type="button" onClick={onclick}>
+        <ConfirmBtn type="button" onClick={onClick}>
           완료
         </ConfirmBtn>
       </Container>

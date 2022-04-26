@@ -14,6 +14,7 @@ import itemOfJson from "../data/carrot.json";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import user from "../modules/user";
+import Loading from "../components/layout/write/Loading";
 
 const StuffDetailWrap = styled.div`
   position: relative;
@@ -24,7 +25,7 @@ function StuffDetail() {
   const { userObj } = useSelector(({ user }) => ({
     userObj: user.currentUser,
   }));
-
+  const [loading, setLoading] = useState(true);
   const item = itemOfJson[param.id];
   const [trigger, setTrigger] = useState(false);
   // const stuffs = useSelector((state) => state.stuffs.data);
@@ -73,6 +74,7 @@ function StuffDetail() {
   };
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get("/items/" + param.id)
       .then((result) => {
@@ -104,6 +106,9 @@ function StuffDetail() {
       })
       .catch((reason) => {
         console.log(reason);
+      })
+      .then(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -135,59 +140,67 @@ function StuffDetail() {
     productName: title,
     price: price,
     status: status,
-    owner: userObj.uid,
+    owner: userObj ? userObj.uid : "",
     productPhoto: photoList[0],
     chatRoomId: id + (userObj ? userObj.uid : ""),
   };
   console.log(chattingObj);
+
   return (
     <>
-      <section
-        className="pt-4"
-        style={{
-          height: "60px",
-          width: "100%",
-        }}
-      ></section>
-
-      <Container
-        style={{
-          maxWidth: "1100px",
-          paddingRight: "10%",
-          paddingLeft: "10%",
-          width: "100%",
-        }}
-      >
-        <StuffDetailWrap key="1">
-          <OneDepthHeader trigger={trigger} />
-          <WriteSwiper carouselImg={photoList} />
-          <Inner>
-            <Link to={"/seller_profile/" + creatorId}>
-              {" "}
-              <DetailUserData
-                profileImg={profileImg}
-                username={creatorName}
-                ref={detailHead}
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          {" "}
+          <section
+            className="pt-4"
+            style={{
+              height: "60px",
+              width: "100%",
+            }}
+          ></section>
+          <Container
+            style={{
+              maxWidth: "1100px",
+              paddingRight: "10%",
+              paddingLeft: "10%",
+              width: "100%",
+            }}
+          >
+            <StuffDetailWrap key="1">
+              <OneDepthHeader trigger={trigger} />
+              <WriteSwiper carouselImg={photoList} />
+              <Inner>
+                <Link to={"/seller_profile/" + creatorId}>
+                  {" "}
+                  <DetailUserData
+                    profileImg={profileImg}
+                    username={creatorName}
+                    ref={detailHead}
+                  />
+                </Link>
+                <DetailContents
+                  view={view}
+                  like={like}
+                  title={title}
+                  region={region}
+                  contents={content}
+                  time={afterDate}
+                  tags={tags}
+                />
+                <DetailSale username={creatorName} stuff={stuffs} />
+              </Inner>
+              <OneDepthFooter
+                stuffData={stuff}
+                isOwner={owner}
+                chattingObj={chattingObj}
+                isLogin={userObj}
               />
-            </Link>
-            <DetailContents
-              view={view}
-              like={like}
-              title={title}
-              region={region}
-              contents={content}
-              time={afterDate}
-              tags={tags}
-            />
-            <DetailSale username={creatorName} stuff={stuffs} />
-          </Inner>
-          <OneDepthFooter
-            isOwner={owner}
-            chattingObj={chattingObj}
-            isLogin={userObj}
-          />
-        </StuffDetailWrap>
-      </Container>
+            </StuffDetailWrap>
+          </Container>
+        </>
+      )}
     </>
   );
 }

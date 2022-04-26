@@ -67,12 +67,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #e0e4eb;
+  background-color: rgb(250, 250, 250);
 }
 
 .chatField:hover {
   color: white;
-  background-color: #cacfd8;
+  background-color:  rgb(150,150, 150);
 }
 
 .opponentPhoto {
@@ -80,7 +80,7 @@
   width: 50px;
   height:50px;
   margin: 0px 15px;
-  background-color: rgb(202, 202, 202);
+  background-color: rgb(250, 250, 250);
 }
 
 .productPhoto {
@@ -88,11 +88,11 @@
   width: 50px;
   height: 50px;
   margin: 0px 15px;
-  background-color: rgb(202, 202, 202);
+  background-color: rgb(250, 250, 250);
 }
 
 .content {
   width: 100%;
   text-decoration: none;
-  color: white
+  color: black;
 }

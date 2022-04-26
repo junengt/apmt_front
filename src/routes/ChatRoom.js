@@ -21,6 +21,7 @@ import {
   orderBy,
   setDoc,
   addDoc,
+  getDoc,
   query,
   updateDoc,
   getDocs,
@@ -38,6 +39,7 @@ const ExitBtn = styled.div`
 `;
 
 const ChatRoom = () => {
+  const [tradeId, setTradeId] = useState();
   const [loading, setLoading] = useState(false);
   const [point, setPoint] = useState(0);
   const dispatch = useDispatch();
@@ -50,6 +52,21 @@ const ChatRoom = () => {
   console.log(chattingObj);
   const [chat, setChat] = useState("");
   const [chats, setChats] = useState([]);
+  const chatRoomObj = {
+    text: chat,
+    who: [userObj.uid, chattingObj.opponentId],
+    whoPhoto: [userObj.photoURL, chattingObj.opponentPhoto],
+    whoName: [userObj.displayName, chattingObj.opponentName],
+    product: chattingObj.productId,
+    productName: chattingObj.productName,
+    price: chattingObj.price,
+    status: chattingObj.status,
+    productPhoto: chattingObj.productPhoto,
+    owner: chattingObj.owner,
+    date: new Date(),
+    first: true,
+    show: [userObj.uid, chattingObj.opponentId],
+  };
 
   useEffect(() => {
     let isComponentMounted = true;
@@ -66,7 +83,7 @@ const ChatRoom = () => {
       });
       setChats(chatArray);
     });
-
+    setDoc(doc(dbService, "chatroom", chattingObj.chatRoomId), chatRoomObj);
     axios
       .get("/user")
       .then((result) => {
@@ -99,19 +116,6 @@ const ChatRoom = () => {
       );
       attachmentUrl = await getDownloadURL(response.ref);
     }
-    const chatRoomObj = {
-      text: chat,
-      who: [userObj.uid, chattingObj.opponentId],
-      whoPhoto: [userObj.photoURL, chattingObj.opponentPhoto],
-      whoName: [userObj.displayName, chattingObj.opponentName],
-      product: chattingObj.productId,
-      productName: chattingObj.productName,
-      price: chattingObj.price,
-      status: chattingObj.status,
-      productPhoto: chattingObj.productPhoto,
-      owner: chattingObj.owner,
-      date: new Date(),
-    };
 
     const chatObj = {
       text: chat,
@@ -123,6 +127,7 @@ const ChatRoom = () => {
       seen: false,
       attachmentUrl,
     };
+    chatRoomObj.first = false;
     await setDoc(
       doc(dbService, "chatroom", chattingObj.chatRoomId),
       chatRoomObj
@@ -137,10 +142,6 @@ const ChatRoom = () => {
     setLoading(false);
   };
 
-  const postObj = {
-    creatorName: chattingObj.opponentName,
-    productName: chattingObj.productName,
-  };
   const onChange = (event) => {
     const {
       target: { value },
@@ -195,27 +196,60 @@ const ChatRoom = () => {
     }
   };
 
-  const payOnClick = () => {
-    axios
-      .put("/trade", { postId: chattingObj.productId })
+  const payOnClick = async () => {
+    await axios
+      .put("/trade", { postId: chattingObj.productId, pointPay: true })
       .then((result) => {
-        console.log("거래완료.");
+        const chatRoomObj = {
+          status: "END",
+        };
+        updateDoc(doc(dbService, "chatroom", chattingObj.chatRoomId), {
+          status: "END",
+        }).then(() => {
+          setTradeId(result.data.data.tradeId);
+          setshow(2);
+        });
       })
       .catch((reason) => {
         console.log(reason);
       });
   };
-  const ExitBtnOnclick = async () => {
-    const chatRoomObj = {
-      who: [chattingObj.opponentId],
-    };
-    await setDoc(
-      doc(dbService, "chatroom", chattingObj.chatRoomId),
-      chatRoomObj
-    ).then(() => {
-      navigate(-1);
-    });
+  const cashPayClick = async () => {
+    await axios
+      .put("/trade", { postId: chattingObj.productId, pointPay: false })
+      .then((result) => {
+        const chatRoomObj = {
+          status: "END",
+        };
+        updateDoc(doc(dbService, "chatroom", chattingObj.chatRoomId), {
+          status: "END",
+        }).then(() => {
+          setTradeId(result.data.data.tradeId);
+          setshow(2);
+        });
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
   };
+
+  //나가기 버튼 클릭
+  const ExitBtnOnclick = async () => {
+    const r = doc(dbService, "chatroom", chattingObj.chatRoomId);
+    const docRef = await getDoc(r);
+    const docData = docRef.data();
+
+    if (docData.show.includes(chattingObj.opponentId)) {
+      await updateDoc(r, { show: [chattingObj.opponentId, ""] }).then(() => {
+        navigate(-1);
+      });
+    } else {
+      await updateDoc(r, { show: ["", ""] }).then(() => {
+        navigate(-1);
+      });
+    }
+  };
+
   return (
     <div className={styles.center}>
       <div className={styles.form}>
@@ -266,7 +300,7 @@ const ChatRoom = () => {
             {priceCommaFunc(chattingObj.price)}원
           </div>
           <div>
-            {chattingObj.owner === userObj.uid && (
+            {chattingObj.owner === userObj.uid && chattingObj.status !== "END" && (
               <button
                 onClick={() => setModalIsOpen(true)}
                 className={styles.tradeButton}
@@ -306,7 +340,7 @@ const ChatRoom = () => {
                   <div>
                     <button
                       className={styles.modalButton}
-                      onClick={() => setshow(2)}
+                      onClick={cashPayClick}
                     >
                       만나서 현금결제
                     </button>
@@ -356,7 +390,7 @@ const ChatRoom = () => {
                     className={styles.modalButton}
                     onClick={() => {
                       setModalIsOpen(false);
-                      navigate("/writeReview", { state: postObj });
+                      navigate("/writeReview/" + tradeId);
                     }}
                   >
                     후기 남기기

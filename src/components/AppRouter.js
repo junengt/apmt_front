@@ -49,7 +49,7 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
         <Routes>
           {isLoggedIn && (
             <>
-              <Route path="/writeReview" element={<ReviewWrite />} />
+              <Route path="/writeReview/:id" element={<ReviewWrite />} />
               <Route
                 path="/chatlist"
                 element={<ChatList refreshUser={refreshUser} />}
@@ -60,7 +60,7 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
               />
               <Route path="/seller_profile/:uid" element={<SellerProfile />} />
               <Route path="/sale" element={<SalePage />} />
-              <Route path="review/:id" element={<Review />} />
+              <Route path="/review/:id" element={<Review />} />
               <Route path="/buy" element={<BuyPage />} />
               <Route path="/like" element={<LikePage />} />
               <Route
@@ -74,7 +74,7 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
               />
               <Route path="/*" element={<Navigate replace to="/" />} />
               <Route
-                path="/new_item"
+                path="/writeItem"
                 element={<WritingStuff tagsState={tagsState} tags={tags} />}
               />
             </>

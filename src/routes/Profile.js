@@ -118,8 +118,8 @@ const Profile = ({ refreshUser }) => {
               <EmptyBlock />
             </ListBlock>
           </DanggeunInner>
-          {profileItems.map((e) => {
-            return <ProfileItem item={e} />;
+          {profileItems.map((e, index) => {
+            return <ProfileItem key={index} item={e} />;
           })}
         </DanggeunWrap>
       </MobileInner>
