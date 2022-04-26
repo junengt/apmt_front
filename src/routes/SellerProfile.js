@@ -62,7 +62,7 @@ const SellerProfile = () => {
   const onClick = (id) => setTab(id);
 
   const history = useNavigate();
-
+  const axios = require("axios").default;
   return (
     <MobileContainer>
       <MobileInner>
