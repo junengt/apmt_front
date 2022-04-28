@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import WritingHeader from "../components/layout/write/WritingHeader";
 import { PaddingInner } from "../components/layout/Inner";
 import SelectPhoto from "../components/layout/write/SelectPhoto";
@@ -13,36 +13,57 @@ import ToggleButtons from "../components/common/tags/ToggleButtons";
 import WritingStuffTag from "../components/common/WritingStuffTag";
 import { WriteInputWrap } from "../components/layout/write/WriteInputWrap";
 import Tag from "../components/common/tags/Tag";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import getLocation from "../components/layout/neighborhood/getLocation";
 import Location from "../components/layout/write/Location";
-const WritingStuff = ({ tags, tagsState }) => {
+import * as PropTypes from "prop-types";
+import styled from "styled-components";
+import { setNeighbor } from "../modules/neighbor";
+
+const TagArea = styled.div`
+  width: 100%;
+  margin-top: 10px;
+  text-align: end;
+`;
+
+TagArea.propTypes = { children: PropTypes.node };
+const EditingStuff = () => {
   const { userObj } = useSelector(({ user }) => ({
     userObj: user.currentUser,
   }));
-  const [inputs, setInputs] = useState({ title: "", price: "", contents: "" });
-  const [attachment, setAttachment] = useState([]);
+  const location = useLocation();
+  const state = location.state;
+  const [inputs, setInputs] = useState({
+    title: state.title,
+    price: state.price,
+    contents: state.content,
+  });
+
+  let region = useSelector((state) => state.neighbor.address);
+  if (region === "notMyNeighbor") {
+    region = state.region;
+  }
+
+  const tags = state.tags;
+  const [attachment, setAttachment] = useState(
+    state.photoList.map((e) => e.photoPath)
+  );
   const [loading, setLoading] = useState(false);
-  const region = useSelector((state) => state.neighbor.address);
   const history = useNavigate();
   const [addr, setAddr] = useState([]);
+
   const selecAddr = useSelector(({ neighbor: { address } }) => address);
+
   const geolocation = getLocation();
-  useEffect(() => {
-    geolocation.then((res) => setAddr(Array.from(res)));
-  }, []);
+  // if (state.tags) {
+  //   state.tags.map((e) => tagsState(e));
+  // }
 
   if (userObj.uid === undefined) {
     alert("로그인을 하지않은 상태입니다. 로그인을 해주세요.");
     history("/auth");
     return <p>로그인을 하지않은 상태입니다. 로그인을 해주세요.</p>;
   }
-  //
-  // if (region === "notMyNeighbor") {
-  //   alert("위치 정보가 등록되어있지 않습니다. 위치를 입력해주세요.");
-  //   history("/");
-  //   return <p>위치 정보가 등록되어있지 않습니다. 위치를 입력해주세요.</p>;
-  // }
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -125,7 +146,7 @@ const WritingStuff = ({ tags, tagsState }) => {
       <MobileInner>
         <WritingHeader onClick={onSubmit} />
         <PaddingInner>
-          <Location selecAddr={selecAddr} addr={addr} />
+          <Location region={region} isEdit={true} />
           <form>
             <SelectPhoto
               onChange={onFileChange}
@@ -133,15 +154,12 @@ const WritingStuff = ({ tags, tagsState }) => {
               onClearPhoto={onClearPhoto}
             />
             <StuffTitle onChange={onChange} title={title} />
-            <WritingStuffTag tags={tags} tagsState={tagsState} />
-            {tags && <ToggleButtons list={tags} listState={tagsState} />}
-            <WriteInputWrap>
-              {tags && <Tag tags={tags} listState={tagsState}></Tag>}
-            </WriteInputWrap>
+
             <WritePrice onChange={onPrice} price={price} />
 
             <WriteContents onChange={onChange} contents={contents} />
           </form>
+          <TagArea>{tags && <Tag tags={tags} isEdit={true}></Tag>}</TagArea>
         </PaddingInner>
         {loading && <Loading />}
       </MobileInner>
@@ -149,4 +167,4 @@ const WritingStuff = ({ tags, tagsState }) => {
   );
 };
 
-export default WritingStuff;
+export default EditingStuff;

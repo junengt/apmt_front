@@ -23,8 +23,10 @@ import Review from "../routes/Review";
 import SellerProfile from "../routes/SellerProfile";
 import { useSelector } from "react-redux";
 import ChatRoom from "../routes/ChatRoom";
+import NoticeRoom from "../routes/NoticeRoom";
 import ChatList from "../routes/ChatList";
 import ReviewWrite from "../routes/ReviewWrite";
+import EditingStuff from "../routes/EditingStuff";
 
 const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
   const [list, setList] = useState();
@@ -58,6 +60,10 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
                 path="/chatroom"
                 element={<ChatRoom refreshUser={refreshUser} />}
               />
+              <Route
+                path="/noticeroom"
+                element={<NoticeRoom refreshUser={refreshUser} />}
+              />
               <Route path="/seller_profile/:uid" element={<SellerProfile />} />
               <Route path="/sale" element={<SalePage />} />
               <Route path="/review/:id" element={<Review />} />
@@ -76,6 +82,10 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
               <Route
                 path="/writeItem"
                 element={<WritingStuff tagsState={tagsState} tags={tags} />}
+              />
+              <Route
+                path="/editItem"
+                element={<EditingStuff tagsState={tagsState} tags={tags} />}
               />
             </>
           )}

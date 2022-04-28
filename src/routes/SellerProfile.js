@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MobileContainer } from "../components/common/MobileContainer";
 import { MobileInner } from "../components/common/MobileInner";
 import styled from "styled-components";
 import { Inner } from "../components/layout/Inner";
 import SellerProfileHeader from "../components/layout/sellerProfile/SellerProfileHeader";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import DetailUserData from "../components/layout/write/DetailUserData";
 import itemOfJson from "../data/carrot.json";
 import SaleStuff from "../components/layout/sale/SaleStuff";
 import ReviewItem from "../components/layout/sellerProfile/ReviewItem";
+import axios from "axios";
 
 const SaleWrap = styled.div`
   display: block;
@@ -58,9 +59,21 @@ const ReviewTime = styled.time`
 `;
 const SellerProfile = () => {
   const [tab, setTab] = useState(1);
-
+  const uid = useParams();
   const onClick = (id) => setTab(id);
+  useEffect(() => {
+    axios
+      .get("/seller_profile/" + uid.uid)
+      .then((response) => {
+        console.log("", response);
 
+        let sellerUid = response.data.data.sellerUid;
+        console.log(sellerUid);
+      })
+      .catch((reason) => {
+        console.log("", reason);
+      });
+  });
   const history = useNavigate();
 
   return (

@@ -4,7 +4,7 @@ import { WriteInputWrap } from "./WriteInputWrap";
 
 const WriteArea = styled.textarea`
   width: 100%;
-  height: 5em;
+  height: 10em;
   border: 0;
   font-size: 18px;
   outline: none;

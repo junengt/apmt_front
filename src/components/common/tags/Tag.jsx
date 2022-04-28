@@ -25,7 +25,7 @@ const MiniTagWrap = styled.div`
   line-height: 28px;
   letter-spacing: -0.5px;
 `;
-const MiniTagContent = styled.button`
+const MiniTagContent = styled.div`
   display: inline-block;
   position: relative;
   margin: 0 6px 6px 0;
@@ -78,8 +78,12 @@ const ResetTag = styled.button`
   background: #f4f4f4;
   border-radius: 4px;
 `;
-const Tag = ({ tags, listState, isDetail }) => {
+const Tag = ({ tags, listState, isDetail, isEdit }) => {
   const onClick = (e) => {
+    if (isEdit) {
+      e.preventDefault();
+      return;
+    }
     const target = e.target.name;
     const filter = tags.filter((element) => target !== element);
     listState(filter);
@@ -107,15 +111,17 @@ const Tag = ({ tags, listState, isDetail }) => {
         );
       })}
 
-      <ResetTag
-        onClick={() => {
-          listState([]);
-        }}
-      >
-        {" "}
-        <TagImg src="https://cdn4.iconfinder.com/data/icons/game-general-icon-set-1/512/reset-512.png" />
-        reset
-      </ResetTag>
+      {!isEdit && (
+        <ResetTag
+          onClick={() => {
+            listState([]);
+          }}
+        >
+          {" "}
+          <TagImg src="https://cdn4.iconfinder.com/data/icons/game-general-icon-set-1/512/reset-512.png" />
+          reset
+        </ResetTag>
+      )}
     </Tagwrap>
   );
 };

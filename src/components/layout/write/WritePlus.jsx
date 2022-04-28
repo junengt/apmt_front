@@ -91,7 +91,7 @@ function WritePlus() {
     <>
       <PlusWrap onClick={onToggle} toggle={toggle} />
       <LinkBtn toggle={toggle}>
-        <Link to="/gps">{}</Link>
+        <Link to="/writeItem">{}</Link>
       </LinkBtn>
       {toggle && <OverLab />}
     </>

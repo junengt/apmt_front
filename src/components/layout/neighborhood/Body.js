@@ -13,7 +13,9 @@ const SearchListLoop = ({ address }) => {
     dispatch(setSearchAddress(address, isTyped));
 
   const history = useNavigate();
-  const mainPage = () => history("/writeItem");
+  const mainPage = () => {
+    history(-1);
+  };
 
   return (
     <>

@@ -12,9 +12,10 @@ import { useParams } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import itemOfJson from "../data/carrot.json";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import user from "../modules/user";
 import Loading from "../components/layout/write/Loading";
+import { setNeighbor } from "../modules/neighbor";
 
 const StuffDetailWrap = styled.div`
   position: relative;
@@ -30,6 +31,8 @@ function StuffDetail() {
   const [trigger, setTrigger] = useState(false);
   // const stuffs = useSelector((state) => state.stuffs.data);
   const detailHead = useRef(null);
+  const dispatch = useDispatch();
+  const resetNeighbor = () => dispatch(setNeighbor("notMyNeighbor"));
   const stuffs = [
     {
       photoList: [item.img_src],
@@ -61,17 +64,17 @@ function StuffDetail() {
 
   //  useCallList();
 
-  const toggleNav = () => {
-    const scrollValue = window.scrollY;
-    const userData = detailHead.current?.offsetTop;
-    if (scrollValue >= userData) setTrigger(true);
-    else setTrigger(false);
-  };
-
-  const scrollTrigger = () => {
-    window.addEventListener("scroll", toggleNav);
-    return () => window.removeEventListener("scroll", toggleNav);
-  };
+  // const toggleNav = () => {
+  //   const scrollValue = window.scrollY;
+  //   const userData = detailHead.current?.offsetTop;
+  //   if (scrollValue >= userData) setTrigger(true);
+  //   else setTrigger(false);
+  // };
+  //
+  // const scrollTrigger = () => {
+  //   window.addEventListener("scroll", toggleNav);
+  //   return () => window.removeEventListener("scroll", toggleNav);
+  // };
 
   useEffect(() => {
     setLoading(true);
@@ -103,6 +106,7 @@ function StuffDetail() {
             status: resultObj.status,
           },
         }));
+        resetNeighbor();
       })
       .catch((reason) => {
         console.log(reason);
@@ -111,10 +115,10 @@ function StuffDetail() {
         setLoading(false);
       });
   }, []);
-
-  useEffect(() => {
-    scrollTrigger();
-  }, [scrollTrigger]);
+  //
+  // useEffect(() => {
+  //   scrollTrigger();
+  // }, [scrollTrigger]);
   const {
     id,
     tags,
@@ -132,6 +136,16 @@ function StuffDetail() {
     status,
     owner,
   } = stuff.data;
+  const stateData = {
+    title,
+    tags,
+    photoList,
+    region,
+    content,
+    price,
+    id,
+  };
+
   const chattingObj = {
     opponentName: creatorName,
     opponentId: creatorId,
@@ -159,7 +173,7 @@ function StuffDetail() {
               height: "60px",
               width: "100%",
             }}
-          ></section>
+          />
           <Container
             style={{
               maxWidth: "1100px",
@@ -193,6 +207,7 @@ function StuffDetail() {
               </Inner>
               <OneDepthFooter
                 stuffData={stuff}
+                stateData={stateData}
                 isOwner={owner}
                 chattingObj={chattingObj}
                 isLogin={userObj}

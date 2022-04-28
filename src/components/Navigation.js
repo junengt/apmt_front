@@ -48,6 +48,8 @@ const Navigation = ({ listState, list }) => {
     "#/chatroom",
     "#/chatlist",
     "#/writeReview",
+    "#/editItem",
+    "#/noticeroom",
   ];
   if (pathArr.findIndex((path) => path === document.location.hash) > -1) {
     return null;

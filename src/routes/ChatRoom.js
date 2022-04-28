@@ -52,21 +52,6 @@ const ChatRoom = () => {
   console.log(chattingObj);
   const [chat, setChat] = useState("");
   const [chats, setChats] = useState([]);
-  const chatRoomObj = {
-    text: chat,
-    who: [userObj.uid, chattingObj.opponentId],
-    whoPhoto: [userObj.photoURL, chattingObj.opponentPhoto],
-    whoName: [userObj.displayName, chattingObj.opponentName],
-    product: chattingObj.productId,
-    productName: chattingObj.productName,
-    price: chattingObj.price,
-    status: chattingObj.status,
-    productPhoto: chattingObj.productPhoto,
-    owner: chattingObj.owner,
-    date: new Date(),
-    first: true,
-    show: [userObj.uid, chattingObj.opponentId],
-  };
 
   useEffect(() => {
     let isComponentMounted = true;
@@ -83,7 +68,6 @@ const ChatRoom = () => {
       });
       setChats(chatArray);
     });
-    setDoc(doc(dbService, "chatroom", chattingObj.chatRoomId), chatRoomObj);
     axios
       .get("/user")
       .then((result) => {
@@ -116,6 +100,20 @@ const ChatRoom = () => {
       );
       attachmentUrl = await getDownloadURL(response.ref);
     }
+    const chatRoomObj = {
+      text: chat,
+      who: [userObj.uid, chattingObj.opponentId],
+      whoPhoto: [userObj.photoURL, chattingObj.opponentPhoto],
+      whoName: [userObj.displayName, chattingObj.opponentName],
+      product: chattingObj.productId,
+      productName: chattingObj.productName,
+      price: chattingObj.price,
+      status: chattingObj.status,
+      productPhoto: chattingObj.productPhoto,
+      owner: chattingObj.owner,
+      date: new Date(),
+      show: [userObj.uid, chattingObj.opponentId],
+    };
 
     const chatObj = {
       text: chat,
@@ -197,12 +195,66 @@ const ChatRoom = () => {
   };
 
   const payOnClick = async () => {
+    const noticeObj1 = {
+      text: [
+        chattingObj.opponentName + "님과의 포인트 거래가 완료되었습니다!",
+        "제품명 : " + chattingObj.productName,
+        "결제 포인트 : " + chattingObj.price + " 원",
+        "거래 내역에서 확인해 주세요!",
+        "잔여 포인트 : " + point + "원",
+      ],
+      createdAt: Date.now(),
+      creatorId: "kSuKt7fM0ufWRuzVUii8HyAG4by2",
+      seen: false,
+      attachmentUrl: chattingObj.productPhoto.photoPath,
+    };
+
+    const noticeObj2 = {
+      text: [
+        userObj.displayName + "님과의 포인트 거래가 완료되었습니다!",
+        "제품명 : " + chattingObj.productName,
+        "결제 포인트 : " + chattingObj.price + " 원",
+        "거래 내역에서 확인해 주세요!",
+      ],
+      createdAt: Date.now(),
+      creatorId: "kSuKt7fM0ufWRuzVUii8HyAG4by2",
+      seen: false,
+      attachmentUrl: chattingObj.productPhoto.photoPath,
+    };
+
+    const roomObj1 = {
+      text: chattingObj.opponentName + "님과의 포인트 거래가 완료되었습니다!",
+      who: userObj.uid,
+      date: new Date(),
+    };
+
+    const roomObj2 = {
+      text: userObj.displayName + "님과의 포인트 거래가 완료되었습니다!",
+      who: chattingObj.opponentId,
+      date: new Date(),
+    };
+
     await axios
       .put("/trade", { postId: chattingObj.productId, pointPay: true })
       .then((result) => {
         const chatRoomObj = {
           status: "END",
         };
+        setDoc(doc(dbService, "noticeroom", userObj.uid), roomObj1);
+        addDoc(
+          collection(dbService, "noticeroom", userObj.uid, "messages"),
+          noticeObj1
+        );
+        setDoc(doc(dbService, "noticeroom", chattingObj.opponentId), roomObj2);
+        addDoc(
+          collection(
+            dbService,
+            "noticeroom",
+            chattingObj.opponentId,
+            "messages"
+          ),
+          noticeObj2
+        );
         updateDoc(doc(dbService, "chatroom", chattingObj.chatRoomId), {
           status: "END",
         }).then(() => {
@@ -214,13 +266,66 @@ const ChatRoom = () => {
         console.log(reason);
       });
   };
+
   const cashPayClick = async () => {
+    const noticeObj1 = {
+      text: [
+        chattingObj.opponentName + "님과의 포인트 거래가 완료되었습니다!",
+        "제품명 : " + chattingObj.productName,
+        "결제 포인트 : " + chattingObj.price + " 원",
+        "거래 내역에서 포인트를 확인해 주세요!",
+      ],
+      createdAt: Date.now(),
+      creatorId: "kSuKt7fM0ufWRuzVUii8HyAG4by2",
+      seen: false,
+      attachmentUrl: chattingObj.productPhoto.photoPath,
+    };
+
+    const noticeObj2 = {
+      text: [
+        userObj.displayName + "님과의 만나서 거래가 성사되었습니다!",
+        "제품명 : " + chattingObj.productName,
+        "가격 : " + chattingObj.price + " 원",
+      ],
+      createdAt: Date.now(),
+      creatorId: "kSuKt7fM0ufWRuzVUii8HyAG4by2",
+      seen: false,
+      attachmentUrl: chattingObj.productPhoto.photoPath,
+    };
+
+    const roomObj1 = {
+      text: chattingObj.opponentName + "님과의 만나서 거래가 성사되었습니다!",
+      who: userObj.uid,
+      date: new Date(),
+    };
+
+    const roomObj2 = {
+      text: userObj.displayName + "님과의 만나서 거래가 성사되었습니다!",
+      who: chattingObj.opponentId,
+      date: new Date(),
+    };
+
     await axios
       .put("/trade", { postId: chattingObj.productId, pointPay: false })
       .then((result) => {
         const chatRoomObj = {
           status: "END",
         };
+        setDoc(doc(dbService, "noticeroom", userObj.uid), roomObj1);
+        addDoc(
+          collection(dbService, "noticeroom", userObj.uid, "messages"),
+          noticeObj1
+        );
+        setDoc(doc(dbService, "noticeroom", chattingObj.opponentId), roomObj2);
+        addDoc(
+          collection(
+            dbService,
+            "noticeroom",
+            chattingObj.opponentId,
+            "messages"
+          ),
+          noticeObj2
+        );
         updateDoc(doc(dbService, "chatroom", chattingObj.chatRoomId), {
           status: "END",
         }).then(() => {

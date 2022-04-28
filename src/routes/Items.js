@@ -21,8 +21,6 @@ const Items = ({ listState, list }) => {
   const [posts, setPosts] = useState([]);
 
   const params = useLocation();
-  let itemIndex = 0;
-  let maxItem = 100;
   const searchText = queryString.parse(params.search).search
     ? queryString.parse(params.search).search
     : "";
@@ -36,7 +34,7 @@ const Items = ({ listState, list }) => {
       .catch((reason) => {
         console.log(reason);
       });
-  }, [searchText]);
+  }, [searchText, list]);
 
   const OnSearch = (e) => {
     if (e.key === "Enter" && input === "empty") {
@@ -52,17 +50,6 @@ const Items = ({ listState, list }) => {
       setInput(e.target.value);
     }
   };
-
-  const tagRender = (arr) => {
-    if (arr) {
-      return arr.map((element) => {
-        return (
-          <button className="badge badge-pill badge-dark">#{element}</button>
-        );
-      });
-    }
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
   };

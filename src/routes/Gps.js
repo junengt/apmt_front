@@ -4,6 +4,7 @@ import Header from "../components/layout/neighborhood/Header";
 import Body from "../components/layout/neighborhood/Body";
 import { MobileContainer } from "../components/common/MobileContainer";
 import { MobileInner } from "../components/common/MobileInner";
+import { useLocation } from "react-router-dom";
 
 const StyledWrapper = styled.div`
   display: flex;

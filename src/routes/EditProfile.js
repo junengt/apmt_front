@@ -58,7 +58,6 @@ const EditProfile = ({ refreshUser }) => {
       if (userObj.photoURL) {
         await deleteObject(ref(storageService, newPhotoURL));
       }
-
       const attachmentRef = await ref(
         storageService,
         `${userObj.uid}/${uuidv4()}`

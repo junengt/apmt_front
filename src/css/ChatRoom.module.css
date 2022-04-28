@@ -280,3 +280,26 @@ input:focus {outline: none;}
   background-color: azure;
   color: black
 }
+
+.noticeField{
+
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  font-size: 23px;
+  font-weight: bold;
+  color: azure;
+  padding-top: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 100%;
+  height: 60px;
+  box-shadow: -3px -5px 10px #edeff1,
+  7px 0px 10px #cacfd8;
+  position: justify;
+  border-bottom: 2px solid #cacfd8;
+  display: flex;
+  background-color: gray;
+  justify-content: space-between;
+  text-align : justify;
+  align-items: center;
+}

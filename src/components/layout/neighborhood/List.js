@@ -10,9 +10,10 @@ import { setNeighbor } from "../../../modules/neighbor";
 const Neighbor = ({ neighbor }) => {
   const dispatch = useDispatch();
   const onSetNeighbor = (address) => dispatch(setNeighbor(address));
-
   const history = useNavigate();
-  const writingStuffPage = () => history("/new_item");
+  const writingStuffPage = () => {
+    history(-1);
+  };
 
   return (
     <>

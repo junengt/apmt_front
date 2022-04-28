@@ -64,7 +64,13 @@ const ChatBtn = styled.div`
   cursor: pointer;
 `;
 
-function OneDepthFooter({ chattingObj, isOwner, isLogin, stuffData }) {
+function OneDepthFooter({
+  chattingObj,
+  isOwner,
+  isLogin,
+  stuffData,
+  stateData,
+}) {
   const [toggleIcon, setToggleIcon] = useState(false);
   return (
     <DepthFooter>
@@ -86,7 +92,7 @@ function OneDepthFooter({ chattingObj, isOwner, isLogin, stuffData }) {
             "판매완료"
           ) : isLogin ? (
             isOwner ? (
-              <Link to="/writeItem" state={stuffData}>
+              <Link to="/editItem" state={stateData}>
                 <ChatBtn>게시글 수정하기</ChatBtn>
               </Link>
             ) : (
@@ -95,7 +101,7 @@ function OneDepthFooter({ chattingObj, isOwner, isLogin, stuffData }) {
               </Link>
             )
           ) : (
-            <Link to="/auth" state={chattingObj}>
+            <Link to="/auth">
               <ChatBtn>로그인</ChatBtn>{" "}
             </Link>
           )}
