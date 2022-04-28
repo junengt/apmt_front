@@ -62,7 +62,7 @@ const Unseen = styled.span`
   font-size: 12px;
   background-color: #e95158;
 `;
-const NoriceItem = ({ userObj, noteObj }) => {
+const NorticeItem = ({ userObj, noteObj }) => {
   const timeValue = new Date() / 1000 - noteObj.date.seconds;
 
   //to chat
@@ -119,4 +119,4 @@ const NoriceItem = ({ userObj, noteObj }) => {
   );
 };
 
-export default NoriceItem;
+export default NorticeItem;
