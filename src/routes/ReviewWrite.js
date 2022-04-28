@@ -9,6 +9,8 @@ import { useSelector } from "react-redux";
 import ReviewWriteHeader from "../components/layout/reviewWrite/ReviewWriteHeader";
 import ReviewWriteContents from "../components/layout/reviewWrite/ReviewWriteContents";
 import axios from "axios";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { dbService } from "../utils/api/fbInstance";
 
 const SaleWrap = styled.div`
   display: block;
@@ -55,6 +57,39 @@ const ReviewWrite = () => {
 
   const onClick = (e) => {
     e.preventDefault();
+    const roomObj1 = {
+      text: reviewData.sellerName + "님께 리뷰를 남겼습니다!",
+      who: userObj.uid,
+      date: new Date(),
+    };
+    const noticeObj1 = {
+      text: [
+        reviewData.sellerName + "님께 " + contents + "라고 리뷰를 남기셨네요!.",
+      ],
+      createdAt: Date.now(),
+      creatorId: "kSuKt7fM0ufWRuzVUii8HyAG4by2",
+      seen: false,
+      attachmentUrl: reviewData.photoPath,
+    };
+    const roomObj2 = {
+      text: userObj.displayName + "님이 리뷰를 남겼습니다!",
+      who: reviewData.sellerUid,
+      date: new Date(),
+    };
+    const noticeObj2 = {
+      text: [
+        userObj.displayName +
+          "님이 " +
+          reviewData.itemName +
+          "을 구매하시고 '" +
+          contents +
+          "' 라고 리뷰를 남기셨네요!",
+      ],
+      createdAt: Date.now(),
+      creatorId: "kSuKt7fM0ufWRuzVUii8HyAG4by2",
+      seen: false,
+      attachmentUrl: reviewData.photoPath,
+    };
     axios
       .put("saveReview", {
         tradeId: param.id,
@@ -64,6 +99,16 @@ const ReviewWrite = () => {
         console.log(result.data.data);
         alert("리뷰를 남겨주셔서 감사합니다.");
         navigate("/review/" + result.data.data.reviewId);
+        setDoc(doc(dbService, "noticeroom", userObj.uid), roomObj1);
+        addDoc(
+          collection(dbService, "noticeroom", userObj.uid, "messages"),
+          noticeObj1
+        );
+        setDoc(doc(dbService, "noticeroom", reviewData.sellerUid), roomObj2);
+        addDoc(
+          collection(dbService, "noticeroom", reviewData.sellerUid, "messages"),
+          noticeObj2
+        );
       })
       .catch((reason) => {
         console.log("", reason);

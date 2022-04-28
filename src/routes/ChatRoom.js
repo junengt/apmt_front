@@ -200,8 +200,8 @@ const ChatRoom = () => {
         chattingObj.opponentName + "님과의 포인트 거래가 완료되었습니다!",
         "제품명 : " + chattingObj.productName,
         "결제 포인트 : " + chattingObj.price + " 원",
-        "거래 내역에서 확인해 주세요!",
         "잔여 포인트 : " + point + "원",
+        "포인트와 거래 내역을 확인해 주세요!",
       ],
       createdAt: Date.now(),
       creatorId: "kSuKt7fM0ufWRuzVUii8HyAG4by2",
@@ -214,7 +214,7 @@ const ChatRoom = () => {
         userObj.displayName + "님과의 포인트 거래가 완료되었습니다!",
         "제품명 : " + chattingObj.productName,
         "결제 포인트 : " + chattingObj.price + " 원",
-        "거래 내역에서 확인해 주세요!",
+        "포인트와 거래 내역을 확인해 주세요!",
       ],
       createdAt: Date.now(),
       creatorId: "kSuKt7fM0ufWRuzVUii8HyAG4by2",
@@ -270,10 +270,9 @@ const ChatRoom = () => {
   const cashPayClick = async () => {
     const noticeObj1 = {
       text: [
-        chattingObj.opponentName + "님과의 포인트 거래가 완료되었습니다!",
+        chattingObj.opponentName + "님과의 만나서 거래가 완료되었습니다!",
         "제품명 : " + chattingObj.productName,
-        "결제 포인트 : " + chattingObj.price + " 원",
-        "거래 내역에서 포인트를 확인해 주세요!",
+        "가격 : " + chattingObj.price + " 원",
       ],
       createdAt: Date.now(),
       creatorId: "kSuKt7fM0ufWRuzVUii8HyAG4by2",
