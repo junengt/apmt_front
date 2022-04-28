@@ -109,7 +109,7 @@ const NorticeItem = ({ userObj, noteObj }) => {
                 : "한달전"}
             </ChatTime>
             <ChatContent>
-              {noteObj.text.substring(0, 10)}
+              {noteObj.text.substring(0, 25)}
               {unSeen > 0 && <Unseen>{unSeen}</Unseen>}
             </ChatContent>
           </ChatWriter>

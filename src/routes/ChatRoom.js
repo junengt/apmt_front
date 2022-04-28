@@ -6,7 +6,7 @@ import {
   storageService,
 } from "../utils/api/fbInstance";
 import Message from "../components/Message";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "../css/ChatRoom.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
@@ -396,14 +396,19 @@ const ChatRoom = () => {
               alt="attachment"
             />
           </div>
-          <div className={styles.productContent}>
-            <span>
-              ({statusSwitchFunc(chattingObj.status)})
-              {chattingObj.productName.substring(0, 20)}
-            </span>
-            <br />
-            {priceCommaFunc(chattingObj.price)}원
-          </div>
+          <Link
+            to={"/items/" + chattingObj.productId}
+            style={{ textDecoration: "none", color: "Black" }}
+          >
+            <div className={styles.productContent}>
+              <span>
+                ({statusSwitchFunc(chattingObj.status)})
+                {chattingObj.productName.substring(0, 20)}
+              </span>
+              <br />
+              {priceCommaFunc(chattingObj.price)}원
+            </div>
+          </Link>
           <div>
             {chattingObj.owner === userObj.uid && chattingObj.status !== "END" && (
               <button

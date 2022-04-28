@@ -66,10 +66,8 @@ function DetailSale({ username, stuff }) {
   return (
     <SaleWrap>
       <SaleTop>
-        <SaleTitle>{username}님의 판매 상품</SaleTitle>
-        <SaleLink>
-          <Link to="/">더 보기</Link>
-        </SaleLink>
+        <SaleTitle></SaleTitle>
+        <SaleLink></SaleLink>q{" "}
       </SaleTop>
       <SaleList>
         {filter.map((filterItem, idx) => {
