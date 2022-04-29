@@ -10,6 +10,7 @@ import { dbService } from "../../../utils/api/fbInstance";
 import likeIconOn from "../../../images/ico/ico_like.png";
 import likeIconOff from "../../../images/ico/ico_like_count.png";
 import * as PropTypes from "prop-types";
+import WritePrice from "../write/WritePrice";
 
 const StuffContentWrap = styled.div`
   display: flex;
@@ -110,7 +111,6 @@ const EndTag = styled.span`
 `;
 
 EndTag.propTypes = { children: PropTypes.node };
-
 function SaleStuff({ no, matter, thumb, time, region, page, like, status }) {
   const [toggle, setToggle] = useState(false);
   const isEnd = status;
@@ -119,7 +119,7 @@ function SaleStuff({ no, matter, thumb, time, region, page, like, status }) {
   const queryMatter = Object.entries(queryElement)
     .map((e) => e.join("="))
     .join("&");
-
+  const priceComma = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   const onDelete = async () => {
     // eslint-disable-next-line no-restricted-globals
     const del = confirm("정말로 이 상품을 삭제하시겠습니까?");
@@ -160,8 +160,7 @@ function SaleStuff({ no, matter, thumb, time, region, page, like, status }) {
         </DateLocation>
 
         <PriceTag>
-          {price && `${price}`}
-          {isEnd && <EndTag>판매완료</EndTag>}
+          {priceComma && `${priceComma}`}원{isEnd && <EndTag>판매완료</EndTag>}
         </PriceTag>
         {page && (page === "like" || page === "sale") ? (
           <MoreBtnWrap toggle={toggle}>

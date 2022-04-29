@@ -50,7 +50,13 @@ const TabBtn = styled.button`
   outline: none;
 `;
 
-function SellerProfileHeader({ sellerDisplayName, history, tab, onClick }) {
+function SellerProfileHeader({
+  sellerDisplayName,
+  sellerPhoto,
+  history,
+  tab,
+  onClick,
+}) {
   return (
     <SaleHeaderWrap>
       <DepthInner>
@@ -68,7 +74,7 @@ function SellerProfileHeader({ sellerDisplayName, history, tab, onClick }) {
         <HeaderTitle>판매자 정보</HeaderTitle>
       </DepthInner>
       <DepthInner>
-        <DetailUserData username={sellerDisplayName} profileImg={""} />
+        <DetailUserData username={sellerDisplayName} profileImg={sellerPhoto} />
       </DepthInner>
       <TabMenu>
         <TabItem tab={tab}>

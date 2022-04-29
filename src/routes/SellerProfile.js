@@ -59,13 +59,12 @@ const ReviewTime = styled.time`
   margin-top: 8px;
 `;
 
-function PostList(posts) {
-  return;
-}
-
 function SellerProfileBody({ posts, reviews, profile, history, tab }) {
   if (tab === 2) {
     return reviews.map((review, idx) => {
+      if (idx > 10) {
+        return;
+      }
       return (
         <div key={idx}>
           <ReviewItem review={review} />
@@ -86,8 +85,8 @@ function SellerProfileBody({ posts, reviews, profile, history, tab }) {
             matter={{ price: post.price, title: post.title }}
             region={post.region}
             time={post.afterDate}
-            like="11"
-            page={""}
+            like="like"
+            page=""
             status={post.status}
           />
         </SaleInner>
@@ -137,7 +136,7 @@ const SellerProfile = () => {
         console.log(reason);
       });
   }, []);
-  console.log(posts);
+  console.log(reviews);
   return (
     <MobileContainer>
       <MobileInner>
@@ -145,6 +144,7 @@ const SellerProfile = () => {
           <DepthInner>
             <SellerProfileHeader
               sellerDisplayName={sellerInfo.sellerDisplayName}
+              sellerPhoto={sellerInfo.sellerPhoto}
               history={history}
               tab={tab}
               onClick={onClickTab}

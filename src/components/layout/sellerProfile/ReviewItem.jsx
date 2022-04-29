@@ -47,11 +47,14 @@ const ReviewImg = styled.img`
   -moz-border-radius: 50%;
 `;
 function ReviewItem({ review }) {
+  if (review.buyerPhoto == null) {
+    review.buyerPhoto = profile;
+  }
   return (
     <Review>
       <ReviewPhoto>
         {" "}
-        <ReviewImg src={profile} alt="profile" />
+        <ReviewImg src={review.buyerPhoto} alt="profile" />
       </ReviewPhoto>
       <ReviewWriter>{review.buyerDisplayName}</ReviewWriter>
       <ReviewContent>{review.content}</ReviewContent>
