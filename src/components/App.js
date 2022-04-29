@@ -10,7 +10,7 @@ import axios from "axios";
 function App() {
   //axios.defaults.baseURL = "https://applemt.click/api";
   axios.defaults.baseURL = "http://localhost:8080/api";
-  console.log("appRender");
+
   const [init, setInit] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [newName, setNewName] = useState("");
@@ -67,7 +67,7 @@ function App() {
           refreshUser={refreshUser}
           isLoggedIn={isLoggedIn}
           userObj={userObj}
-        ></AppRouter>
+        />
       ) : (
         <Loading />
       )}

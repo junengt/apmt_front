@@ -30,7 +30,11 @@ const Item = ({ item }) => {
   return (
     <>
       <ItemImgBox>
-        <img className="product-image" src={img} alt="Product image" />
+        <img
+          className="product-image"
+          src={"http://localhost:8080/api/image?path=" + img}
+          alt="Product image"
+        />
         {isEnd && <EndProduct>판매완료</EndProduct>}
         <TextBox>
           <p

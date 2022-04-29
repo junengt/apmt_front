@@ -26,8 +26,13 @@ const Items = ({ listState, list }) => {
     : "";
   const axiosInstance = axios.create({ headers: {} });
   useEffect(() => {
+    let url = "/items?search=" + searchText;
+    if (list) {
+      const tagText = list.toString();
+      url += "&tags=" + tagText;
+    }
     axios
-      .get("/items?search=" + searchText, axiosInstance)
+      .get(url, axiosInstance)
       .then((result) => {
         setPosts(result.data.data);
       })
@@ -50,6 +55,7 @@ const Items = ({ listState, list }) => {
       setInput(e.target.value);
     }
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };

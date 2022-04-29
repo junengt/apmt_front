@@ -16,6 +16,7 @@ import Tag from "../components/common/tags/Tag";
 import { useSelector } from "react-redux";
 import getLocation from "../components/layout/neighborhood/getLocation";
 import Location from "../components/layout/write/Location";
+import axios from "axios";
 const WritingStuff = ({ tags, tagsState }) => {
   const { userObj } = useSelector(({ user }) => ({
     userObj: user.currentUser,
@@ -63,6 +64,50 @@ const WritingStuff = ({ tags, tagsState }) => {
     setInputs({ title: "", price: "", contents: "" });
     setAttachment([]);
     setLoading(false);
+    const formData = new FormData();
+    function stringNumberToInt(stringNumber) {
+      return parseInt(stringNumber.replace(/,/g, ""));
+    }
+    let postReqDto = {
+      title: title,
+      price: stringNumberToInt(price),
+      tags: tags,
+      content: contents,
+      town: region,
+    };
+    attachment.forEach((attachment) =>
+      formData.append("file", DataURIToBlob(attachment), "image.jpeg")
+    );
+    function DataURIToBlob(dataURI) {
+      const splitDataURI = String(dataURI).split(",");
+      const byteString =
+        splitDataURI[0].indexOf("base64") >= 0
+          ? atob(splitDataURI[1])
+          : decodeURI(splitDataURI[1]);
+      const mimeString = splitDataURI[0].split(":")[1].split(";")[0];
+
+      const ia = new Uint8Array(byteString.length);
+      for (let i = 0; i < byteString.length; i++)
+        ia[i] = byteString.charCodeAt(i);
+
+      return new Blob([ia], { type: mimeString });
+    }
+    formData.append(
+      "postReqDto",
+      new Blob([JSON.stringify(postReqDto)], { type: "application/json" })
+    );
+    axios
+      .post("/item", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(response, " 성공");
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
     alert("상품이 성공적으로 등록되었습니다.");
     history("/");
   };

@@ -32,7 +32,9 @@ function WriteSwiper({ carouselImg }) {
                 // eslint-disable-next-line react/no-array-index-key
                 key={idx}
                 style={{
-                  background: `url(${img.photoPath}) center center/cover no-repeat`,
+                  background: `url(${
+                    "http://localhost:8080/api/image?path=" + img.photoPath
+                  }) center center/cover no-repeat`,
                 }}
               />
             );
