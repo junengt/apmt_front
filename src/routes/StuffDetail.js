@@ -94,7 +94,7 @@ function StuffDetail() {
             profileImg: resultObj.profileImg,
             creatorId: resultObj.creatorId,
             //
-            view: 111,
+            view: resultObj.view,
             like: 10,
             title: resultObj.title,
             price: resultObj.price,

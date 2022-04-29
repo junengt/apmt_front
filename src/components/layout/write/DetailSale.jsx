@@ -67,7 +67,7 @@ function DetailSale({ username, stuff }) {
     <SaleWrap>
       <SaleTop>
         <SaleTitle></SaleTitle>
-        <SaleLink></SaleLink>q{" "}
+        <SaleLink></SaleLink>
       </SaleTop>
       <SaleList>
         {filter.map((filterItem, idx) => {

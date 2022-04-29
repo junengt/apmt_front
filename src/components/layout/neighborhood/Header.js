@@ -24,7 +24,7 @@ const Header = () => {
         onSearchAddress(addressObj, true);
       }
     });
-  });
+  }, [inputText]);
 
   const onChangeAddress = (event) => {
     setInputText(event.target.value);
