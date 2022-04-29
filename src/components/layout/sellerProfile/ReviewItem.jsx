@@ -46,18 +46,18 @@ const ReviewImg = styled.img`
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
 `;
-const ReviewItem = () => {
+function ReviewItem({ review }) {
   return (
     <Review>
       <ReviewPhoto>
         {" "}
         <ReviewImg src={profile} alt="profile" />
       </ReviewPhoto>
-      <ReviewWriter>코카곰</ReviewWriter>
-      <ReviewContent>ddd</ReviewContent>
-      <ReviewTime>1일 전</ReviewTime>
+      <ReviewWriter>{review.buyerDisplayName}</ReviewWriter>
+      <ReviewContent>{review.content}</ReviewContent>
+      <ReviewTime>{review.afterDate}</ReviewTime>
     </Review>
   );
-};
+}
 
 export default ReviewItem;

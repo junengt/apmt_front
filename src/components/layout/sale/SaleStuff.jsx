@@ -111,9 +111,9 @@ const EndTag = styled.span`
 
 EndTag.propTypes = { children: PropTypes.node };
 
-function SaleStuff({ thumb, matter, time, no, region, page, like, status }) {
+function SaleStuff({ no, matter, thumb, time, region, page, like, status }) {
   const [toggle, setToggle] = useState(false);
-  const isEnd = status === "end";
+  const isEnd = status;
   const { price, title } = matter;
   const queryElement = { no };
   const queryMatter = Object.entries(queryElement)
@@ -130,7 +130,7 @@ function SaleStuff({ thumb, matter, time, no, region, page, like, status }) {
   const [toggleIcon, setToggleIcon] = useState(like);
   return (
     <StuffContentWrap thumb={thumb}>
-      <Link to={{ pathname: "/stuff-detail", search: queryMatter }}>
+      <Link to={"/items/" + no}>
         <div />
       </Link>
       <StuffContents>
@@ -156,7 +156,7 @@ function SaleStuff({ thumb, matter, time, no, region, page, like, status }) {
           )}
         </StuffTopWrap>
         <DateLocation>
-          {region || "행복동"} · {returnTime(time)} 전
+          {region || "행복동"} · {time}
         </DateLocation>
 
         <PriceTag>

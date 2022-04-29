@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ReactComponent as ArrowBlack } from "../../../icon/arrow_back_black.svg";
 import { BackArrow } from "../../common/BackArrow";
 import { DepthHeader } from "../../common/DepthHeader";
@@ -50,7 +50,7 @@ const TabBtn = styled.button`
   outline: none;
 `;
 
-function SellerProfileHeader({ history, tab, onClick }) {
+function SellerProfileHeader({ sellerDisplayName, history, tab, onClick }) {
   return (
     <SaleHeaderWrap>
       <DepthInner>
@@ -68,7 +68,7 @@ function SellerProfileHeader({ history, tab, onClick }) {
         <HeaderTitle>판매자 정보</HeaderTitle>
       </DepthInner>
       <DepthInner>
-        <DetailUserData username={"asv"} />
+        <DetailUserData username={sellerDisplayName} profileImg={""} />
       </DepthInner>
       <TabMenu>
         <TabItem tab={tab}>

@@ -25,7 +25,9 @@ const Profile = ({ refreshUser }) => {
   const { userObj } = useSelector(({ user }) => ({
     userObj: user.currentUser,
   }));
+
   const dispatch = useDispatch();
+
   const [profileItems, setProfileItems] = useState([
     {
       title: "상품명",
