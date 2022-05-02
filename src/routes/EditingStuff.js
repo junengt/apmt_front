@@ -87,6 +87,7 @@ const EditingStuff = () => {
   //         .then(blob => console.log(blob))
   //   }
   // })
+  console.log(attachment)
   const onSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -125,27 +126,22 @@ const EditingStuff = () => {
     //         reader.onloadend = () => resolve(reader.result);
     //         reader.readAsDataURL(await blob);
     //     });
-
-        // let getData = () => {
-           // promise.then((result) => {
-           //   console.log("ehdgh dhfmsqnfdkf")
-           //   formData.append("file",DataURIToBlob(result),DataURIToBlob(result).type.replace(/image\//g, "."));
-             // console.log(result)
-             // formData.append("file", result);
-           // });
-        // };
-
-        // getData()
-        // console.log("base64Blob = ", base64Blob)
-
-
-            // .then(a => {
-            // formData.append("file",DataURIToBlob(blob),DataURIToBlob(blob).type.replace(/image\//g, "."));
-            // })
-      // }
-      // else {
-      //  formData.append("file", DataURIToBlob(attachment), DataURIToBlob(attachment).type.replace(/image\//g, "."));
-      // }
+    //     //
+    //     let getData = () => {
+    //        promise.then((result) => {
+    //          formData.append("file",DataURIToBlob(result),DataURIToBlob(result).type.replace(/image\//g, "."));
+    //          console.log(result)
+    //          formData.append("file", result);
+    //        });
+    //     };
+    //     getData()
+    //         .then(a => {setAttachment()
+    //         formData.append("file",DataURIToBlob(blob),DataURIToBlob(blob).type.replace(/image\//g, "."));
+    //         })
+    //   }
+    //   else {
+    //    formData.append("file", DataURIToBlob(attachment), DataURIToBlob(attachment).type.replace(/image\//g, "."));
+    //   }
     // })
     attachment.forEach((attachment) => formData.append("file", DataURIToBlob(attachment), DataURIToBlob(attachment).type.replace(/image\//g, ".")))
     function DataURIToBlob(dataURI) {
