@@ -24,13 +24,20 @@ const WritingStuff = ({ tags, tagsState }) => {
   const [inputs, setInputs] = useState({ title: "", price: "", contents: "" });
   const [attachment, setAttachment] = useState([]);
   const [loading, setLoading] = useState(false);
-  const region = useSelector((state) => state.neighbor.address);
+  const [region, setRegion] = useState(
+    useSelector((state) => state.neighbor.address)
+  );
   const history = useNavigate();
   const [addr, setAddr] = useState([]);
   const selecAddr = useSelector(({ neighbor: { address } }) => address);
   const geolocation = getLocation();
   useEffect(() => {
-    geolocation.then((res) => setAddr(Array.from(res)));
+    geolocation.then((res) => {
+      setAddr(Array.from(res));
+      if (region === "notMyNeighbor") {
+        setRegion(Array.from(res)[0]);
+      }
+    });
   }, []);
 
   if (userObj.uid === undefined) {
@@ -38,12 +45,6 @@ const WritingStuff = ({ tags, tagsState }) => {
     history("/auth");
     return <p>로그인을 하지않은 상태입니다. 로그인을 해주세요.</p>;
   }
-  //
-  // if (region === "notMyNeighbor") {
-  //   alert("위치 정보가 등록되어있지 않습니다. 위치를 입력해주세요.");
-  //   history("/");
-  //   return <p>위치 정보가 등록되어있지 않습니다. 위치를 입력해주세요.</p>;
-  // }
 
   const onSubmit = async (event) => {
     event.preventDefault();

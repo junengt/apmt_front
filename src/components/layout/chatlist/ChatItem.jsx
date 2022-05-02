@@ -13,6 +13,7 @@ import {
   snapshotEqual,
 } from "firebase/firestore";
 import * as PropTypes from "prop-types";
+import { returnTime } from "../write/commonFunc";
 
 const Chat = styled.li`
   padding: 16px 0;
@@ -76,7 +77,7 @@ const Unseen = styled.span`
   background-color: #e95158;
 `;
 const ChatItem = ({ userObj, chatObj }) => {
-  const timeValue = new Date() / 1000 - chatObj.date.seconds;
+  const timeValue = chatObj.date;
   console.log("user", userObj);
   console.log("chatObj", chatObj);
   //to chat
@@ -136,17 +137,7 @@ const ChatItem = ({ userObj, chatObj }) => {
           </ChatPhoto>
           <ChatWriter>
             {chattingObj.opponentName} ·{" "}
-            <ChatTime>
-              {timeValue < 60
-                ? "방금전"
-                : timeValue < 3600
-                ? Math.floor(timeValue / 60) + "분전"
-                : timeValue < 86400
-                ? Math.floor(timeValue / 3600) + "시간전"
-                : timeValue < 259200
-                ? Math.floor(timeValue / 86400) + "일전"
-                : "한달전"}
-            </ChatTime>
+            <ChatTime>{returnTime(timeValue)}</ChatTime>
             <ChatContent>
               {chatObj.text.substring(0, 10)}
               {unSeen > 0 && <Unseen>{unSeen}</Unseen>}

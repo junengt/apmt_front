@@ -111,7 +111,7 @@ const ChatRoom = () => {
       status: chattingObj.status,
       productPhoto: chattingObj.productPhoto,
       owner: chattingObj.owner,
-      date: new Date(),
+      date: Date.now(),
       show: [userObj.uid, chattingObj.opponentId],
     };
 
