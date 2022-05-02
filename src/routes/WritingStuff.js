@@ -24,13 +24,20 @@ const WritingStuff = ({ tags, tagsState }) => {
   const [inputs, setInputs] = useState({ title: "", price: "", contents: "" });
   const [attachment, setAttachment] = useState([]);
   const [loading, setLoading] = useState(false);
-  const region = useSelector((state) => state.neighbor.address);
+  const [region, setRegion] = useState(
+      useSelector((state) => state.neighbor.address)
+  );
   const history = useNavigate();
   const [addr, setAddr] = useState([]);
   const selecAddr = useSelector(({ neighbor: { address } }) => address);
   const geolocation = getLocation();
   useEffect(() => {
-    geolocation.then((res) => setAddr(Array.from(res)));
+    geolocation.then((res) => {
+      setAddr(Array.from(res));
+      if (region === "notMyNeighbor") {
+        setRegion(Array.from(res)[0]);
+      }
+    });
   }, []);
 
   if (userObj.uid === undefined) {
@@ -76,7 +83,7 @@ const WritingStuff = ({ tags, tagsState }) => {
       town: region,
     };
     attachment.forEach((attachment) =>
-      formData.append("file", DataURIToBlob(attachment), "image.jpeg")
+      formData.append("file", DataURIToBlob(attachment), DataURIToBlob(attachment).type.replace(/image\//g,"."))
     );
     function DataURIToBlob(dataURI) {
       const splitDataURI = String(dataURI).split(",");

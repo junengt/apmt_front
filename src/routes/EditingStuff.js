@@ -19,6 +19,8 @@ import Location from "../components/layout/write/Location";
 import * as PropTypes from "prop-types";
 import styled from "styled-components";
 import { setNeighbor } from "../modules/neighbor";
+import axios from "axios";
+import {forEach} from "react-bootstrap/ElementChildren";
 
 const TagArea = styled.div`
   width: 100%;
@@ -31,11 +33,14 @@ const EditingStuff = () => {
   const { userObj } = useSelector(({ user }) => ({
     userObj: user.currentUser,
   }));
+  function intToStringNumber(intNumber) {
+    return intNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
   const location = useLocation();
   const state = location.state;
   const [inputs, setInputs] = useState({
     title: state.title,
-    price: state.price,
+    price: state.price === null ? 0 : intToStringNumber(state.price),
     contents: state.content,
   });
 
@@ -43,11 +48,18 @@ const EditingStuff = () => {
   if (region === "notMyNeighbor") {
     region = state.region;
   }
-
   const tags = state.tags;
   const [attachment, setAttachment] = useState(
-    state.photoList.map((e) => e.photoPath)
-  );
+    state.photoList.map((e) => "http://localhost:8080/api/image?path=" + e.photoPath)
+      // state.photoList.map((e) => {
+      //   let url = "http://localhost:8080/api/image?path=" + e.photoPath;
+      //   fetch(url)
+      //       .then(res => res.blob())
+      //       .then(blob => {
+      //         console.log(blob)
+      //       })
+      // })
+  )
   const [loading, setLoading] = useState(false);
   const history = useNavigate();
   const [addr, setAddr] = useState([]);
@@ -58,13 +70,23 @@ const EditingStuff = () => {
   // if (state.tags) {
   //   state.tags.map((e) => tagsState(e));
   // }
-
   if (userObj.uid === undefined) {
     alert("로그인을 하지않은 상태입니다. 로그인을 해주세요.");
     history("/auth");
     return <p>로그인을 하지않은 상태입니다. 로그인을 해주세요.</p>;
   }
-
+  // fetch("http://localhost:8080/api/image?path=images/63c7c268-d18f-4e21-b8f1-f9029a6fbe3f.jpg")
+  //     .then(res => res.blob())
+  //     .then(blob => {
+  //       console.log(blob)
+  //     })
+  // attachment.forEach((attachment) => {
+  //   if (attachment.includes("http")) {
+  //     fetch(attachment)
+  //         .then(res => res.blob())
+  //         .then(blob => console.log(blob))
+  //   }
+  // })
   const onSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -84,6 +106,86 @@ const EditingStuff = () => {
     setInputs({ title: "", price: "", contents: "" });
     setAttachment([]);
     setLoading(false);
+    const formData = new FormData();
+    function stringNumberToInt(stringNumber) {
+      return parseInt(stringNumber.replace(/,/g, ""));
+    }
+    let postUpdateReqDto = {
+      title: title,
+      price: stringNumberToInt(price),
+      tags: tags,
+      content: contents,
+      town: region,
+    };
+    // attachment.forEach((attachment) => {
+    //   if (attachment.includes("http")) {
+    //     let blob = fetch(attachment).then(res => {return res.blob()})
+    //     let promise = new Promise(async (resolve, _) => {
+    //         const reader = new FileReader();
+    //         reader.onloadend = () => resolve(reader.result);
+    //         reader.readAsDataURL(await blob);
+    //     });
+
+        // let getData = () => {
+           // promise.then((result) => {
+           //   console.log("ehdgh dhfmsqnfdkf")
+           //   formData.append("file",DataURIToBlob(result),DataURIToBlob(result).type.replace(/image\//g, "."));
+             // console.log(result)
+             // formData.append("file", result);
+           // });
+        // };
+
+        // getData()
+        // console.log("base64Blob = ", base64Blob)
+
+
+            // .then(a => {
+            // formData.append("file",DataURIToBlob(blob),DataURIToBlob(blob).type.replace(/image\//g, "."));
+            // })
+      // }
+      // else {
+      //  formData.append("file", DataURIToBlob(attachment), DataURIToBlob(attachment).type.replace(/image\//g, "."));
+      // }
+    // })
+    attachment.forEach((attachment) => formData.append("file", DataURIToBlob(attachment), DataURIToBlob(attachment).type.replace(/image\//g, ".")))
+    function DataURIToBlob(dataURI) {
+      const splitDataURI = String(dataURI).split(",");
+      const byteString =
+          splitDataURI[0].indexOf("base64") >= 0
+              ? atob(splitDataURI[1])
+              : decodeURI(splitDataURI[1]);
+      const mimeString = splitDataURI[0].split(":")[1].split(";")[0];
+
+      const ia = new Uint8Array(byteString.length);
+      for (let i = 0; i < byteString.length; i++)
+        ia[i] = byteString.charCodeAt(i);
+
+      return new Blob([ia], { type: mimeString });
+    }
+    formData.append(
+        "postUpdateReqDto",
+        new Blob([JSON.stringify(postUpdateReqDto)], { type: "application/json" })
+    );
+
+    let a = formData.keys()
+    for(let item of a){
+      console.log(item)
+    }
+
+    // FIXME formData에 file 비어있으니까, 넣는 것 해결
+
+    axios
+        .put("/item/" + state.id, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          console.log(response, " 성공");
+        })
+        .catch((reason) => {
+          console.log(reason);
+        });
     alert("상품이 성공적으로 등록되었습니다.");
     history("/");
   };
