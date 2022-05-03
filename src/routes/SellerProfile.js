@@ -58,7 +58,6 @@ const ReviewTime = styled.time`
   color: #868e96;
   margin-top: 8px;
 `;
-
 function SellerProfileBody({ posts, reviews, profile, history, tab }) {
   if (tab === 2) {
     return reviews.map((review, idx) => {

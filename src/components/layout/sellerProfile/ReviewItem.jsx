@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import profile from "../../../images/ico/ico_profile_placeholder.png";
+import { getAuth } from "firebase/auth";
 
 const Review = styled.li`
   padding: 16px 0;
@@ -50,6 +51,7 @@ function ReviewItem({ review }) {
   if (review.buyerPhoto == null) {
     review.buyerPhoto = profile;
   }
+
   return (
     <Review>
       <ReviewPhoto>
