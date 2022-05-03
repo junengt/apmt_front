@@ -20,7 +20,7 @@ import * as PropTypes from "prop-types";
 import styled from "styled-components";
 import { setNeighbor } from "../modules/neighbor";
 import axios from "axios";
-import {forEach} from "react-bootstrap/ElementChildren";
+import { forEach } from "react-bootstrap/ElementChildren";
 
 const TagArea = styled.div`
   width: 100%;
@@ -34,7 +34,7 @@ const EditingStuff = () => {
     userObj: user.currentUser,
   }));
   function intToStringNumber(intNumber) {
-    return intNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return intNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
   const location = useLocation();
   const state = location.state;
@@ -50,7 +50,9 @@ const EditingStuff = () => {
   }
   const tags = state.tags;
   const [attachment, setAttachment] = useState(
-    state.photoList.map((e) => "http://localhost:8080/api/image?path=" + e.photoPath)
+      state.photoList.map(
+          (e) => "http://localhost:8080/api/image?path=" + e.photoPath
+      )
       // state.photoList.map((e) => {
       //   let url = "http://localhost:8080/api/image?path=" + e.photoPath;
       //   fetch(url)
@@ -59,12 +61,19 @@ const EditingStuff = () => {
       //         console.log(blob)
       //       })
       // })
-  )
+  );
   const [loading, setLoading] = useState(false);
   const history = useNavigate();
   const [addr, setAddr] = useState([]);
 
   const selecAddr = useSelector(({ neighbor: { address } }) => address);
+  useEffect(() => {
+    console.log(attachment);
+    const isBase64 = attachment.filter((e) => {
+      return e.includes("base64");
+    });
+    console.log(isBase64);
+  }, [attachment]);
 
   const geolocation = getLocation();
   // if (state.tags) {
@@ -87,7 +96,6 @@ const EditingStuff = () => {
   //         .then(blob => console.log(blob))
   //   }
   // })
-  console.log(attachment)
   const onSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -126,24 +134,40 @@ const EditingStuff = () => {
     //         reader.onloadend = () => resolve(reader.result);
     //         reader.readAsDataURL(await blob);
     //     });
-    //     //
-    //     let getData = () => {
-    //        promise.then((result) => {
-    //          formData.append("file",DataURIToBlob(result),DataURIToBlob(result).type.replace(/image\//g, "."));
-    //          console.log(result)
-    //          formData.append("file", result);
-    //        });
-    //     };
-    //     getData()
-    //         .then(a => {setAttachment()
-    //         formData.append("file",DataURIToBlob(blob),DataURIToBlob(blob).type.replace(/image\//g, "."));
-    //         })
-    //   }
-    //   else {
-    //    formData.append("file", DataURIToBlob(attachment), DataURIToBlob(attachment).type.replace(/image\//g, "."));
-    //   }
+
+    // let getData = () => {
+    // promise.then((result) => {
+    //   console.log("ehdgh dhfmsqnfdkf")
+    //   formData.append("file",DataURIToBlob(result),DataURIToBlob(result).type.replace(/image\//g, "."));
+    // console.log(result)
+    // formData.append("file", result);
+    // });
+    // };
+
+    // getData()
+    // console.log("base64Blob = ", base64Blob)
+
+    // .then(a => {
+    // formData.append("file",DataURIToBlob(blob),DataURIToBlob(blob).type.replace(/image\//g, "."));
     // })
-    attachment.forEach((attachment) => formData.append("file", DataURIToBlob(attachment), DataURIToBlob(attachment).type.replace(/image\//g, ".")))
+    // }
+    // else {
+    //  formData.append("file", DataURIToBlob(attachment), DataURIToBlob(attachment).type.replace(/image\//g, "."));
+    // }
+    // })
+    const isBase64 = attachment.filter((e) => {
+      return e.includes("base64");
+    });
+    const links = attachment.filter((e) => {
+      return !e.includes("base64");
+    });
+    isBase64.forEach((attachment) =>
+        formData.append(
+            "file",
+            DataURIToBlob(attachment),
+            DataURIToBlob(attachment).type.replace(/image\//g, ".")
+        )
+    );
     function DataURIToBlob(dataURI) {
       const splitDataURI = String(dataURI).split(",");
       const byteString =
@@ -162,10 +186,13 @@ const EditingStuff = () => {
         "postUpdateReqDto",
         new Blob([JSON.stringify(postUpdateReqDto)], { type: "application/json" })
     );
-
-    let a = formData.keys()
-    for(let item of a){
-      console.log(item)
+    formData.append(
+        "link",
+        new Blob([JSON.stringify(links)], { type: "application/json" })
+    );
+    let a = formData.keys();
+    for (let item of a) {
+      console.log(item);
     }
 
     // FIXME formData에 file 비어있으니까, 넣는 것 해결
@@ -178,12 +205,12 @@ const EditingStuff = () => {
         })
         .then((response) => {
           console.log(response, " 성공");
+          history("/items/" + state.id);
         })
         .catch((reason) => {
           console.log(reason);
         });
     alert("상품이 성공적으로 등록되었습니다.");
-    history("/");
   };
 
   const onChange = (event) => {
@@ -200,8 +227,8 @@ const EditingStuff = () => {
     let NumberPrice = Number(price);
     if (NumberPrice >= 99999999) NumberPrice = 99999999;
     let priceComma = NumberPrice.toString().replace(
-      /\B(?=(\d{3})+(?!\d))/g,
-      ","
+        /\B(?=(\d{3})+(?!\d))/g,
+        ","
     );
     if (priceComma === "0") priceComma = "";
 
@@ -240,28 +267,28 @@ const EditingStuff = () => {
   const { title, price, contents } = inputs;
 
   return (
-    <MobileContainer>
-      <MobileInner>
-        <WritingHeader onClick={onSubmit} />
-        <PaddingInner>
-          <Location region={region} isEdit={true} />
-          <form>
-            <SelectPhoto
-              onChange={onFileChange}
-              attachment={attachment}
-              onClearPhoto={onClearPhoto}
-            />
-            <StuffTitle onChange={onChange} title={title} />
+      <MobileContainer>
+        <MobileInner>
+          <WritingHeader onClick={onSubmit} />
+          <PaddingInner>
+            <Location region={region} isEdit={true} />
+            <form>
+              <SelectPhoto
+                  onChange={onFileChange}
+                  attachment={attachment}
+                  onClearPhoto={onClearPhoto}
+              />
+              <StuffTitle onChange={onChange} title={title} />
 
-            <WritePrice onChange={onPrice} price={price} />
+              <WritePrice onChange={onPrice} price={price} />
 
-            <WriteContents onChange={onChange} contents={contents} />
-          </form>
-          <TagArea>{tags && <Tag tags={tags} isEdit={true}></Tag>}</TagArea>
-        </PaddingInner>
-        {loading && <Loading />}
-      </MobileInner>
-    </MobileContainer>
+              <WriteContents onChange={onChange} contents={contents} />
+            </form>
+            <TagArea>{tags && <Tag tags={tags} isEdit={true}></Tag>}</TagArea>
+          </PaddingInner>
+          {loading && <Loading />}
+        </MobileInner>
+      </MobileContainer>
   );
 };
 
