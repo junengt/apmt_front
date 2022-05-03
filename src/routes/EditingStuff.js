@@ -50,17 +50,17 @@ const EditingStuff = () => {
   }
   const tags = state.tags;
   const [attachment, setAttachment] = useState(
-      state.photoList.map(
-          (e) => "http://localhost:8080/api/image?path=" + e.photoPath
-      )
-      // state.photoList.map((e) => {
-      //   let url = "http://localhost:8080/api/image?path=" + e.photoPath;
-      //   fetch(url)
-      //       .then(res => res.blob())
-      //       .then(blob => {
-      //         console.log(blob)
-      //       })
-      // })
+    state.photoList.map(
+      (e) => "http://localhost:8080/api/image?path=" + e.photoPath
+    )
+    // state.photoList.map((e) => {
+    //   let url = "http://localhost:8080/api/image?path=" + e.photoPath;
+    //   fetch(url)
+    //       .then(res => res.blob())
+    //       .then(blob => {
+    //         console.log(blob)
+    //       })
+    // })
   );
   const [loading, setLoading] = useState(false);
   const history = useNavigate();
@@ -171,9 +171,9 @@ const EditingStuff = () => {
     function DataURIToBlob(dataURI) {
       const splitDataURI = String(dataURI).split(",");
       const byteString =
-          splitDataURI[0].indexOf("base64") >= 0
-              ? atob(splitDataURI[1])
-              : decodeURI(splitDataURI[1]);
+        splitDataURI[0].indexOf("base64") >= 0
+          ? atob(splitDataURI[1])
+          : decodeURI(splitDataURI[1]);
       const mimeString = splitDataURI[0].split(":")[1].split(";")[0];
 
       const ia = new Uint8Array(byteString.length);
@@ -183,8 +183,8 @@ const EditingStuff = () => {
       return new Blob([ia], { type: mimeString });
     }
     formData.append(
-        "postUpdateReqDto",
-        new Blob([JSON.stringify(postUpdateReqDto)], { type: "application/json" })
+      "postUpdateReqDto",
+      new Blob([JSON.stringify(postUpdateReqDto)], { type: "application/json" })
     );
     formData.append(
         "link",

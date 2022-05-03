@@ -4,12 +4,13 @@ import { MobileInner } from "../components/common/MobileInner";
 import styled from "styled-components";
 import { Inner } from "../components/layout/Inner";
 import SellerProfileHeader from "../components/layout/sellerProfile/SellerProfileHeader";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import DetailUserData from "../components/layout/write/DetailUserData";
 import itemOfJson from "../data/carrot.json";
 import SaleStuff from "../components/layout/sale/SaleStuff";
 import ReviewItem from "../components/layout/sellerProfile/ReviewItem";
-import axios from "axios";
+import { useSelector } from "react-redux";
+import { default as axios } from "axios";
 
 const SaleWrap = styled.div`
   display: block;
@@ -57,69 +58,107 @@ const ReviewTime = styled.time`
   color: #868e96;
   margin-top: 8px;
 `;
+
+function SellerProfileBody({ posts, reviews, profile, history, tab }) {
+  if (tab === 2) {
+    return reviews.map((review, idx) => {
+      if (idx > 10) {
+        return;
+      }
+      return (
+        <div key={idx}>
+          <ReviewItem review={review} />
+        </div>
+      );
+    });
+  }
+  return posts.map((post, idx) => {
+    if (idx > 10) {
+      return;
+    }
+    return (
+      <div key={idx}>
+        <SaleInner>
+          <SaleStuff
+            no={post.id}
+            thumb={post.img}
+            matter={{ price: post.price, title: post.title }}
+            region={post.region}
+            time={post.afterDate}
+            like="like"
+            page=""
+            status={post.status}
+          />
+        </SaleInner>
+      </div>
+    );
+  });
+}
+
 const SellerProfile = () => {
+  // 판매상품 탭 / 거래 후기 탭
   const [tab, setTab] = useState(1);
   const uid = useParams();
   const onClick = (id) => setTab(id);
-  useEffect(() => {
-    axios
-      .get("/seller_profile/" + uid.uid)
-      .then((response) => {
-        console.log("", response);
 
-        let sellerUid = response.data.data.sellerUid;
-        console.log(sellerUid);
-      })
-      .catch((reason) => {
-        console.log("", reason);
-      });
-  });
+  const onClickTab = (id) => setTab(id);
   const history = useNavigate();
 
+  // AppRouter.js 에서 쿼리 파라미터를 가져온다
+  const param = useParams();
+  const [sellerInfo, setSellerInfo] = useState({
+    sellerUid: "판매자UID",
+    sellerDisplayName: "닉네임",
+  });
+  const [posts, setPosts] = useState([]);
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("/seller_profile/" + param.uid + "/info")
+      .then((response) => {
+        setSellerInfo(response.data.data);
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
+    axios
+      .get("/seller_profile/" + param.uid + "/posts")
+      .then((response) => {
+        setPosts(response.data.data);
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
+    axios
+      .get("/seller_profile/" + param.uid + "/reviews")
+      .then((response) => {
+        setReviews(response.data.data);
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
+  }, []);
+  console.log(reviews);
   return (
     <MobileContainer>
       <MobileInner>
         <SaleWrap>
-          {" "}
-          <SellerProfileHeader
-            history={history}
-            tab={tab}
-            onClick={onClick}
-          ></SellerProfileHeader>
           <DepthInner>
-            {tab === 1 &&
-              itemOfJson.map((item, i) => {
-                const { region_name, img_src, title, content, price } = item;
-                if (i > 10) {
-                  return;
-                }
-                return (
-                  <div key={i}>
-                    <SaleInner>
-                      <SaleStuff
-                        no={1}
-                        thumb={img_src}
-                        matter={{
-                          title: title,
-                          content: content,
-                          price: price,
-                        }}
-                        status="end"
-                        time={new Date().getTime()}
-                        creatorId={"asx"}
-                        region={region_name}
-                        like={true}
-                        page="like"
-                      />
-                    </SaleInner>
-                  </div>
-                );
-              })}
-            {tab === 2 && (
-              <ul>
-                <ReviewItem></ReviewItem>
-              </ul>
-            )}
+            <SellerProfileHeader
+              sellerDisplayName={sellerInfo.sellerDisplayName}
+              sellerPhoto={sellerInfo.sellerPhoto}
+              history={history}
+              tab={tab}
+              onClick={onClickTab}
+            />
+            <SellerProfileBody
+              profile={sellerInfo}
+              posts={posts}
+              reviews={reviews}
+              history={history}
+              tab={tab}
+            />
           </DepthInner>
         </SaleWrap>
       </MobileInner>

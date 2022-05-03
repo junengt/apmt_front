@@ -10,6 +10,7 @@ import { dbService } from "../../../utils/api/fbInstance";
 import likeIconOn from "../../../images/ico/ico_like.png";
 import likeIconOff from "../../../images/ico/ico_like_count.png";
 import * as PropTypes from "prop-types";
+import WritePrice from "../write/WritePrice";
 
 const StuffContentWrap = styled.div`
   display: flex;
@@ -110,16 +111,15 @@ const EndTag = styled.span`
 `;
 
 EndTag.propTypes = { children: PropTypes.node };
-
-function SaleStuff({ thumb, matter, time, no, region, page, like, status }) {
+function SaleStuff({ no, matter, thumb, time, region, page, like, status }) {
   const [toggle, setToggle] = useState(false);
-  const isEnd = status === "end";
+  const isEnd = status;
   const { price, title } = matter;
   const queryElement = { no };
   const queryMatter = Object.entries(queryElement)
     .map((e) => e.join("="))
     .join("&");
-
+  const priceComma = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   const onDelete = async () => {
     // eslint-disable-next-line no-restricted-globals
     const del = confirm("정말로 이 상품을 삭제하시겠습니까?");
@@ -130,7 +130,7 @@ function SaleStuff({ thumb, matter, time, no, region, page, like, status }) {
   const [toggleIcon, setToggleIcon] = useState(like);
   return (
     <StuffContentWrap thumb={thumb}>
-      <Link to={{ pathname: "/stuff-detail", search: queryMatter }}>
+      <Link to={"/items/" + no}>
         <div />
       </Link>
       <StuffContents>
@@ -156,12 +156,11 @@ function SaleStuff({ thumb, matter, time, no, region, page, like, status }) {
           )}
         </StuffTopWrap>
         <DateLocation>
-          {region || "행복동"} · {returnTime(time)} 전
+          {region || "행복동"} · {time}
         </DateLocation>
 
         <PriceTag>
-          {price && `${price}`}
-          {isEnd && <EndTag>판매완료</EndTag>}
+          {priceComma && `${priceComma}`}원{isEnd && <EndTag>판매완료</EndTag>}
         </PriceTag>
         {page && (page === "like" || page === "sale") ? (
           <MoreBtnWrap toggle={toggle}>
