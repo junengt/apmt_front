@@ -20,7 +20,7 @@ import * as PropTypes from "prop-types";
 import styled from "styled-components";
 import { setNeighbor } from "../modules/neighbor";
 import axios from "axios";
-import {forEach} from "react-bootstrap/ElementChildren";
+import { forEach } from "react-bootstrap/ElementChildren";
 
 const TagArea = styled.div`
   width: 100%;
@@ -34,7 +34,7 @@ const EditingStuff = () => {
     userObj: user.currentUser,
   }));
   function intToStringNumber(intNumber) {
-    return intNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return intNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
   const location = useLocation();
   const state = location.state;
@@ -50,21 +50,30 @@ const EditingStuff = () => {
   }
   const tags = state.tags;
   const [attachment, setAttachment] = useState(
-    state.photoList.map((e) => "http://localhost:8080/api/image?path=" + e.photoPath)
-      // state.photoList.map((e) => {
-      //   let url = "http://localhost:8080/api/image?path=" + e.photoPath;
-      //   fetch(url)
-      //       .then(res => res.blob())
-      //       .then(blob => {
-      //         console.log(blob)
-      //       })
-      // })
-  )
+    state.photoList.map(
+      (e) => "http://localhost:8080/api/image?path=" + e.photoPath
+    )
+    // state.photoList.map((e) => {
+    //   let url = "http://localhost:8080/api/image?path=" + e.photoPath;
+    //   fetch(url)
+    //       .then(res => res.blob())
+    //       .then(blob => {
+    //         console.log(blob)
+    //       })
+    // })
+  );
   const [loading, setLoading] = useState(false);
   const history = useNavigate();
   const [addr, setAddr] = useState([]);
 
   const selecAddr = useSelector(({ neighbor: { address } }) => address);
+  useEffect(() => {
+    console.log(attachment);
+    const isBase64 = attachment.filter((e) => {
+      return e.includes("base64");
+    });
+    console.log(isBase64);
+  }, [attachment]);
 
   const geolocation = getLocation();
   // if (state.tags) {
@@ -126,34 +135,45 @@ const EditingStuff = () => {
     //         reader.readAsDataURL(await blob);
     //     });
 
-        // let getData = () => {
-           // promise.then((result) => {
-           //   console.log("ehdgh dhfmsqnfdkf")
-           //   formData.append("file",DataURIToBlob(result),DataURIToBlob(result).type.replace(/image\//g, "."));
-             // console.log(result)
-             // formData.append("file", result);
-           // });
-        // };
+    // let getData = () => {
+    // promise.then((result) => {
+    //   console.log("ehdgh dhfmsqnfdkf")
+    //   formData.append("file",DataURIToBlob(result),DataURIToBlob(result).type.replace(/image\//g, "."));
+    // console.log(result)
+    // formData.append("file", result);
+    // });
+    // };
 
-        // getData()
-        // console.log("base64Blob = ", base64Blob)
+    // getData()
+    // console.log("base64Blob = ", base64Blob)
 
-
-            // .then(a => {
-            // formData.append("file",DataURIToBlob(blob),DataURIToBlob(blob).type.replace(/image\//g, "."));
-            // })
-      // }
-      // else {
-      //  formData.append("file", DataURIToBlob(attachment), DataURIToBlob(attachment).type.replace(/image\//g, "."));
-      // }
+    // .then(a => {
+    // formData.append("file",DataURIToBlob(blob),DataURIToBlob(blob).type.replace(/image\//g, "."));
     // })
-    attachment.forEach((attachment) => formData.append("file", DataURIToBlob(attachment), DataURIToBlob(attachment).type.replace(/image\//g, ".")))
+    // }
+    // else {
+    //  formData.append("file", DataURIToBlob(attachment), DataURIToBlob(attachment).type.replace(/image\//g, "."));
+    // }
+    // })
+    const isBase64 = attachment.filter((e) => {
+      return e.includes("base64");
+    });
+    const links = attachment.filter((e) => {
+      return !e.includes("base64");
+    });
+    isBase64.forEach((attachment) =>
+      formData.append(
+        "file",
+        DataURIToBlob(attachment),
+        DataURIToBlob(attachment).type.replace(/image\//g, ".")
+      )
+    );
     function DataURIToBlob(dataURI) {
       const splitDataURI = String(dataURI).split(",");
       const byteString =
-          splitDataURI[0].indexOf("base64") >= 0
-              ? atob(splitDataURI[1])
-              : decodeURI(splitDataURI[1]);
+        splitDataURI[0].indexOf("base64") >= 0
+          ? atob(splitDataURI[1])
+          : decodeURI(splitDataURI[1]);
       const mimeString = splitDataURI[0].split(":")[1].split(";")[0];
 
       const ia = new Uint8Array(byteString.length);
@@ -163,31 +183,34 @@ const EditingStuff = () => {
       return new Blob([ia], { type: mimeString });
     }
     formData.append(
-        "postUpdateReqDto",
-        new Blob([JSON.stringify(postUpdateReqDto)], { type: "application/json" })
+      "postUpdateReqDto",
+      new Blob([JSON.stringify(postUpdateReqDto)], { type: "application/json" })
     );
-
-    let a = formData.keys()
-    for(let item of a){
-      console.log(item)
+    formData.append(
+      "link",
+      new Blob([JSON.stringify(links)], { type: "application/json" })
+    );
+    let a = formData.keys();
+    for (let item of a) {
+      console.log(item);
     }
 
     // FIXME formData에 file 비어있으니까, 넣는 것 해결
 
     axios
-        .put("/item/" + state.id, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          console.log(response, " 성공");
-        })
-        .catch((reason) => {
-          console.log(reason);
-        });
+      .put("/item/" + state.id, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(response, " 성공");
+        history("/items/" + state.id);
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
     alert("상품이 성공적으로 등록되었습니다.");
-    history("/");
   };
 
   const onChange = (event) => {

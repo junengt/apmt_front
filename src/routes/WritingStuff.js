@@ -83,7 +83,11 @@ const WritingStuff = ({ tags, tagsState }) => {
       town: region,
     };
     attachment.forEach((attachment) =>
-      formData.append("file", DataURIToBlob(attachment), DataURIToBlob(attachment).type.replace(/image\//g,"."))
+      formData.append(
+        "file",
+        DataURIToBlob(attachment),
+        DataURIToBlob(attachment).type.replace(/image\//g, ".")
+      )
     );
     function DataURIToBlob(dataURI) {
       const splitDataURI = String(dataURI).split(",");
@@ -111,12 +115,12 @@ const WritingStuff = ({ tags, tagsState }) => {
       })
       .then((response) => {
         console.log(response, " 성공");
+        history("/items/" + response.data);
       })
       .catch((reason) => {
         console.log(reason);
       });
     alert("상품이 성공적으로 등록되었습니다.");
-    history("/");
   };
 
   const onChange = (event) => {

@@ -386,8 +386,10 @@ const ChatRoom = () => {
               className={styles.productPhoto}
               src={
                 chattingObj.productPhoto
-                  ? chattingObj.productPhoto.photoPath ||
-                    chattingObj.productPhoto
+                  ? "http://localhost:8080/api/image?path=" +
+                      chattingObj.productPhoto.photoPath ||
+                    "http://localhost:8080/api/image?path=" +
+                      chattingObj.productPhoto
                   : require("../icon/applelogo.png")
               }
               width="50px"
