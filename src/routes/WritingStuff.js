@@ -39,7 +39,6 @@ const WritingStuff = ({ tags, tagsState }) => {
       }
     });
   }, []);
-
   if (userObj.uid === undefined) {
     alert("로그인을 하지않은 상태입니다. 로그인을 해주세요.");
     history("/auth");
@@ -57,6 +56,11 @@ const WritingStuff = ({ tags, tagsState }) => {
     setLoading(true);
 
     const { title, contents } = inputs;
+
+    if (tags.length < 1) {
+      setLoading(false);
+      return alert("태그를 하나 이상 입력해 주세요")
+    }
 
     if (title.length < 3) {
       setLoading(false);

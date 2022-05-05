@@ -190,13 +190,6 @@ const EditingStuff = () => {
         "link",
         new Blob([JSON.stringify(links)], { type: "application/json" })
     );
-    let a = formData.keys();
-    for (let item of a) {
-      console.log(item);
-    }
-
-    // FIXME formData에 file 비어있으니까, 넣는 것 해결
-
     axios
         .put("/item/" + state.id, formData, {
           headers: {
