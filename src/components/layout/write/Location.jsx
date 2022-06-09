@@ -18,11 +18,11 @@ const LocationImg = styled.img`
 
 const Location = ({ selecAddr, addr, isEdit, region }) => {
   const filterFunc = (addr) => {
-    const regex = /...[동읍면리]/g;
-    const region = regex.exec(addr);
+    const region = addr.split(' ');
     if (addr === "notMyNeigbor") return null;
-    return region;
+    return region[region.length -1];
   };
+  
   return (
     <LocationWrap>
       {!isEdit ? (
